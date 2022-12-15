@@ -3,7 +3,7 @@ Beeper Desktop is fully customizable. You can use custom CSS to give Beeper Desk
 
 
 ### How to use themes
-1. Click [Themes](https://github.com/beeper/themes/themes) -> select the theme you would like to try 
+1. Click [Themes](https://github.com/beeper/themes/tree/main/themes) -> select the theme you would like to try 
 2. Select the text content and copy. This code is called CSS.
 3. Open Beeper Desktop -> Settings -> Appearance 
 4. Paste what you copied earlier into the box and hit `Apply`
