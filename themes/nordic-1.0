@@ -1,0 +1,1466 @@
+/* Larger custom CSS text area */
+.mx_AppearanceUserSettingsTab .mx_Field {
+    width: 600px;
+    height: 500px;
+} 
+
+
+
+/**************************************************************************************/
+
+/* 
+DISCLAIMER
+
+This theme applies the Nord color palette (https://www.nordtheme.com/docs/colors-and-palettes) to the default Beeper theme. 
+It is heavily inspired by the Nordic GTK theme from @EliverLara (https://github.com/EliverLara/Nordic).
+*/
+
+/**************************************************************************************/
+
+/* Color definitions */
+
+@import "node_modules/nord/src/nord.css";       /* Doesn't work, not sure why */
+
+    /** Nord palette **/
+    :root{
+    	
+    	/*** Polar night ***/ 
+    	--nord0:#2e3440;
+    	--nord1:#3b4252;
+    	--nord2:#434c5e;
+    	--nord3:#4c566a;
+    	
+    	/*** Snow storm ***/
+    	--nord4:#d8dee9;
+    	--nord5:#e5e9f0;
+    	--nord6:#eceff4;
+    	
+    	/*** Frost ***/
+    	--nord7:#8fbcbb;
+    	--nord8:#88c0d0;
+    	--nord9:#81a1c1;
+    	--nord10:#5e81ac;
+    	
+    	/*** Aurora ***/
+    	--nord11:#bf616a;
+    	--nord12:#d08770;
+    	--nord13:#ebcb8b;
+    	--nord14:#a3be8c;
+    	--nord15:#b48ead;
+    	
+    	/*** Custom colors ***/ 
+    	--nord16:#232831; 							/* Polar night color darker than nord0 */
+    	--nord17:#a7b4ce;							/* Snow storm color darker than nord4 */
+
+
+    	/*** Colors assignation ***/
+    	--nord-bg-main:var(--nord0);
+    	--nord-bg-light:var(--nord1);
+    	--nord-bg-dark:var(--nord16);
+    	--nord-text-main:var(--nord4);
+    	--nord-text-light:var(--nord6);
+    	--nord-text-dark:var(--nord17);
+    	--nord-grey:var(--nord3);
+    	--nord-accent-1:var(--nord10);
+    	--nord-accent-2:var(--nord9);
+    	--nord-accent-3:var(--nord15);
+    	--nord-alert:var(--nord11);
+
+
+    /** Default values **/
+        --default-avatar-hue: 200;
+        --message-color-saturation: 100%;
+        --message-color-lightness: 15%;
+        --message-color-opacity: 1;
+        --message-bg-saturation: 100%;
+        --message-bg-lightness: 15%;
+        --message-bg-opacity: 0.07;
+        --reply-bg-opacity: 0.2;
+        --reply-bg-saturation: 46%;
+        --reply-bg-lightness: 81%;
+        --reply-to-color-saturation: 100%;
+        --reply-to-color-lightness: 10%;
+        --reply-to-color-opacity: 0.8;
+        --sender-name-saturation: 100%;
+        --sender-name-lightness: 15%;
+        --timestamp-saturation: 100%;
+        --timestamp-lightness: 10%;
+        --reaction-saturation: 97%;
+        --reaction-lightness: 15%;
+        --reaction-opacity: 0.1;
+        --add-reaction-saturation: 98%;
+        --add-reaction-lightness: 15%;
+        --read-receipt-fg: var(--nord-text-dark);
+        --read-receipt-tooltip-fg: var(--nord-text-dark);
+        --archive-background: var(--nord-grey); 				    /*BG color of the Archive button*/
+        --archive-fg: var(--nord-text-main); 					    /*FG color of the Archive button*/
+        --left-panel-bg: var(--nord-bg-main);
+        --main-panel-transparent-bg: var(--nord-bg-dark);
+
+    }
+
+
+
+/* Custom CSS text area */
+.mx_AppearanceUserSettingsTab .mx_Field {
+    width: 600px;
+    height: 500px;
+} 
+
+
+/* Left panel */
+
+
+    /** Panel itself **/ 
+
+        /*** Background color ***/
+        .bp_new-conversation-view .bp_LeftPanel {
+            background-color: var(--nord-bg-main) !important;
+            border-right: 1px solid #384359;
+        }
+
+        /*
+        Same issue as with .bp_RoomTile:not(.small).active:hover .tile_action regarding the color
+        #384359 is used to effectively obtained #4c566a
+        */ 
+
+        /*** Settings + DND icons ***/
+        .bp_new-conversation-view .bp_Header .controls .mx_AccessibleButton:before {
+            background-color: var(--nord-text-dark) !important;
+        }
+
+
+    /** Resize Handle **/
+
+        /*** Vertical divider ***/
+        .mx_ResizeHandle {
+            border-left: 1px solid transparent;
+        }
+        /*
+        Have to set it to transparent, otherwise the border-right color of .bp_LeftPanel doesn't show.
+        Setting the border-left color of .mx_ResizeHandle to the desired color doesn't work, I end up with two vertical lines.
+        */
+
+
+    /** Search bar **/
+
+        /*** Icon hint ***/
+        .bp_new-conversation-view .bp_CommandBarSearch_searchIcon {
+            background-color: var(--nord-text-dark) !important;
+        }
+
+        /*** Text hint ***/
+        .bp_new-conversation-view .bp_CommandBarSearch input::placeholder {
+            color: var(--nord-text-dark) !important;
+        }
+
+        /*** Shortcut hint ***/
+        .bp_new-conversation-view .bp_CommandBarSearch_shortcutHint {
+            color: var(--nord-text-dark) !important;
+        }
+
+        /*** Search box background ***/ 
+        .bp_new-conversation-view .bp_CommandBarSearch {
+            background: var(--nord-bg-light);
+        }
+
+
+    /** Messaging services icons **/
+
+        /*** Inbox / low priority / bookmarks - Active icon background ***/
+        .bp_new-conversation-view .bp_LeftPanel .spaceBar .bp_SpaceBarItem.active, .bp_new-conversation-view .bp_LeftPanel .spaceBar .bp_SpaceBarItem.active:hover {
+            opacity: 1;
+            background-color: var(--nord-grey) !important;
+        }
+
+        /*** Inbox / low priority / bookmarks - Inactive icons background when hovering ***/
+        .bp_new-conversation-view .bp_LeftPanel .spaceBar .bp_SpaceBarItem:hover {
+            opacity: 1;
+            background-color: var(--nord-bg-light) !important;
+        }
+
+        /*** Inbox / low priority / bookmarks - Active icon color ***/
+        .bp_new-conversation-view .bp_LeftPanel .spaceBar .bp_SpaceBarItem.active .bp_SpaceBarItem_image {
+            opacity: 1;
+            background-color:  var(--nord-text-dark) !important;
+        }
+
+        /*** Inbox / low priority / bookmarks - Inactive icons color ***/
+       .bp_new-conversation-view .bp_LeftPanel .spaceBar .bp_SpaceBarItem_image:not(.bp_SpaceBarItem_image--protocol) {
+            opacity: 0.66;
+            background-color: var(--nord-text-dark) !important;
+        }
+
+        /*** Services icons background ***/ 
+        .bp_new-conversation-view .bp_LeftPanel .spaceBar .bp_SpaceBarItem_image.bp_SpaceBarItem_image--protocol {
+            background-color: revert;
+        }
+
+        /*** Services icons background - Hovering ***/ 
+        .bp_new-conversation-view .bp_LeftPanel .spaceBar .bp_SpaceBarItem:hover .bp_SpaceBarItem_image.bp_SpaceBarItem_image--protocol {
+        }
+
+        /*** Unread badge ***/
+        .bp_new-conversation-view .bp_SpaceBarItem_badge {
+            color: var(--nord-bg-main) !important;
+            background-color: var(--nord-text-main) !important;
+        }
+
+        /*** Expand / collapse icon ***/
+        .bp_LeftPanel .spaceBar .grid .bp_ProtocolsToggle .icon {
+            opacity: 0.66;
+            background-color: var(--nord-text-dark);
+        }
+
+        /*** Expand / collapse icon - Hovering ***/
+        .bp_LeftPanel .spaceBar .grid .bp_ProtocolsToggle:hover .icon {
+            opacity: 1;
+            background-color: var(--nord-text-dark);
+        }
+
+        /*** Plus icon (new chat) ***/
+        .bp_LeftPanel .spaceBar .spaceBar_plus {
+            opacity: 0.66;
+            background-color: var(--nord-text-dark);
+        }
+
+        /*** Plus icon (new chat) - Hovering ***/
+        .bp_LeftPanel .spaceBar .spaceBar_plus:hover {
+            opacity: 1;
+            background-color: var(--nord-text-dark);
+        }
+
+
+    /** Inbox header **/
+
+        /*** Header background ***/
+        .bp_new-conversation-view .bp_LeftPanel .rooms_subtitle-container {
+            background-color: var(--nord-bg-main);
+        }
+
+        /*** Header text ***/
+        .bp_new-conversation-view .rooms_subtitle {
+            color: var(--nord-text-dark) !important;
+            opacity: 1;
+        }
+
+        /*** Collapse arrow ***/
+        .bp_LeftPanel .rooms_subtitle-container .rooms_subtitle-collapse {
+            color: var(--nord-text-dark);
+        }
+
+        /*** Clear all icon ***/
+        .bp_new-conversation-view ._LeftPanel-action {
+            color: var(--nord-text-dark) !important;
+        }
+
+
+    /** Inbox / archive messages **/
+
+        /*** Unread message colored dot indicator ***/
+        .bp_RoomTile .indicator.unread {
+            background-color: var(--nord-accent-2);
+        }
+
+        /*** Active conversation highlight ***/
+        .bp_new-conversation-view .bp_RoomTile:not(.small).active .outline.electronTransparency, .bp_new-conversation-view .bp_RoomTile:not(.small).active .outline, .bp_new-conversation-view .bp_RoomTile:not(.small).active .row.info {
+            background-color: var(--nord-bg-light) !important;
+        }
+
+        /*** Active conversation hover highlight ***/
+        .bp_new-conversation-view .bp_RoomTile:not(.small):hover:is(.active) .outline .mask {
+            background:  var(--nord-accent-2) !important;
+            opacity: 0.5;
+        }
+
+        /*** Inactive conversation hover highlight ***/
+        .bp_new-conversation-view .bp_RoomTile:not(.small):hover:not(.active) .outline .mask {
+            background: var(--nord-text-dark) !important;
+            opacity: 0.4;
+        }
+        /* 
+        * The following parameters also change the highlight color of inactive chats
+        * The behavior is slightly different, results look nicer with the mask parameter
+        */
+        .bp_new-conversation-view .bp_RoomTile:not(.small):hover:not(.active) .outline {      
+        }                                                                                          
+        .bp_new-conversation-view .bp_RoomTile:not(.small):hover:not(.active) .row.info {
+        }
+
+        /*** BUG FIX - Conversation color when right-clicking an inactive conversation after the context menu disappears ***/
+        .bp_new-conversation-view .bp_RoomTile:not(.small):focus .row.info, .bp_new-conversation-view .bp_RoomTile:not(.small):focus .outline.electronTransparency, .bp_new-conversation-view .bp_RoomTile:not(.small):focus .outline {
+            background-color: var(--nord-bg-main) !important;
+        }
+
+        /*** Typing indicator (pencil) ***/
+        .active-indicator.pencil svg {
+            fill: var(--nord-text-dark);
+        }
+
+        /*** Conversation title ***/
+        .bp_new-conversation-view .bp_RoomTile .name {
+            color: var(--nord-text-light);
+        }
+
+        /*** Conversation preview ***/
+        .bp_new-conversation-view .bp_RoomTile .preview > span {
+            color: var(--nord-text-dark);
+        }
+
+        /*** Conversation timestamp ***/ 
+        .bp_new-conversation-view .bp_RoomTile .timestamp {
+            color: var(--nord-text-dark);
+        }
+
+        /*** Pin / Archive icons***/
+        .bp_RoomTile .tile_actions-item {
+            color: var(--nord-text-main);
+            opacity: 0.66;
+        }
+
+        /*** Pin / archive icons - Hovering ***/
+        .bp_new-conversation-view .tile_actions-button:hover .tile_actions-item {
+            color: var(--nord-text-main) !important;
+            opacity: 1;
+        }
+
+        /*** Pin / archive buttons ***/
+        .bp_new-conversation-view .tile_actions-button {
+            background-color: transparent !important;
+        }
+
+        /*** Pin / archive buttons - Hovering ***/
+        .bp_new-conversation-view .tile_actions-button:hover {
+            background-color: transparent !important;
+        }
+
+        /*
+        The following sections use #525f71 as a color to replace nord-text-dark (to match the RoomTile color when hovering)
+        This is a dirty fix I am using because of the transparency used for the room tile color
+        When using nord-text-dark with the same transparency level, the protocol icon is visible behind the tile_actions panel
+        */
+
+            /*** Pin / archive panel - Active conversation ***/
+            .bp_RoomTile:not(.small).active:hover .tile_actions {
+                background: #525f71;
+            }
+            
+            /*** Pin / archive panel - Inactive conversation ***/
+            .bp_RoomTile:not(.small):hover .tile_actions {
+                background: #525f71;
+            }
+
+        /*** Retracting pin / archive panel - Active conversations ***/
+        .bp_RoomTile:not(.small).active .tile_actions {
+            background: linear-gradient(90deg, transparent 5%, var(--nord-bg-light));
+        }
+
+        /*** Retracting pin / archive panel - Inactive conversations ***/
+        .bp_RoomTile .tile_actions {
+            background: linear-gradient(90deg, transparent 5%, var(--nord-bg-main));
+        }
+
+        /*** Archive button ***/
+        .bp_new-conversation-view .mx_RoomView_dateSeparator_container .mx_DateSeparator>div, .bp_new-conversation-view .mx_DateSeparator > div {
+        }
+        .bp_ArchivedList_button {
+            background: var(--archive-background);
+            color: var(--archive-fg);
+        }
+
+
+
+/* Chat panel */
+
+
+    /** Welcome to Beeper panel **/
+
+        /*** Background ***/
+        .bp_new-conversation-view .bp_MainPanel {
+            background-color: var(--nord-bg-dark) !important;
+        }
+
+        /*** Start new chat button ***/
+        .mx_HomePage_default .mx_HomePage_default_buttons .mx_AccessibleButton {
+            background-color: var(--nord-accent-1);
+        }
+
+        /*** Start new chat button - Hovering ***/
+        .mx_HomePage_default .mx_HomePage_default_buttons .mx_AccessibleButton:hover {
+            background-color: var(--nord-accent-2);
+        }
+
+        
+    /** Chat panel itself **/
+
+        /*** Chat panel background ***/
+        .mx_MainSplit {
+            background: var(--nord-bg-dark);
+        }
+
+        /*** Date separator ***/
+        .bp_new-conversation-view .mx_RoomView_dateSeparator_container .mx_DateSeparator>div, .bp_new-conversation-view .mx_DateSeparator > div {
+            background: var(--nord-bg-dark);
+            color: var(--nord-text-dark);
+        }
+
+
+    /** Room header **/
+
+        /*** Room header background ***/
+        .mx_RoomHeader {
+            background-color: var(--nord-bg-dark);
+            border-bottom: 1px solid var(--nord-grey);
+        }
+
+        /*** Contact / conversation name ***/
+        .mx_RoomHeader_name .mx_RoomHeader_nametext {
+            color: var(--nord-text-main);
+        }
+
+        /*** Action buttons color (room info, search, pin, etc) ***/
+        .mx_RoomHeader_leftActions span, .mx_RoomHeader_rightActions span{
+            color: var(--nord-grey);
+        }
+
+        /*** Action buttons highlight when hovering ***/
+        .mx_RoomHeader_leftActions span .mx_AccessibleButton:hover, .mx_RoomHeader_rightActions span .mx_AccessibleButton:hover {
+            color: var(--nord-text-dark);
+        }
+
+        /*** Thicker divider line color when hovering ***/ 
+        .mx_RoomHeader_topic {
+            background: var(--nord-bg-dark);
+        }
+
+        /*** Search result ***/
+        .mx_RoomHeader_searchStatus {
+            opacity: 1;
+            color: var(--nord-text-main);
+        }
+
+
+    /** Search in chat **/
+
+        /*** Search area ***/
+        .mx_SearchBar {
+            border-bottom: 1px solid var(--nord-grey);
+        }
+
+        /*** Search box ***/
+        .mx_SearchBar .mx_SearchBar_input {
+            border: 1px solid var(--nord-grey);
+        }
+
+        /*** Seacg box hint ***/
+        .mx_SearchBar .mx_SearchBar_input ::placeholder {
+            color: var(--nord-grey);
+        }
+
+        /*** Search button color ***/
+        .mx_SearchBar .mx_SearchBar_searchButton {
+            background-color: var(--nord-grey);
+        }
+
+        /*** Chat selection button color - Selected ***/
+        .mx_SearchBar .mx_SearchBar_button {
+            color: var(--nord-accent-2);
+            border-bottom: 2px solid var(--nord-accent-2);
+        }
+
+        /*** Chat selection button color - Unselected ***/
+        .mx_SearchBar .mx_SearchBar_unselected {
+            color: var(--nord-grey);
+            border-color: transparent;
+        }
+
+        /*** Cancel button color ***/
+        .mx_SearchBar .mx_SearchBar_cancel {
+            background-color: var(--nord-alert);
+        } 
+
+
+    /** Room info panel **/
+    .dark-panel {
+        background-color: var(--nord-bg-main);
+    }
+
+        /*** Resize handle ***/
+        .mx_MainSplit > .mx_RightPanel_ResizeWrapper:hover .mx_ResizeHandle_horizontal::before {
+            background-color: var(--nord-text-dark);
+        }
+
+
+    /** Composer **/
+
+        /*** Text input hint ***/
+        .mx_BasicMessageComposer .mx_BasicMessageComposer_inputEmpty--colourful > :first-child::before {
+            color: var(--nord-text-dark);
+        }
+
+        /*** Message composer background ***/
+        .mx_MessageComposer_wrapper {
+            background-color: var(--nord-bg-light);
+        }
+
+        /*** No permission to post in room error ***/
+        .mx_MessageComposer_noperm_error {
+            color: var(--nord-text-dark);
+        }
+
+
+    /** Composer buttons **/ 
+
+        /*** Scheduled messages icon ***/
+        .mx_MessageComposer_scheduleMessage.mx_MessageComposer_scheduleMessage--colourful:before {
+            background: var(--nord-text-dark);
+            opacity: 1;
+        }
+
+        /*** Scheduled messages icon - Hovering ***/
+        .mx_MessageComposer_button:hover:before {
+            background-color: var(--nord-accent-1) !important;
+            opacity: 1;
+        }
+
+        /*** Scheduled messages icon - Clicked ***/
+        .mx_MessageComposer_button_highlight::before {
+            background-color: var(--nord-text-main) !important;
+            opacity: 1;
+        }
+
+        /*** Scheduled messages button ***/
+        .mx_MessageComposer_scheduleMessage {
+            color: var(--nord-text-dark);
+            opacity: 1;
+        }
+
+        /***Scheduled message button - Clicked ***/
+        .mx_MessageComposer_button_highlight {
+            color: var(--nord-text-main) !important;
+            background-color: transparent;
+            opacity: 1;
+        }
+
+        /*** Scheduled messages button + GIF/emoji picker buttons - Hovering ***/
+        .mx_MessageComposer_button:hover {
+            color: var(--nord-accent-1);
+            opacity: 1;
+        }
+
+        /*** Attachment + 3-dot button + GIF/emoji picker icons ***/
+        .mx_MessageComposer_button .bp_icon {
+            margin-top: 4px;
+            margin-right: 8px;
+            position: center;
+        }
+        .mx_MessageComposer_button .bp_icon svg {
+            fill: var(--nord-text-dark);
+            fill-opacity: 1;
+        }
+
+        /*** Attachment + 3-dot button + GIF/emoji picker icons - Clicked ***/
+        .mx_MessageComposer_button_highlight--colourful .bp_icon svg{
+            fill: var(--nord-text-main) !important;
+            fill-opacity: 1 !important;
+        }
+
+        /*** All composer buttons  ***/
+        .mx_MessageComposer_button {
+            color: var(--nord-text-dark);
+            opacity: 1;
+        }
+
+        /*** All composer buttons - Hovering (over any part) ***/
+        .mx_MessageComposer_button:hover .bp_icon svg {
+            fill: var(--nord-accent-1);
+            fill-opacity: 1;
+        }
+
+        /*** GIF/emoji picker buttons - Clicked ***/
+        .mx_MessageComposer_button_highlight--colourful {
+            color: var(--nord-text-main) !important;
+            opacity: 1 !important;
+        }
+
+        /*** Send button ***/
+        .mx_MessageComposer_wrapper .mx_MessageComposer_send {              /* This part colors the button */
+            background: var(--nord-accent-1);
+            -webkit-background-clip: text;
+                    background-clip: text;
+        }
+        .mx_MessageComposer_send.mx_AccessibleButton_disabled {             /* This part disables the color while there is no input */
+            background-color: var(--nord-text-dark);
+        }
+
+
+    /** Emoji picker **/
+
+        /*** Dividing line between icons (at the top) and search bar ***/
+        .mx_EmojiPicker_header {
+            border-bottom: 1px solid var(--nord-grey);
+        }
+
+        /*** Dividing line at the bottom (between main panel and quick reactions) ***/
+        .mx_EmojiPicker_footer {
+            border-top: 1px solid var(--nord-grey);
+        }
+
+        /*** Top icons color ***/
+        .mx_EmojiPicker_anchor::before {
+            background-color: var(--nord-text-light);
+        }
+
+        /*** Top icons color when disabled (no match for the search in that category) ***/
+        .mx_EmojiPicker_anchor:disabled::before {
+            background-color: var(--nord-grey);
+        }
+
+        /*** Color tab for selected icons ***/
+        .mx_EmojiPicker_anchor_visible {
+            border-bottom: 2px solid var(--nord-accent-1);
+        }
+
+        /*** Icon highlight when hovering (background + color tab at the bottom) ***/
+        .mx_EmojiPicker_anchor:not(:disabled):hover {
+            background-color: var(--nord-bg-main);
+            border-bottom: 2px solid var(--nord-accent-2);
+        }
+
+        /*** Emoji highlight color (when hovering) ***/
+        .mx_EmojiPicker_item:hover {
+            background-color: var(--nord-bg-main);
+        }
+
+        /*** Shortcode for the emoji (eg: :smile:) ***/
+        .mx_EmojiPicker_shortcode {
+            color: var(--nord-text-dark);
+        }
+
+        /*** Search box - Border + search icon area background ***/
+        .mx_EmojiPicker_search {
+            border: 1px solid var(--nord-grey);
+            background-color: var(--nord-bg-main);
+        }
+
+        /*** Search box - Input + search area background color ***/
+        .mx_EmojiPicker_search input {
+            color: var(--nord-text-main);
+            background-color: var(--nord-bg-main);
+        }
+
+        /*** Search bar - Search area background color (cancel button) ***/
+        .mx_EmojiPicker_search button {
+            background-color: var(--nord-bg-main);
+        }
+
+        /*** Search bar - Search icon colors with no input ***/
+        .mx_EmojiPicker_search_icon {
+            color: var(--nord-text-main);
+            background-color: var(--nord-bg-main);
+        }
+
+        /*** Search + cancel icons color ***/
+        .mx_EmojiPicker_search_icon::after {
+            background-color: var(--nord-text-main);
+        }
+
+
+    /** GIF picker **/
+
+        /*** Border color around videos ***/
+        .mx_GifPicker_thumbnail video {
+          border: 2px solid var(--nord-bg-main);
+        }
+
+        /*** Border color around videos when hovering ***/
+        .mx_GifPicker_thumbnail video:hover {
+            border-color: var(--nord-accent-1);
+        }
+
+
+    /** All messages **/
+
+        /*** Messages options ***/
+        .mx_EventTile_message .mx_EventTile_controls a:hover {
+            background: var(--nord-accent-1);
+        }
+
+    /** Sent messages **/
+
+        /*** Not sure what part this is, keeping it to be safe ***/
+        .mx_EventTile_messageOut.mx_EventTile--colourful .mx_EventTile_caption, .mx_EventTile_messageOut.mx_EventTile--colourful .mx_EventTile_content-caption {
+            background: var(--nord-accent-1) !important;
+        }
+
+        /*** Reactions ***/
+        .mx_EventTile--colourful.mx_EventTile_messageOut .mx_EventTile_reactionsContainer {
+            background-color: var(--nord-accent-1);
+        }
+
+        /*** Bottom right part of the last message in line (the little tail) ***/
+        .mx_EventTile_messageOut.mx_EventTile_lastInSection .mx_EventTile_line--colourful:before {
+            background-color: var(--nord-accent-1);
+            right: -5px;
+            -webkit-mask-size: cover;
+                    mask-size: cover;
+        }
+
+        /*** Main part of the chat bubble ***/
+        .mx_EventTile_messageOut.mx_EventTile--colourful:not(.mx_EventTile_emoji, .mx_EventTile_image, .mx_EventTile_sticker) .mx_EventTile_line {
+            background: var(--nord-accent-1) !important;
+        }
+
+        /*** Message text ***/
+        .mx_EventTile_messageOut .mx_EventTile_line .mx_EventTile_content {
+            color: var(--nord-text-light) !important;
+        }
+
+        /*** Quoted message ***/
+        .mx_EventTile_messageOut .mx_EventTile_line .mx_ReplyChain {
+            color: var(--nord-text-dark);
+        }
+
+        /*** Spinner icon ***/
+        .mx_EventTile_messageOut .mx_Spinner_icon {
+            background-color: var(--nord-text-light);
+        }
+
+        /*** Failed delivery message ***/
+        .bp_notDeliveredText {
+            color: var(--nord-alert);								/* This only affects the text, not the icon */
+        }
+
+        /*** Read receipt ***/
+        .mx_MessageReadReceipt {
+            color: var(--nord-text-dark);
+        }
+
+        /*** Drag and drop highlight ***/ 
+        .mx_RoomView_fileDropTarget {                        /* Colors the drop targer when dragging a file */
+            background-color: var(--nord-grey);
+        }
+
+        /*** Read receipt tooltip (when hovering above the "Seen by" text) ***/
+        .mx_ReadReceiptTooltip.bp_PopperTooltip {
+            background: var(--nord-bg-light);
+            border: 1px solid var(--nord-grey);
+        }
+
+        /*** Message not delivered - Text ***/
+        .bp_notDeliveredText {
+            color: var(--nord-alert);
+        }
+
+        /*** Message not delivered - Icon ***/
+        .bp_Icon.red {
+            fill: var(--nord-alert); 
+        }
+
+
+    /** Other colored icons (not used as far as I can tell) **/
+
+        /*** Blue ***/
+        .bp_Icon.blue {
+            fill: var(--nord-accent-1);
+        }
+
+        /*** Yellow ***/
+        .bp_Icon.yellow {
+            fill: var(--nord13);
+        }
+
+        /*** Green ***/
+        .bp_Icon.green {
+            fill: var(--nord14);
+        }
+
+        /*** Gray ***/
+        /*
+        .bp_Icon.gray {
+            fill: #76767b;
+        }
+        */
+        
+
+    /** Received messages **/
+
+        /*** Bottom left part of the last message in line (the little tail) ***/
+        .mx_EventTile_messageIn.mx_EventTile_lastInSection .mx_EventTile_line--colourful:before {
+            background-color: var(--nord-bg-light);
+        }
+
+        /*** Main part of the chat bubble ***/
+        .mx_EventTile_messageIn .mx_EventTile_line {
+            background: var(--nord-bg-light);
+            color: var(--nord-text-main);
+        }
+        .mx_EventTile_messageIn .mx_EventTile_line--colourful { /* Not sure what the difference is between reglar and --colourful */
+            background: var(--nord-bg-light);
+            color: var(--nord-text-main);
+        }
+
+        /*** Chat bubble for images ***/
+        .mx_EventTile_messageIn.mx_EventTile_image .mx_EventTile_line {
+            background-color: var(--nord-bg-light);    
+            color: var(--nord-text-main);
+        }
+
+        /*** Chat bubble for GIF & videos ***/
+        .mx_EventTile_messageIn.mx_EventTile_video .mx_EventTile_line {
+            background-color: #2e3647;
+            /* 
+            For some reason I have yet to understand, the value used for .mx_EventTile_messageIn.mx_EventTile_video color gets shifted, this corrects it for the particular value of nord-bg-light (#3b4252) 
+            */
+            color: var(--nord-text-main);
+        }
+
+        /*** Reaction row + image caption ***/
+        .mx_EventTile--colourful.mx_EventTile_messageIn .mx_ReactionsRowButton, .mx_EventTile--colourful.mx_EventTile_messageIn .mx_ReactionsRow_addReaction, .mx_EventTile--colourful.mx_EventTile_messageIn .mx_MImageBody-container .mx_EventTile_reactionsContainer, .mx_EventTile--colourful.mx_EventTile_messageIn.mx_EventTile_video .mx_EventTile_reactionsContainer, .mx_EventTile--colourful.mx_EventTile_messageIn .mx_MImageBody-container .mx_SenderInfo_wrapper, .mx_EventTile--colourful.mx_EventTile_messageIn.mx_EventTile_video .mx_EventTile_line:not(.mx_EventTile_line--caption) .mx_SenderInfo_wrapper {
+            background-color: var(--nord-grey);
+            color: var(--nord-text-dark);
+        }
+
+        /*** Your reactions highlight ***/
+        .mx_EventTile--colourful.mx_EventTile_messageIn .mx_ReactionsRowButton.mx_ReactionsRowButton_selected, .mx_EventTile--colourful.mx_EventTile_messageIn .mx_ReactionsRow_addReaction.mx_ReactionsRowButton_selected, .mx_EventTile--colourful.mx_EventTile_messageIn .mx_MImageBody-container .mx_EventTile_reactionsContainer.mx_ReactionsRowButton_selected, .mx_EventTile--colourful.mx_EventTile_messageIn.mx_EventTile_video .mx_EventTile_reactionsContainer.mx_ReactionsRowButton_selected, .mx_EventTile--colourful.mx_EventTile_messageIn .mx_MImageBody-container .mx_SenderInfo_wrapper.mx_ReactionsRowButton_selected, .mx_EventTile--colourful.mx_EventTile_messageIn.mx_EventTile_video .mx_EventTile_line:not(.mx_EventTile_line--caption) .mx_SenderInfo_wrapper.mx_ReactionsRowButton_selected {
+            background-color: var(--nord-accent-2);
+            color: var(--nord-text-light)
+        }
+
+        /*** Timestamp ***/
+        .mx_EventTile--colourful.mx_EventTile_messageIn .mx_MessageTimestamp-media-container .mx_MessageTimestamp {
+            color: var(--nord-text-dark);
+        }
+
+        /*** Timestamp for media ***/
+        .mx_EventTile--colourful.mx_EventTile_messageIn .mx_MessageTimestamp {
+            color: var(--nord-text-main);
+        }
+
+        /*** Quoted message's sender ***/
+        .mx_EventTile_messageIn .mx_ReplyChain--colourful .bp_ReplyThread_replyTo strong {
+            color: var(--nord-text-main);
+        }
+
+        /*** Quoted message's text ***/
+        .mx_EventTile_messageIn .mx_ReplyChain--colourful .mx_ReplyTile {
+            color: var(--nord-text-dark);
+        }
+
+        /*** Quoted message's background color ***/
+        .mx_EventTile_messageIn .mx_ReplyChain.mx_ReplyChain--colourful {
+            background: var(--nord-bg-main) !important;
+        }
+
+
+    /** Link preview **/ 
+
+        /*** Link preview frame ***/
+        .bp_LinkPreview.bp_LinkPreview--colourful .bp_LinkPreview_InfoBox {
+            background-color: var(--nord-bg-light);
+        }
+
+        /*** Link title ***/
+        .bp_LinkPreview_title {
+        	color: var(--nord-text-light);
+        }
+
+        /*** Link URL ***/
+        .bp_LinkPreview_url {
+            font-size: 12px;
+            color: var(--nord-accent-3);
+            margin: 4px 0;
+        }
+
+        /*** Link description ***/
+        .bp_LinkPreview_description {
+            font-size: 13px;
+            color: var(--nord-text-dark);
+        }
+
+        /*** URL in message***/
+        a:hover, a:link {
+            color: var(--nord-accent-3);
+        }
+        a:active, a:visited {
+            color: var(--nord-accent-3);
+        }
+
+            /*
+                a:link - a normal, unvisited link
+                a:visited - a link the user has visited
+                a:hover - a link when the user mouses over it
+                a:active - a link the moment it is clicked
+            */
+            /* It is not useful to separate hover / link from active / visited for now since active is not implemented but it might be this is for futureproofing */
+
+    /** Jump to bottom button **/
+
+        /*** Button ***/
+        .mx_JumpToBottomButton .mx_JumpToBottomButton_scrollDown {
+            background: var(--nord-bg-main);
+            border: 2px solid var(--nord-grey);
+        }
+
+        /*** Highlight when hovering ***/
+        .mx_JumpToBottomButton .mx_JumpToBottomButton_scrollDown:hover {
+            background-color: var(--nord-grey);
+        }
+
+        /*** Arrow ***/
+        .mx_JumpToBottomButton .mx_JumpToBottomButton_scrollDown::before {
+            background: var(--nord-text-dark);
+        }
+
+
+    /** Status area (connection lost, etc) **/
+
+        /*** Status area background ***/        
+        .mx_RoomView_statusArea {
+            background-color: var(--nord-bg-main);
+            border-bottom: 1px solid var(--nord-grey);
+            margin-bottom:20px;
+        }
+
+        /*** Status area top line ***/
+        .mx_RoomView_statusAreaBox_line {
+            margin-left: 0px;
+            border-top: 1px solid var(--nord-grey);
+            height: 1px;
+        }
+
+        /*** Connection Lost - Box ***/
+        .mx_RoomStatusBar_connectionLostBar {
+            margin-left: -35px;
+        }
+
+        /*** Connection Lost - Icon ***/
+        .mx_RoomStatusBar_connectionLostBar img {
+            filter: invert(100%) sepia() saturate(12000%) hue-rotate(357deg) brightness(200%) contrast(30%);
+            padding-top: 5px;
+        }
+
+            /*
+            This way to recolor grey/black to any color was shamelessly copied from @MultiplyByZer0's answer to this stackoverflow topic:
+            https://stackoverflow.com/questions/42966641/how-to-transform-black-into-any-given-color-using-only-css-filters/43960991#43960991
+            To get any other color, play around with hue-rotate, saturation, contrast and brightness filters.
+            */  
+
+        /*** Connection Lost - Title ***/
+        .mx_RoomStatusBar_connectionLostBar_title {
+            color: var(--nord-alert);
+        }
+
+        /*** Connection Lost - Message***/
+        .mx_RoomStatusBar_connectionLostBar_desc {
+            color: var(--nord-text-dark);
+            opacity: 1;
+        }
+
+
+
+/* Menus */
+
+
+    /** Settings menu **/
+
+        /*** Background ***/
+        .mx_Dialog {
+            background-color: var(--nord-bg-main);
+            border: 1px solid var(--nord-grey);        
+        }
+
+        /*** Title ***/
+        .mx_Dialog_title {
+            color: var(--nord-text-main);
+        }
+        .mx_Dialog_title.danger {
+            color: var(--nord-alert);
+        }
+
+        /*** Active tab highlight color ***/
+        .mx_TabbedView_tabsOnLeft .mx_TabbedView_tabLabel_active {
+            background-color: var(--nord-accent-1);
+            color: var(--nord-text-light);
+        }
+
+        /*** Hyperlinks (all kinds of links found in setting menus) ***/
+        .mx_AccessibleButton_kind_link {
+            color: var(--nord-accent-3);
+        }
+        .mx_SettingsTab a {
+            color: var(--nord-accent-3);
+        }
+
+        /*** In focus input fields - Border color ***/
+        .mx_Field:focus-within {
+            border-color: var(--nord-accent-1);
+        }
+
+        /*** In focus input fields - Label ***/
+        .mx_Field input:focus + label, .mx_Field select:focus + label, .mx_Field textarea:focus + label {
+            color: var(--nord-accent-2);
+        }
+
+        /*** Confirm buttons outline ***/
+        .mx_Dialog button.mx_Dialog_primary, .mx_Dialog input[type='submit'].mx_Dialog_primary, .mx_Dialog_buttons button.mx_Dialog_primary, .mx_Dialog_buttons input[type='submit'].mx_Dialog_primary, .mx_AccessibleButton_kind_primary {
+            -webkit-box-shadow: inset 0px 0px 0px 2px var(--nord-accent-1) !important;
+                    box-shadow: inset 0px 0px 0px 2px var(--nord-accent-1) !important;
+        }
+
+        /*** Cancel + Show more buttons ***/
+        .mx_AccessibleButton_kind_link {
+            color: var(--nord-accent-1);
+        }
+
+        /*** End-to-end encryption symbol (shield) ***/
+        .mx_E2EIcon_verified::after {
+            background-color: var(--nord-accent-1);
+        }
+
+        /*** Cancel / danger buttons outline ***/
+        .mx_Dialog button.danger, .mx_Dialog input[type='submit'].danger, .mx_Dialog_buttons button.danger, .mx_Dialog_buttons input[type='submit'].danger, .mx_AccessibleButton_kind_danger {
+            -webkit-box-shadow: inset 0px 0px 0px 2px var(--nord-alert) !important;
+        }
+
+        /*** Contact tab - Radio buttons ***/
+        .bp_Select.selected {
+            border-color: var(--nord-accent-1);
+            background-color: var(--nord-bg-light);
+        }
+
+
+    /** Create room buttons **/
+
+        /*** Advanced buttons ***/
+        .mx_CreateRoomDialog_details .mx_CreateRoomDialog_details_summary {
+            color: var(--nord-accent-1);
+        }
+
+
+    /** Checkboxes **/
+
+        /*** Solid (when checked)  ***/
+        .mx_Checkbox.mx_Checkbox_kind_solid input[type=checkbox] + label > .mx_Checkbox_background .mx_Checkbox_checkmark {
+            background: var(--nord-text-light);
+        }
+        .mx_Checkbox.mx_Checkbox_kind_solid input[type=checkbox]:checked + label > .mx_Checkbox_background {
+            background: var(--nord-accent-1);
+            border-color: var(--nord-accent-1);
+        }
+
+        /*** Outline (when checked) ***/
+        .mx_Checkbox.mx_Checkbox_kind_outline input[type=checkbox] + label > .mx_Checkbox_background .mx_Checkbox_checkmark {
+            background: var(--nord-text-light);
+        }
+        .mx_Checkbox.mx_Checkbox_kind_outline input[type=checkbox]:checked + label > .mx_Checkbox_background {
+            background: var(--nord-accent-1);
+            border-color: var(--nord-accent-1);
+        }
+
+        /*
+        The default theme has two kind of checkboxes (solid and outline as defined below), I made them look the same but both can be themed independently.
+        Below is a possible Nordic theme for outline checkboxes:
+
+            .mx_Checkbox.mx_Checkbox_kind_outline input[type=checkbox] + label > .mx_Checkbox_background .mx_Checkbox_checkmark {
+                background: var(--nord-accent-1);
+                }
+            .mx_Checkbox.mx_Checkbox_kind_outline input[type=checkbox]:checked + label > .mx_Checkbox_background {
+                background: transparent;
+                border-color: var(--nord-accent-1);
+                }
+        */
+
+
+    /** Radio buttons **/
+
+        /*** Checked buttons ***/
+        .mx_StyledRadioButton input[type=radio]:checked + div {
+            border-color: var(--nord-text-main);
+        }
+        .mx_StyledRadioButton input[type=radio]:checked + div > div {
+            background: var(--nord-accent-1);
+        }
+
+        /*** Disabled buttons ***/
+        .mx_StyledRadioButton input[type=radio]:disabled + div {
+            border-color: var(--nord-text-main);
+        }
+
+        /*** Transition (background color when a button is clicked) ***/
+        .mx_StyledRadioButton input[type=radio]:checked:disabled + div > div {
+            background-color: var(--nord-accent-1);
+        }
+
+        /*** Outline when checked ***/
+        .mx_StyledRadioButton_checked {
+            border-color: transparent;
+        }
+
+        /*** Outline when disabled ***/
+        .mx_StyledRadioButton_outlined {
+            border: transparent;
+        }
+
+
+    /** Toggle switches **/
+
+        /*** Background color when OFF ***/
+        .mx_ToggleSwitch {
+            background-color: var(--nord-bg-light);
+        }
+
+        /*** Background color when ON ***/
+        .mx_ToggleSwitch.mx_ToggleSwitch_on {
+            background-color: var(--nord-accent-1);
+        }
+
+        /*** Switch color ***/
+        .mx_ToggleSwitch_ball {
+            background-color: var(--nord-text-main);
+        }
+
+
+    /** Contextual menus **/
+
+        /*** Background ***/
+        .mx_ContextualMenu {
+            background-color: var(--nord-bg-light);
+            color: var(--nord-text-main);							/* Title color */
+            border: 1px solid var(--nord-grey);
+        }
+
+        /*** Icons - regular inactive ***/
+        .mx_IconizedContextMenu .mx_IconizedContextMenu_icon::before {
+            background-color: var(--nord-text-dark);
+        }
+
+        /*** Icons - regular active ***/
+        .mx_IconizedContextMenu .mx_IconizedContextMenu_active .mx_IconizedContextMenu_icon::before {
+            background-color: var(--nord-accent-1);
+        }
+
+        /*** Icons - danger (in settings context menu) ***/
+        .mx_IconizedContextMenu .mx_IconizedContextMenu_optionList_red .mx_IconizedContextMenu_icon::before {
+            background-color: var(--nord-alert);
+        }
+
+        /*** Icon - Remove chat ***/
+        .nv_RoomTile2_contextMenu_redRow .mx_IconizedContextMenu_icon::before {
+            background-color: var(--nord-alert);
+        }
+       
+        /*** Menu items - regular inactive ***/
+        .mx_IconizedContextMenu .mx_IconizedContextMenu_optionList .mx_AccessibleButton {
+            color: var(--nord-text-main);
+        }
+
+        /*** Menu items - regular active ***/
+        .nv_RoomTile2_contextMenu_activeRow.mx_AccessibleButton, .nv_RoomTile2_contextMenu_activeRow .mx_AccessibleButton, .nv_RoomTile2_contextMenu_activeRow .mx_IconizedContextMenu_label {
+            color: var(--nord-accent-1) !important;
+        }
+
+        /*** Menu items - danger ***/
+        .mx_IconizedContextMenu .mx_IconizedContextMenu_optionList_red .mx_AccessibleButton {
+            color: var(--nord-alert) !important;
+        }
+
+        /*** Menu item - Remove chat ***/
+       .nv_RoomTile2_contextMenu_redRow .nv_AccessibleButton, .nv_RoomTile2_contextMenu_redRow .mx_IconizedContextMenu_label {
+            color: var(--nord-alert) !important;
+        }
+
+        /*** Highlight color ***/
+        .mx_IconizedContextMenu .mx_IconizedContextMenu_optionList .mx_AccessibleButton:hover {
+            background-color: var(--nord-bg-grey);
+        }
+
+        /*** User menu (settings wheel) dividers - Top ***/
+        .mx_UserMenu_contextMenu .mx_UserMenu_contextMenu_header {
+            border-bottom: 1px solid var(--nord-grey);
+        }
+
+        /*** User menu (settings wheel) dividers - Bottom ***/
+       .mx_UserMenu_contextMenu.mx_IconizedContextMenu .mx_IconizedContextMenu_optionList_red .mx_AccessibleButton {
+            border-top: 1px solid var(--nord-grey);
+        }
+
+
+    /** Scroll bars **/
+
+        /*** Auto-hide scroll bars ***/
+        .mx_AutoHideScrollbar:hover::-webkit-scrollbar-thumb {
+            background-color: var(--nord-grey);
+        }   
+
+        /*** Permanent scroll bars (eg: in the CSS editor) ***/
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--nord-grey);
+        }
+
+
+    /** New chat dropdown **/
+
+        /*** New chat button ***/
+        .bp_newChatButton.active, .bp_newChatButton svg {
+            fill: var(--nord-text-dark);
+        }
+
+        /*** New chat button color when hovering ***/
+        .bp_newChatButton.active, .bp_newChatButton:hover {
+            background-color: var(--nord-bg-main);
+        }
+
+        /*** New chat dropdown background ***/
+        .newChatArrow { 
+            color: var(--nord-bg-light);
+        }
+        .bp_newChatDropdown {
+            background-color:  var(--nord-bg-light);
+            border: 1px solid var(--nord-grey);
+        }
+
+        /*** Contact list highlight (hover) ***/
+        .bp_newChatDropdown .contactItem.active, .bp_newChatDropdown .contactItem:hover {
+            background-color: var(--nord-grey);
+        }
+
+        /*** Active contact ***/ 
+        .bp_newChatDropdown .contactItem.active.nohover, .bp_newChatDropdown .contactItem:hover.nohover {
+            background-color: var(--nord-grey);
+        }
+
+        /*** Type of contact info (mobile, landline, ...) ***/
+        .bp_newChatDropdown .contactItem .contactSubtitle .label {
+            background-color: var(--nord-grey);
+            color: var(--nord-text-dark);
+        }
+
+        /*** Color of the placeholder items while the content loads ***/
+        .bp_newChatDropdown .contactItem .contactLoaderColor {
+            background-color: var(--nord-grey);
+        }
+
+        /*** Contact search bar ***/
+        #newChatUserSearchInput, #confirmConnectionSearchInput {
+            background-color: var(--nord-grey);
+            color: var(--nord-text-light);
+        }
+
+        /*** Contact search bar - Hint ***/
+        #newChatUserSearchInput ::placeholder {
+            color: var(--nord-text-dark);
+        }
+
+        /*** Contact search bar - Icon ***/
+        #newChatUserSearchInput svg {
+            fill: var(--nord-text-dark);
+        }
+
+        /*** Available chat options - back button hover color ***/ 
+        .bp_newChat_contactDetail .backButton.active, .bp_newChat_contactDetail .backButton:hover {
+            background-color: var(--nord-grey);
+        }
+
+
+    /** Chat Networks menu **/
+        
+        /*** Position of the menu ***/
+        .mx_ChatNetworksDialog_wrapper {
+            -ms-flex-align: center;
+                align-items: center;
+        }
+
+        /*** Shape of the menu ***/    
+        .mx_ChatNetworks_Dialog {
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            max-width: 65em;
+            max-height: 90vh;
+            height: auto;
+        }
+
+        /*** Left panel colors ***/
+        .ChatNetworksDialog-leftbar {
+            background: var(--nord-bg-main);
+        }
+
+        /*** Right panel colors ***/
+        .ChatNetworksDialog-content {
+            color: var(--nord-text-main);
+            background-color: var(--nord-bg-main);
+        }
+
+
+
+/* Title bar + window control buttons */
+
+/*
+These settings are specific to Windows / Linux.
+For MacOS, the parameters you can tweak to get the desired look are : 
+    .AppControls-macplaceholder
+    .AppControls-macbutton
+    .AppControls-macclose
+    .AppControls-macclose:active
+    .AppControls-macclosebutton
+    .AppControls-macminimize
+    .AppControls-macminimize:active
+    .AppControls-macminimizebutton
+    .AppControls-maczoom
+    .AppControls-maczoom:active
+    .AppControls-maczoombutton
+
+If you want to revert to the default title bar look, just delete this entire section.
+*/
+
+    /** Title bar **/
+    .bp_TitleBar {
+        padding: 16px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        min-height: 36px;
+        background-color:#353c4a;
+        border: 1px solid var(--nord-bg-dark);
+    }
+
+
+    /** Window control buttons (minimize, maximize, close) when the app is in focus **/
+
+       /*** Button placement ***/
+        .mx_MatrixChat_wrapper:focus-within .AppControls {
+            display: flex;
+            align-items: center;
+            margin-top: 2px;
+        }
+
+        /*** Icons size and position ***/
+        .mx_MatrixChat_wrapper:focus-within .AppControls svg {
+            width: 25px;
+            height: 25px;
+            margin-top: -5px;
+            margin-left: -11px;
+        }
+
+        /*** Button appearance (size, shape, color, ...) ***/
+        .mx_MatrixChat_wrapper:focus-within .AppControls-button {
+            width: 3px;                                     /* When setting the same width and height, buttons are not round, not sure why but removing 10px from the width fixes it */
+            height: 13px;
+            border: 2px solid #292e39;
+            border-radius: 50%;
+            transition: 200ms ease-in-out;
+        }
+
+        /*** Close button ***/
+        .mx_MatrixChat_wrapper:focus-within .AppControls-close {
+            color: transparent;
+            background-color: var(--nord11);
+        }
+        .mx_MatrixChat_wrapper:focus-within .AppControls-close:hover {                          /* Appearance when hovering */
+            color: var(--nord-bg-dark);
+            background-color: var(--nord11);
+        }
+
+        /*** Maximize-button ***/
+        .mx_MatrixChat_wrapper:focus-within .AppControls-maximize {
+            color: transparent;
+            background-color: var(--nord14);
+            margin-left: 7px;                               /* Margins on each side of the center button to get the correct button spacing */
+            margin-right: 7px;
+        }
+        .mx_MatrixChat_wrapper:focus-within .AppControls-maximize:hover {
+            color: var(--nord-bg-dark);
+            background-color: var(--nord14);
+        }
+
+        /*** Unmaximize-button ***/                         /* The maximize button only exists when the window is not maximized, this serves the same purpose for when it is */
+        .mx_MatrixChat_wrapper:focus-within .AppControls-unmaximize {
+            color: transparent;
+            background-color: var(--nord14);
+            margin-left: 7px;                               /* Margins on each side of the center button to get the correct button spacing */
+            margin-right: 7px;
+        }
+        .mx_MatrixChat_wrapper:focus-within .AppControls-maximize:hover {
+            color: var(--nord-bg-dark);
+            background-color: var(--nord14);
+        }
+
+        /*** Minimize button ***/
+        .mx_MatrixChat_wrapper:focus-within .AppControls-minimize {
+            color: transparent;
+            background-color: var(--nord13);
+        }
+        .mx_MatrixChat_wrapper:focus-within .AppControls-minimize:hover {
+            color: var(--nord-bg-dark);
+            background-color: var(--nord13);
+        }
+
+
+    /** Window control buttons (minimize, maximize, close) when the app is in the background **/
+
+        /*** Button placement ***/
+        .AppControls {
+            display: flex;
+            align-items: center;
+            margin-top: 2px;
+        }
+
+        /*** Icons size and position ***/
+        .AppControls svg {
+            width: 25px;
+            height: 25px;
+            margin-top: -5px;
+            margin-left: -11px;
+        }
+
+        /*** Button appearance (size, shape, color, ...) ***/
+        .AppControls-button {
+            width: 3px;                                     /* When setting the same width and height, buttons are not round, not sure why but removing 10px from the width fixes it */
+            height: 13px;
+            border: 2px solid #292e39;
+            border-radius: 50%;
+            transition: 200ms ease-in-out;
+        }
+
+        /*** Close button ***/
+        .AppControls-close {
+            color: transparent;
+            background-color: #353c4a;
+        }
+        .AppControls-close:hover {                          /* Appearance when hovering */
+            color: transparent;
+            background-color: #353c4a;
+        }
+
+        /*** Maximize-button ***/
+        .AppControls-maximize {
+            color: transparent;
+            background-color: #353c4a;
+            margin-left: 7px;                               /* Margins on each side of the center button to get the correct button spacing */
+            margin-right: 7px;
+        }
+        .AppControls-maximize:hover {
+            color: transparent;
+            background-color: #353c4a;
+        }
+
+        /*** Unmaximize-button ***/                         /* The maximize button only exists when the window is not maximized, this serves the same purpose for when it is */
+        .AppControls-unmaximize {
+            color: transparent;
+            background-color: #353c4a;
+            margin-left: 7px;                               /* Margins on each side of the center button to get the correct button spacing */
+            margin-right: 7px;
+        }
+        .AppControls-maximize:hover {
+            color: transparent;
+            background-color: #353c4a;
+        }
+
+        /*** Minimize button ***/
+        .AppControls-minimize {
+            color: transparent;
+            background-color: #353c4a;
+        }
+        .AppControls-minimize:hover {
+            color: transparent;
+            background-color: #353c4a;
+        }
