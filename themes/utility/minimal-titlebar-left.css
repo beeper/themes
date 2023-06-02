@@ -1,8 +1,5 @@
-/** Hide the (mostly empty) title bar, and move the window controls into the empty left-side area **/
-/* Notes:
-  - I generally tried to inherit most styles
-  - There is a sacrifice to the header width draggable area
-*/
+/** Hide the (mostly empty) title bar
+    move the window controls into the empty left-side area **/
 
 :root {
   --app-control-wide: 138px;

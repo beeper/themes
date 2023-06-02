@@ -1,0 +1,23 @@
+/** Hide the (mostly empty) title bar
+    move the window controls into the right-side action area **/
+
+:root {
+  --app-control-wide: 138px;
+  --app-control-right: 15px;
+  --app-control-top: 12px;
+}
+
+.AppControls {
+  position: absolute;
+  top: var(--app-control-top);
+  z-index: 1000;
+  right: var(--app-control-right);
+}
+.AppControls-button { height: 100%; }
+.mx_RoomHeader_rightActions {
+  position: relative;
+  right: calc(var(--app-control-wide) + var(--app-control-right)*2);
+}
+.mx_RoomHeader_name {
+  max-width: 345px;
+}
