@@ -1,0 +1,28 @@
+/** Hide the (mostly empty) title bar, and move the window controls into the empty left-side area **/
+/* Notes: 
+  - I generally tried to inherit most styles
+  - There is a sacrifice to the header width draggable area
+*/
+
+:root {
+  --app-control-wide: 138px;
+  --app-control-left: 15px;
+  --app-control-top: 12px;
+}
+
+.AppControls {
+    position: absolute;
+    top: var(--app-control-top);
+    z-index: 1000;
+    left: var(--app-control-left);
+    -webkit-app-region: no-drag;
+}
+.AppControls-button { height: 100%; }
+.bp_TitleBar {
+    height: 0;
+    min-height: 0;
+}
+.bp_Header {
+    width: calc(100% - var(--app-control-wide) - var(--app-control-left));
+    align-self: end;
+}
