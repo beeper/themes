@@ -15,7 +15,6 @@
     top: var(--app-control-top);
     z-index: 1000;
     left: var(--app-control-left);
-    -webkit-app-region: no-drag;
 }
 .AppControls-button { height: 100%; }
 .bp_TitleBar {
