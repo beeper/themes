@@ -1,0 +1,6 @@
+/* Visually (not functionally) hide the draggable divider for expanding chat summaries */
+.mx_MatrixChat > .mx_ResizeHandle, .mx_RightPanel_ResizeWrapper .mx_ResizeHandle {
+    margin: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
