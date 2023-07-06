@@ -1,17 +1,29 @@
-# Community-built themes for Beeper Desktop
-Beeper Desktop is fully customizable. You can use custom CSS to give Beeper Desktop a personalized look. If you build a nice theme, consider submitted a pull request to this repo to share it with other Beeper users!
+# Customizable Beeper Desktop Themes: A Community Contribution
+Embrace personalization and reinvent your Beeper Desktop experience with our diverse range of community-built themes. Make use of custom CSS to refine the look and feel of your Beeper Desktop. Moreover, if you've created an exciting theme, we welcome you to submit a pull request to this repository for sharing it with other Beeper users!
 
 
-### How to use themes
-1. Click [Themes](https://github.com/beeper/themes/tree/main/themes) -> select the theme you would like to try 
-2. Select the text content and copy. This code is called CSS.
-3. Open Beeper Desktop -> Settings -> Appearance 
-4. Paste what you copied earlier into the box and hit `Apply`
+### Applying Themes: A Simple Guide
 
-*Please note:* Custom themes may cause problems visually with Beeper. We have not tested any of the thenes on this site. If you encounter issues with a theme, please disable it by deleting the text from Settings -> Appearance and clicking `Apply`.
+Here's how you can enhance your Beeper Desktop with our themes:
 
-### How to submit a new theme
-Create a Pull Request to this repro with the CSS file, screenshot and short description.
+
+1. Navigate to the [Themes](https://github.com/beeper/themes/tree/main/themes) -> select the theme you would like to try 
+2. Copy the text content provided with the theme. This is the CSS code that you'll use to apply the theme.
+3. Open Beeper Desktop and go to Settings -> Appearance.
+4. Paste the previously copied CSS code into the `Custom CSS` box and hit the `Apply` button.
+
+*Disclaimer:* Please be aware that custom themes might occasionally cause visual discrepancies within Beeper. While we encourage theme usage, these themes are not officially tested or endorsed. If you encounter issues with a theme, you can disable it by deleting the text from the `Custom CSS` box in Settings -> Appearance and clicking `Apply`.
+
+### Submitting a New Theme
+Do you have a creative theme idea that you'd like to contribute? Here's how to submit a new theme:
+
+Create a Pull Request for this repository including the following:
+
+- The CSS file containing your theme
+- A screenshot of the theme
+- A brief description of your theme
+
+Your contribution can help our community to enrich their Beeper Desktop experiences. Let's bring more color and creativity to the world of Beeper!
 
 
 # Gallery
