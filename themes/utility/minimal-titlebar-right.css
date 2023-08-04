@@ -11,13 +11,18 @@
   position: absolute;
   top: var(--app-control-top);
   z-index: 1000;
+  width: var(--app-control-wide);
   right: var(--app-control-right);
 }
 .AppControls-button { height: 100%; }
 .mx_RoomHeader_rightActions {
   position: relative;
-  right: calc(var(--app-control-wide) + var(--app-control-right)*2);
+  right: var(--app-control-right);
 }
 .mx_RoomHeader_name {
   max-width: 345px;
+}
+
+.mx_RoomHeader_wrapper {
+  width: calc((100% - var(--app-control-wide)) - var(--app-control-right) * 2);
 }
