@@ -1,3 +1,20 @@
+# installation
+1. copy the [the raw css code](https://raw.githubusercontent.com/Madelena/Metrology-for-Beeper/main/Metrology-for-Beeper.css)
+2. paste it into the Custom CSS box at the bottom of Settings > Appearance
+3. hit “Apply”
+4. continue to hit “Apply” button each time the app restarts
+
+# notes
+- this theme does not change the settings panel, except for the font
+- all themes reset when beeper restarts to avoid potential issues
+- i would be happy to make small alterations to this theme if requested
+- i can also post a short how-to if you’re interested in making larger changes
+
+# known issues
+- i have not found a way to make the reply boxes for outgoing messages the same color as the reply boxes for incoming messages, and help would be appreciated
+
+
+
 # Community-built themes for Beeper Desktop
 Beeper Desktop is fully customizable. You can use custom CSS to give Beeper Desktop a personalized look. If you build a nice theme, consider submitted a pull request to this repo to share it with other Beeper users!
 
@@ -16,7 +33,8 @@ Create a Pull Request to this repro with the CSS file, screenshot and short desc
 
 # Gallery
 
-| | |
-|:---:|:---:|
+|  |  |
+| :--: | :--: |
 | ![image](https://user-images.githubusercontent.com/1048265/192404286-6120c693-586f-4374-8ff0-a7a4ec267202.png) [**Hybrid Light**](https://github.com/beeper/themes/blob/main/themes/glenlipka-hybrid-light.css) by @glenlipka | ![image](https://user-images.githubusercontent.com/1048265/192404393-a95a0299-19da-4afe-8de4-da4fe8c44ca9.png) [**Hybrid Dark**](https://github.com/beeper/themes/blob/main/themes/glenlipka-hybrid-dark.css) by @glenlipka |
-| ![image](https://user-images.githubusercontent.com/4341881/184789029-0a8f03bc-1691-4998-875a-90f79d6bab82.png) [**Metrology**](https://github.com/Madelena/metrology-for-beeper) by [@Madelena](https://github.com/Madelena) <br/> Dark/light modes and multiple colors included. Based on Metro Design System. | ![image](https://user-images.githubusercontent.com/4341881/184405906-45f67b70-dd0b-4457-8d55-8633cf497abc.png) [**Metrology**](https://github.com/Madelena/metrology-for-beeper) by [@Madelena](https://github.com/Madelena) <br/> Dark/light modes and multiple colors included. Based on Metro Design System. | 
+| ![image](https://user-images.githubusercontent.com/4341881/184789029-0a8f03bc-1691-4998-875a-90f79d6bab82.png) [**Metrology**](https://github.com/Madelena/metrology-for-beeper) by [@Madelena](https://github.com/Madelena) <br/> Dark/light modes and multiple colors included. Based on Metro Design System. | ![image](https://user-images.githubusercontent.com/4341881/184405906-45f67b70-dd0b-4457-8d55-8633cf497abc.png) [**Metrology**](https://github.com/Madelena/metrology-for-beeper) by [@Madelena](https://github.com/Madelena) <br/> Dark/light modes and multiple colors included. Based on Metro Design System. |
+| ![image](https://github.com/Chris-McElroy/pureblack/raw/main/pureblack%20example.png?raw=true)[pureblack](https://github.com/Chris-McElroy/pureblack) by [@chris-mcelroy](https://github.com/Chris-McElroy) | ![image](https://github.com/beeper/themes/blob/main/themes/Beeper_nordicTheme.png?raw=true)[nordic](https://raw.githubusercontent.com/beeper/themes/main/themes/nordic-1.0) by [@sheldonDecombe](https://github.com/sheldonDecombe) |

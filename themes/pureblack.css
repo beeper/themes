@@ -1,0 +1,82 @@
+:root {
+  --pureblack-background: 0, 0%, 0%;
+  --pureblack-gray-1: 0, 0%, 10%;
+
+  --reply-bg-opacity: 100%;
+  --reply-bg-saturation: 0%;
+  --reply-bg-lightness: 10%;
+  --reply-to-color-saturation: 100%;
+  --reply-to-color-lightness: 100%;
+  --reply-to-color-opacity: 1.0;
+  --message-bg-lightness: 0%;
+}
+
+/* font setting */
+
+* * {
+  font-family: "Baskerville", serif !important;
+}
+
+/* left panel */
+
+.bp_LeftPanel {
+  background-color: hsl(var(--pureblack-background)) !important;
+}
+
+/* room header */
+
+.mx_RoomHeader {
+  background: linear-gradient(
+    to bottom,
+    hsla(var(--pureblack-background), 0.8),
+    hsla(var(--pureblack-background), 0)
+  );
+  backdrop-filter: blur(10px);
+  box-shadow: none;
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+}
+
+/* composer */
+
+.mx_MessageComposer {
+  background: hsl(var(--pureblack-background));
+}
+
+/* homepage */
+
+.bp_MainPanel,
+.mx_HomePage_default_wrapper,
+.mx_RoomView_body {
+  background: hsl(var(--pureblack-background)) !important;
+}
+
+/* messages */
+
+.mx_EventTile_messageOut:not(.mx_EventTile_emoji, .mx_EventTile_image,.mx_EventTile_sticker) .mx_EventTile_line,
+.mx_EventTile_line,
+.mx_MTextBody.mx_EventTile_caption.mx_EventTile_caption--reactions {
+  background-color: hsl(var(--pureblack-background)) !important;
+}
+
+.mx_ReplyPreview,
+.mx_ReactionsRowButton, .mx_ReactionsRow_addReaction {
+  background-color: hsl(var(--pureblack-gray-1)) !important;
+}
+
+.mx_EventTile_lastInSection.mx_EventTile_message.mx_EventTile_messageOut .mx_EventTile_line::before,
+.mx_EventTile_content.mx_EventTile_content-caption,
+.mx_EventTile_reactionsContainer {
+  background: none !important;
+}
+
+.mx_MatrixChat_wrapper:not(.mx_MatrixChat_wrapper--colorful) {
+    --message-color-lightness: 100%;
+    --reply-bg-saturation: 0%;
+    --reply-bg-lightness: 10%;
+    --sender-name-saturation: 0%;
+    --sender-name-lightness: 100%;
+    --add-reaction-saturation: 0%;
+    --read-receipt-tooltip-fg: 100%;
+}
