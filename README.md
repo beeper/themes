@@ -1,6 +1,9 @@
 # Community-built themes for Beeper Desktop
 Beeper Desktop is fully customizable. You can use custom CSS to give Beeper Desktop a personalized look. If you build a nice theme, consider submitted a pull request to this repo to share it with other Beeper users!
 
+We are currently rebuilding a large portion of the Beeper Desktop app. In the meantime, themes may not be fully supported. 
+Any themes written before ~March 2024 will likely not appear correctly.
+
 
 ### How to use themes
 1. Click [Themes](https://github.com/beeper/themes/tree/main/themes) -> select the theme you would like to try 
@@ -11,10 +14,16 @@ Beeper Desktop is fully customizable. You can use custom CSS to give Beeper Desk
 *Please note:* Custom themes may cause problems visually with Beeper. We have not tested any of the themes on this site. If you encounter issues with a theme, please disable it by deleting the text from Settings -> Appearance and clicking `Apply`.
 
 ### How to submit a new theme
+
 Create a Pull Request to this repro with the CSS file, screenshot and short description.
+View [variables.scss](https://github.com/beeper/themes/tree/main/variables.scss) for all default values.
 
 
 # Gallery
+
+
+
+## Legacy
 
 | | |
 |:---:|:---:|

@@ -1,0 +1,188 @@
+html {
+    // Defaults
+    --global__kdb__backgroundcolor: var(--color-neutral-100);
+    --global__kdb__shadow: var(--color-neutral-200);
+
+    --global__avatar__basecolor: #131B3A;
+    --global__fontcolor: var(--color-black);
+    --global__hsla_color: 10%;
+    --global__dragndrop__backgroundcolor: var(--color-neutral-100);
+    --global__error__fontcolor: var(--color-red-600);
+    --global__button_disabled__fontcolor: #D2D2D4;
+
+    --global__missing_avatar__fontfamily: var(--global__fontfamily);
+    // override only
+    //   --global__missing_avatar__fontcolor
+
+    --global__shadow__color: 0deg 0% 63%;
+    --global__shadow_low:
+        0.3px 0.5px 0.7px hsl(var(--global__shadow__color) / 0.34),
+        0.4px 0.8px 1px -1.2px hsl(var(--global__shadow__color) / 0.34),
+        1px 2px 2.5px -2.5px hsl(var(--global__shadow__color) / 0.34);
+    --global__shadow_medium:
+        0.3px 0.5px 0.7px hsl(var(--global__shadow__color) / 0.36),
+        0.8px 1.6px 2px -0.8px hsl(var(--global__shadow__color) / 0.36),
+        2.1px 4.1px 5.2px -1.7px hsl(var(--global__shadow__color) / 0.36),
+        5px 10px 12.6px -2.5px hsl(var(--global__shadow__color) / 0.36);
+    --global__shadow_high:
+        0.3px 0.5px 0.7px hsl(var(--global__shadow__color) / 0.34),
+        1.5px 2.9px 3.7px -0.4px hsl(var(--global__shadow__color) / 0.34),
+        2.7px 5.4px 6.8px -0.7px hsl(var(--global__shadow__color) / 0.34),
+        4.5px 8.9px 11.2px -1.1px hsl(var(--global__shadow__color) / 0.34),
+        7.1px 14.3px 18px -1.4px hsl(var(--global__shadow__color) / 0.34),
+        11.2px 22.3px 28.1px -1.8px hsl(var(--global__shadow__color) / 0.34),
+        17px 33.9px 42.7px -2.1px hsl(var(--global__shadow__color) / 0.34),
+        25px 50px 62.9px -2.5px hsl(var(--global__shadow__color) / 0.34);
+
+    --chatview__fontsize: 2.2rem;
+    --chatview__lineheight: var(--chatview__fontsize);
+    --chatview__backgroundcolor: var(--main-panel-bg); // old style
+    --chatview__paddingleft: var(--size-spacing-300);
+    --chatview__paddingright: var(--size-spacing-300);
+    --chatview__paddingtop: 0;
+    --chatview__paddingbottom: 0;
+
+    --chatview__composer__backgroundcolor: var(--composer-bg); // old style
+    --chatview__composer__borderwidth: 0;
+    --chatview__composer__borderstyle: none;
+    --chatview__composer__bordercolor: transparent;
+    --chatview__composer__borderradius: 8px;
+
+    --chatview__readmarker__fontcolor: var(--color-red-500);
+    --chatview__readmarker__height: 1px;
+
+    --chatview__pill__backgroundcolor: rgb(var(--color-black-rgb), 7%);
+    --chatview__pill__fontcolor: rgb(var(--color-black-rgb), 50%);
+    --chatview__pill__fontfamily: var(--global__fontfamily);
+    --chatview__pill__fontdecoration: none;
+    --chatview__pill__fontsize: var(--size-font-350);
+    --chatview__pill__borderwidth: 0;
+    --chatview__pill__borderstyle: none;
+    --chatview__pill__bordercolor: transparent;
+    --chatview__pill__borderradius: 20px;
+
+    --chatview__readreceipt__fontsize: var(--size-font-350);
+    --chatview__readreceipt__fontcolor: var(--color-neutral-500);
+
+    --chatview__message_group__marginleft: 0;
+    --chatview__message_group__marginright: 0;
+    --chatview__message_group__margintop: 8px;
+    --chatview__message_group__marginbottom: 0;
+
+    --chatview__message_tail__opacity: 1;
+    --chatview__message_self__backgroundcolor: var(--azure-full);
+    --chatview__message_self__fontcolor: var(--white);
+    // override only
+    //   --chatview__message__backgroundcolor
+    //   --chatview__message__fontcolor
+
+    --chatview__message__borderwidth: 0;
+    --chatview__message__borderstyle: none;
+    --chatview__message__bordercolor: transparent;
+    --chatview__message__borderradius: 0.75rem;
+    --chatview__message__paddingleft: 8px;
+    --chatview__message__paddingright: 8px;
+    --chatview__message__paddingtop: 4px;
+    --chatview__message__paddingbottom: 4px;
+    --chatview__message__marginleft: 0;
+    --chatview__message__marginright: 0;
+    --chatview__message__margintop: 2px;
+    --chatview__message__marginbottom: 0;
+    --chatview__message_sharp__borderradius: 0.25rem;
+
+    --chatview__message_timestamp__fontsize: 10px;
+    --chatview__message_timestamp__paddingleft: 4px;
+    --chatview__message_timestamp__paddingright: 0;
+    --chatview__message_timestamp__paddingtop: 0;
+    --chatview__message_timestamp__paddingbottom: 0;
+
+    --chatview__message_error__bordercolor: var(--color-red-600);
+    --chatview__message_error__backgroundcolor: var(--color-red-500);
+    --chatview__message_error__fontcolor: rgba(var(--color-white-rgb), 0.8);
+
+    --chatview__message_sender_avatar__borderradius: 50%;
+    --chatview__message_sender_avatar__borderwidth: 0;
+    --chatview__message_sender_avatar__borderstyle: none;
+    --chatview__message_sender_avatar__bordercolor: transparent;
+    --chatview__message_sender_avatar__backgroundcolor: transparent;
+
+    --chatview__message_sender_name__fontsize: var(--size-font-350);
+    --chatview__message_sender_name__fontfamily: var(--global__fontfamily);
+    --chatview__message_sender_name__saturation: var(--sender-name-saturation);
+    --chatview__message_sender_name__lightness: var(--sender-name-lightness);
+    --chatview__message_sender_name__alpha: 0.5;
+    // override only
+    //   --chatview__message_sender_name__fontcolor
+
+    --chatview__message_tag__fontcolor: var(--color-neutral-700);
+
+    --chatview__message_link_self__fontcolor: var(--color-white);
+
+    --chatview__message_keyrequest__fontcolor: var(--color-neutral-300);
+    --chatview__message_keyrequest_link__fontcolor: var(--color-brand-blue-600);
+    --chatview__message_viewthread__fontcolor: var(--color-white);
+
+    --chatview__message_reply__backgroundcolor: rgba(55, 58, 67, 0.24);
+    --chatview__message_download__backgroundcolor: var(--color-blue-700);
+
+    --chatview__message_highlighted__backgroundcolor: var(--color-yellow-200);
+    --chatview__message_selected__backgroundcolor: rgba(var(--color-black-rgb), 0.3);
+
+    --chatview__message_giflabel__backgroundcolor: var(--color-neutral-700);
+    --chatview__message_giflabel__bordercolor: var(--color-neutral-700);
+    --chatview__message_giflabel__fontcolor: var(--color-white);
+
+    --chatview__message_details__backgroundcolor: rgba(140, 140, 140, 0.4);
+    --chatview__message_details_floating__fontcolor: var(--color-white);
+
+    --chatview__message_linkpreview__fontcolor: var(--color-brand-purple-550);
+    --chatview__message_code__backgroundcolor: rgba(255, 255, 255, 0.65);
+    --chatview__message_quote__bordercolor: var(--color-blue-600);
+    --chatview__message_bigemoji__fontsize: 4.8rem;
+    --chatview__message_quote__fontcolor: currentColor;
+
+    --chatview__message_reply_sender_name__fontcolor: var(--color-white);
+
+    --chatview__message_reaction__fontsize: var(--size-font-600);
+    --chatview__message_reaction_add_self__backgroundcolor: hsla(0, 0%, 100%, 0.15);
+    --chatview__message_reaction__backgroundsaturation: 97%;
+    --chatview__message_reaction__backgroundlightness: 15%;
+    --chatview__message_reaction__backgroundopacity: 0.1;
+
+
+    // Context Menu
+    --contextmenu__item_hover__backgroundcolor: var(--color-neutral-200);
+    --contextmenu__backgroundcolor: var(--color-neutral-100);
+    --contextmenu__fontcolor: var(--color-neutral-300);
+    --contextmenu__item_hover__fontcolor: var(--color-blue-600);
+    --contextmenu__bordercolor: var(--color-neutral-200);
+}
+
+html[theme="dark"] {
+    --global__fontcolor: var(--color-white);
+    --global__hsla_color: 88%;
+    --global__kdb__backgroundcolor: var(--color-neutral-800);
+    --global__kdb__shadow: var(--color-black);
+
+    --global__shadow__color: 0deg 0% 3%;
+    --global__dragndrop__backgroundcolor: var(--color-neutral-800);
+
+    // Timeline
+    --chatview__message_code__backgroundcolor: rgba(0, 0, 0, 0.65);
+    --chatview__message_highlighted__backgroundcolor: var(--color-yellow-900);
+    --chatview__message_quote__fontcolor: var(--color-neutral-900);
+    --chatview__message_tag__fontcolor: var(--color-neutral-300);
+    --chatview__pill__backgroundcolor: rgb(var(--color-white-rgb), 7%);
+    --chatview__pill__fontcolor: rgb(var(--color-white-rgb), 50%);
+
+    // Context Menu
+    --contextmenu__item_hover__backgroundcolor: var(--color-neutral-600);
+    --contextmenu__backgroundcolor: var(--color-neutral-900);
+    --contextmenu__fontcolor: var(--color-neutral-100);
+    --contextmenu__bordercolor: var(--color-neutral-800);
+
+    // Avatar based colors & backgrounds
+    --chatview__message_reaction__backgroundsaturation: 29%;
+    --chatview__message_reaction__backgroundlightness: 72%;
+
+}
