@@ -37,6 +37,9 @@ html {
     --chatview__fontsize: 2.2rem;
     --chatview__lineheight: var(--chatview__fontsize);
     --chatview__backgroundcolor: var(--main-panel-bg); // old style
+    --chatview__backgroundimage: none;
+    --chatview__backgroundposition: center;
+    --chatview__backgroundsize: cover;
     --chatview__paddingleft: var(--size-spacing-300);
     --chatview__paddingright: var(--size-spacing-300);
     --chatview__paddingtop: 0;
