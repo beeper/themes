@@ -1,0 +1,56 @@
+// This is a light mode only theme!
+html:not([theme="dark"]) {
+    --windows-borderwidth: 2;
+    --windows-borderstyle: ridge;
+    --windows-bordercolor: #C0C0C0;
+    --windows-borderradius: 0;
+    --comic-sans: "Comic Sans MS",
+        "Comic Sans";
+
+    --chatview__backgroundcolor: #008080;
+
+    --chatview__message__backgroundcolor: #FFFFFF;
+    --chatview__message__fontcolor: #000000;
+    --chatview__message_self__backgroundcolor: #FFFFFF;
+    --chatview__message_self__fontcolor: #000000;
+
+    --chatview__message__borderwidth: var(--windows-borderwidth);
+    --chatview__message__borderstyle: var(--windows-borderstyle);
+    --chatview__message__bordercolor: var(--windows-bordercolor);
+    --chatview__message__borderradius: var(--windows-borderradius);
+    --chatview__message_sharp__borderradius: var(--windows-borderradius);
+
+    --chatview__message_sender_avatar__borderwidth: var(--windows-borderwidth);
+    --chatview__message_sender_avatar__borderstyle: var(--windows-borderstyle);
+    --chatview__message_sender_avatar__bordercolor: var(--windows-bordercolor);
+    --chatview__message_sender_avatar__borderradius: var(--windows-borderradius);
+    --chatview__message_sender_avatar__backgroundcolor: #FFFFFF;
+
+    --chatview__message_tail__opacity: 0;
+
+    --chatview__message_highlighted__backgroundcolor: #000080;
+
+    --chatview__message_sender_avatar__borderradius: 0;
+    --chatview__message_sender_name__fontcolor: #000000;
+    --chatview__message_sender_name__fontfamily: var(--comic-sans);
+
+    --chatview__pill__fontfamily: var(--comic-sans);
+    --chatview__pill__backgroundcolor: #FFFFFF;
+    --chatview__pill__fontcolor: #000000;
+    --chatview__pill__fontdecoration: underline;
+    --chatview__pill__fontsize: var(--size-font-500);
+    --chatview__pill__borderwidth: var(--windows-borderwidth);
+    --chatview__pill__borderstyle: var(--windows-borderstyle);
+    --chatview__pill__bordercolor: var(--windows-bordercolor);
+    --chatview__pill__borderradius: var(--windows-borderradius);
+
+    --chatview__message_reaction__backgroundopacity: 0;
+
+    --chatview__composer__backgroundcolor: #FFFFFF;
+    --chatview__composer__borderwidth: var(--windows-borderwidth);
+    --chatview__composer__borderstyle: var(--windows-borderstyle);
+    --chatview__composer__bordercolor: var(--windows-bordercolor);
+    --chatview__composer__borderradius: var(--windows-borderradius);
+
+    --chatview__readmarker__fontcolor: #FFFFFF;
+}
