@@ -24,7 +24,7 @@ View [variables.scss](https://github.com/beeper/themes/tree/main/variables.scss)
 
 | | |
 |:---:|:---:|
-| ![image](https://github.com/beeper/themes/blob/main/themes/windows95.png) [**Windows 95 (light)**](https://github.com/beeper/themes/blob/main/themes/windows95.scss) by @imjoshin | |
+| ![image](https://github.com/beeper/themes/blob/main/themes/windows95.png) [**Windows 95 (light)**](https://github.com/beeper/themes/blob/main/themes/windows95.scss) by @imjoshin | ![image](https://github.com/beeper/themes/blob/main/themes/bubbly.png) [**Bubbly**](https://github.com/beeper/themes/blob/main/themes/bubbly.scss) by @imjoshin |
 
 
 
