@@ -1,4 +1,3 @@
-// This is a light mode only theme!
 html:not([theme="dark"]) {
     --windows-borderwidth: 2;
     --windows-borderstyle: ridge;

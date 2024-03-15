@@ -1,8 +1,11 @@
 # Community-built themes for Beeper Desktop
-Beeper Desktop is fully customizable. You can use custom CSS to give Beeper Desktop a personalized look. If you build a nice theme, consider submitted a pull request to this repo to share it with other Beeper users!
 
-We are currently rebuilding a large portion of the Beeper Desktop app. In the meantime, themes may not be fully supported, and new theme variables may be volatile between updates.
-Any themes written before ~March 2024 will likely not appear correctly.
+> [!NOTE]
+> We are currently rebuilding a large portion of the Beeper Desktop app. Included in this rewrite is a rethinking of how themes will work, centered around CSS variables.
+> In the meantime, themes may not be fully supported, and new theme variables may be volatile between updates.
+> Any themes written before ~March 2024 will likely not appear correctly in any new updates.
+
+Beeper Desktop is fully customizable. You can use custom CSS to give Beeper Desktop a personalized look. If you build a nice theme, consider submitting a pull request to this repo to share it with other Beeper users!
 
 
 ### How to use themes
@@ -24,7 +27,7 @@ View [variables.scss](https://github.com/beeper/themes/tree/main/variables.scss)
 
 | | |
 |:---:|:---:|
-| ![image](https://github.com/beeper/themes/blob/main/themes/windows95.png) [**Windows 95 (light)**](https://github.com/beeper/themes/blob/main/themes/windows95.scss) by @imjoshin | ![image](https://github.com/beeper/themes/blob/main/themes/bubbly.png) [**Bubbly**](https://github.com/beeper/themes/blob/main/themes/bubbly.scss) by @imjoshin |
+| ![image](https://github.com/beeper/themes/blob/main/themes/windows95.png) [**Windows 95 (light)**](https://github.com/beeper/themes/blob/main/themes/windows95.css) by @imjoshin | ![image](https://github.com/beeper/themes/blob/main/themes/bubbly.png) [**Bubbly**](https://github.com/beeper/themes/blob/main/themes/bubbly.css) by @imjoshin |
 
 
 
