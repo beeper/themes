@@ -5,6 +5,11 @@
 > In the meantime, themes may not be fully supported, and new theme variables may be volatile between updates.
 > Any themes written before ~March 2024 will likely not appear correctly in any new updates.
 
+> [!NOTE]
+> Community-built themes are not entitled to the usual level of customer support
+> on Beeper. If you need help with themes, please
+> join [#beeper:beeper.com] instead of asking in your support room.
+
 Beeper Desktop is fully customizable. You can use custom CSS to give Beeper Desktop a personalized look. If you build a nice theme, consider submitting a pull request to this repo to share it with other Beeper users!
 
 
