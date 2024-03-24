@@ -1,0 +1,90 @@
+
+html {
+    
+    --theme-my-bubble-color: rgba(73, 33, 148, 0.6);
+    --theme-accent-color: #a675d8;
+    --theme-their-bubble-color:  rgba(165, 165, 168, 0.9);
+    --theme-chat-background-color: #FFFFFF;
+    --theme-chat-background-image: url("https://cdn.leonardo.ai/users/98215bb5-38d7-49c4-a7e7-af06abd9c00a/generations/ea466bd6-60a2-4f1b-b03f-16fa9648f2e2/variations/Default_icy_glacier_reaching_miles_into_space_with_a_glowing_c_3_ea466bd6-60a2-4f1b-b03f-16fa9648f2e2_1.jpg");
+
+    --theme-borderwidth: 0;
+    --theme-borderradius: 13px;
+    --theme-bubble-padding-v: 8px;
+    --theme-bubble-padding-h: 12px;
+
+
+
+    --chatview__backgroundcolor: var(--theme-chat-background-color);
+    --chatview__backgroundimage: var(--theme-chat-background-image);
+
+    --chatview__fontsize: 2.2rem;
+    --chatview__lineheight: var(--chatview__fontsize);
+    --chatview__paddingleft: var(--size-spacing-400);
+    --chatview__paddingright: var(--size-spacing-400);
+
+    /*--chatview__composer__borderradius: var(--theme-borderradius);*/
+    /*--chatview__composer__backgroundcolor: #efefef;*/
+   
+ 
+    --chatview__composer__bordercolor: rgba(74, 43, 179, 0.5);
+    --chatview__composer__borderstyle: ridge;
+    --chatview__composer__borderwidth: 2px;
+    
+   
+
+    
+
+    --chatview__message_group__margintop: 12px;
+
+    --chatview__message_tail__opacity: 0.;
+    --chatview__message_tail__color: var(--theme-their-bubble-color);
+    --chatview__message__backgroundcolor: var(--theme-their-bubble-color);
+    --chatview__message__fontcolor: #141414;
+
+    --chatview__message__paddingleft: var(--theme-bubble-padding-h);
+    --chatview__message__paddingright: var(--theme-bubble-padding-h);
+    --chatview__message__paddingtop: var(--theme-bubble-padding-v);
+    --chatview__message__paddingbottom: var(--theme-bubble-padding-v);
+    --chatview__message__marginleft: 4px;
+    --chatview__message__marginright: 4px;
+    --chatview__message__margintop: 4px;
+
+    --chatview__message__borderradius: var(--theme-borderradius);
+    --chatview__message_sharp__borderradius: var(--theme-borderradius);
+
+    --chatview__message_sender_name__alpha: 1;
+    --chatview__message_sender_name__lightness: 35%;
+
+    --chatview__message_self__backgroundcolor: var(--theme-my-bubble-color);
+    --chatview__readmarker__fontcolor: var(--theme-accent-color);
+
+    --chatview__readreceipt__fontcolor: rgba( 200, 200, 200);
+    
+    /*border for profile pictures*/
+    --chatview__message_sender_avatar__borderradius: 50%;
+    --chatview__message_sender_avatar__borderwidth: 3px;
+    --chatview__message_sender_avatar__borderstyle: inset;
+    --chatview__message_sender_avatar__bordercolor: rgba(93, 25, 156, 0.7);
+    
+}
+
+html[theme="dark"] {
+    --theme-their-bubble-color:  rgba(35, 35, 38, 0.8);
+    --theme-chat-background-color: rgba(103, 38, 189, 0.9);
+    --theme-chat-background-image: url("https://i.ibb.co/SydBn0Y/artwork-1.png");
+   /*--theme-chat-background-image: url("https://cdn.leonardo.ai/users/98215bb5-38d7-49c4-a7e7-af06abd9c00a/generations/ea466bd6-60a2-4f1b-b03f-16fa9648f2e2/variations/Default_icy_glacier_reaching_miles_into_space_with_a_glowing_c_3_ea466bd6-60a2-4f1b-b03f-16fa9648f2e2_1.jpg");*/
+
+
+
+    --chatview__composer__backgroundcolor:  rgba(35, 35, 38, 0.5);
+    --chatview__message__fontcolor: #F6F6F6;
+    --chatview__message_sender_name__lightness: 65%;
+    --chatview__composer__boxshadow: 0 0 10px 10px rgba(74, 43, 179, 1);
+}
+
+
+.mx_Dialog {
+background-color: hsla(16, 31%, 16%, 0.1)
+
+
+
