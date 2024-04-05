@@ -21,3 +21,65 @@
   width: 30px !important;
   height: 30px !important;
 }
+
+/* hides the "all" or "read" tabs */
+.rooms_actions {
+  display: none !important;
+}
+
+/* sets height of each chat change this if it feels too compact */
+[data-type="bp_RoomTile"] > div {
+  height: 40px !important
+}
+
+/* position network icon absolutely to the right and centered vertically */
+[data-type="bp_RoomTile"] > div > div > div {
+  position: absolute !important;
+  right: 2%;
+  top: 50%;
+  transform: translateY(-50%);
+  height: auto !important;
+}
+
+/* hide message previews ... i mean ... ¯\_(ツ)_/¯ */
+[data-type="bp_RoomTile"] > div > div > div > span {
+  display: none !important;
+}
+
+/* trim network icon styles */
+[data-type="bp_RoomTile"] > div > div > div > div {
+  margin: 0 !important;
+}
+
+/* hide pin and archive actions. can use shortcuts ;) */
+[data-type="bp_RoomTile"] > div > div:last-child {
+  display: none !important;
+}
+
+/* hide time the message was sent and 'message read' indicator */
+[data-type="bp_RoomTile"] > div > div > span > span:last-child {
+  display: none !important;
+}
+
+/* remove margins and center content vertically */
+[data-type="bp_RoomTile"] > div > div:nth-last-child(2) {
+  justify-content: center !important;
+  margin: 0 !important;
+  height: 100% !important;
+}
+
+/* half the size of the avatars */
+img.mx_BaseAvatar.mx_BaseAvatar_image.avatar {
+  width: 22px !important;
+  height: 22px !important;
+}
+
+/* remove the favorite indicator (lil heart) */
+.favourite-indicator {
+  display: none !important;
+}
+
+/* hide the svg that cuts a hole in the avatar for where it puts the indicator */
+.favourite-avatar svg {
+  display: none !important;
+}
