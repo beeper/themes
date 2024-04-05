@@ -1,0 +1,23 @@
+.favourites__tiles {
+  grid-row-gap: 2px !important;
+  row-gap: 2px !important;
+}
+
+.favourites__row {
+  grid-gap: 2px !important;
+  gap: 2px !important;
+}
+
+.favourites__row div {
+  height: 40px !important;
+  width: 40px !important;
+}
+
+.favourites__row .outline > span {
+  display: none;
+}
+
+.favourites__row .outline img {
+  width: 30px !important;
+  height: 30px !important;
+}
