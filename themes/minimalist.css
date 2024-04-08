@@ -111,3 +111,8 @@ div.mx_BaseAvatar_image {
 div.wTC2UwiI_4Uijt6DA-jk4 {
   display: none !important;
 }
+
+/* hide group in the room tile's name */
+span._1-Yq5JwltweehijoGRoQdJ {
+  display: none !important;
+}
