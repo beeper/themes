@@ -121,3 +121,28 @@ span._1-Yq5JwltweehijoGRoQdJ {
 div._2aD0Xwn49yQeca7cYc8SV8 {
   display: none !important;
 }
+
+/* remove 'seen by' indicator from your messages */
+div._17LFFkKO2F5EhV-hOzGQQy.jeKTrHx2Glq6tJS-DHVDJ {
+  display: none !important;
+}
+
+/* remove sender's names from messages */
+div._2MZGYxx5u9QBXJiJXyuSE6 {
+  display: none !important;
+}
+
+/* remove 'seen by' on messages from other people */
+div._17LFFkKO2F5EhV-hOzGQQy {
+  display: none !important;
+}
+
+/* remove floating archive button on side bar */
+div._1BqyLbX2P4Ugt-sdNnI9Ob._3P3fvvlfCyimK5Wx17JEV {
+  display: none !important;
+}
+
+/* hide the title of the chat on the top */
+div._33NHwSNM8FexMEXbDIk3OS {
+  display: none !important;
+}
