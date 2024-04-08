@@ -116,3 +116,8 @@ div.wTC2UwiI_4Uijt6DA-jk4 {
 span._1-Yq5JwltweehijoGRoQdJ {
   display: none !important;
 }
+
+/* remove red line when new messages come in */
+div._2aD0Xwn49yQeca7cYc8SV8 {
+  display: none !important;
+}
