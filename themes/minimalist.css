@@ -96,3 +96,18 @@ div.mx_BaseAvatar_image {
 .favourite-avatar svg {
   display: none !important;
 }
+
+/* chip that says which day the messages are from */
+._3B1XE-zAqDXtz0zu-w-Fmb {
+  display: none !important;
+}
+
+/* message context menu that appears when you hover over them */
+._3SCwVlBxZJeikuUJW-l2ua {
+  display: none !important;
+}
+
+/* the time next to the message */
+div.wTC2UwiI_4Uijt6DA-jk4 {
+  display: none !important;
+}
