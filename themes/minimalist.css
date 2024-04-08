@@ -151,3 +151,13 @@ div._33NHwSNM8FexMEXbDIk3OS {
 div.yyTXN-4uV3hAH2aSFTXOx._3N3OmnoVC-8oD9DeAi02W6 {
   display: none !important;
 }
+
+/* hide the welcome to beeper thing */
+div.mx_HomePage_default_wrapper {
+  display: none !important;
+}
+
+/* hide the 'you're an inbox wizard, harry' message */
+div.unread_hint {
+  display: none !important;
+}
