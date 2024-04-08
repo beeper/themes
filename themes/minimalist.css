@@ -146,3 +146,8 @@ div._1BqyLbX2P4Ugt-sdNnI9Ob._3P3fvvlfCyimK5Wx17JEV {
 div._33NHwSNM8FexMEXbDIk3OS {
   display: none !important;
 }
+
+/* hide 'seen at' in private messages */
+div.yyTXN-4uV3hAH2aSFTXOx._3N3OmnoVC-8oD9DeAi02W6 {
+  display: none !important;
+}
