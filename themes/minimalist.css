@@ -74,6 +74,19 @@ img.mx_BaseAvatar.mx_BaseAvatar_image.avatar {
   height: 22px !important;
 }
 
+/* half the size of placeholder avatars */
+span.mx_BaseAvatar_initial {
+  width: 22px !important;
+  height: 22px !important;
+  font-size: 10px !important;
+  line-height: 22px !important;
+}
+
+div.mx_BaseAvatar_image {
+  width: 22px !important;
+  height: 22px !important;
+}
+
 /* remove the favorite indicator (lil heart) */
 .favourite-indicator {
   display: none !important;
