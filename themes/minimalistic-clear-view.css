@@ -1,0 +1,303 @@
+.favourites__tiles {
+  grid-row-gap: 2px !important;
+  row-gap: 2px !important;
+}
+
+.favourites__row {
+  grid-gap: 2px !important;
+  gap: 2px !important;
+}
+
+.favourites__row div {
+  height: 40px !important;
+  width: 40px !important;
+}
+
+.favourites__row .outline > span {
+  display: none;
+}
+
+.favourites__row .outline img {
+  width: 30px !important;
+  height: 30px !important;
+}
+
+/* hides the "all" or "read" tabs */
+.rooms_actions {
+  display: none !important;
+}
+
+/* sets height of each chat change this if it feels too compact */
+[data-type="bp_RoomTile"] > div {
+  height: 40px !important
+}
+
+/* position network icon absolutely to the right and centered vertically */
+[data-type="bp_RoomTile"] > div > div > div {
+  position: absolute !important;
+  right: 2%;
+  top: 50%;
+  transform: translateY(-50%);
+  height: auto !important;
+}
+
+/* hide message previews ... i mean ... ¯\_(ツ)_/¯ */
+[data-type="bp_RoomTile"] > div > div > div > span {
+  display: none !important;
+}
+
+/* trim network icon styles */
+[data-type="bp_RoomTile"] > div > div > div > div {
+  margin: 0 !important;
+}
+
+/* hide pin and archive actions. can use shortcuts ;) */
+[data-type="bp_RoomTile"] > div > div:last-child {
+  display: none !important;
+}
+
+/* hide time the message was sent and 'message read' indicator */
+[data-type="bp_RoomTile"] > div > div > span > span:last-child {
+  display: none !important;
+}
+
+/* remove margins and center content vertically */
+[data-type="bp_RoomTile"] > div > div:nth-last-child(2) {
+  justify-content: center !important;
+  margin: 0 !important;
+  height: 100% !important;
+}
+
+/* half the size of the avatars */
+img.mx_BaseAvatar.mx_BaseAvatar_image.avatar {
+  width: 22px !important;
+  height: 22px !important;
+}
+
+/* half the size of placeholder avatars */
+span.mx_BaseAvatar_initial {
+  width: 22px !important;
+  height: 22px !important;
+  font-size: 10px !important;
+  line-height: 22px !important;
+}
+
+div.mx_BaseAvatar_image {
+  width: 22px !important;
+  height: 22px !important;
+}
+
+/* remove the favorite indicator (lil heart) */
+.favourite-indicator {
+  display: none !important;
+}
+
+/* hide the svg that cuts a hole in the avatar for where it puts the indicator */
+.favourite-avatar svg {
+  display: none !important;
+}
+
+/* chip that says which day the messages are from */
+._3B1XE-zAqDXtz0zu-w-Fmb {
+  display: none !important;
+}
+
+/* message context menu that appears when you hover over them */
+._3SCwVlBxZJeikuUJW-l2ua {
+  display: none !important;
+}
+
+/* the time next to the message */
+div.wTC2UwiI_4Uijt6DA-jk4 {
+  display: none !important;
+}
+
+/* hide group in the room tile's name */
+span._1-Yq5JwltweehijoGRoQdJ {
+  display: none !important;
+}
+
+/* remove red line when new messages come in */
+div._2aD0Xwn49yQeca7cYc8SV8 {
+  display: none !important;
+}
+
+/* remove 'seen by' indicator from your messages */
+div._17LFFkKO2F5EhV-hOzGQQy.jeKTrHx2Glq6tJS-DHVDJ {
+  display: none !important;
+}
+
+/* remove sender's names from messages */
+div._2MZGYxx5u9QBXJiJXyuSE6 {
+  display: none !important;
+}
+
+/* remove 'seen by' on messages from other people */
+div._17LFFkKO2F5EhV-hOzGQQy {
+  display: none !important;
+}
+
+/* remove floating archive button on side bar */
+div._1BqyLbX2P4Ugt-sdNnI9Ob._3P3fvvlfCyimK5Wx17JEV {
+  display: none !important;
+}
+
+/* hide the title of the chat on the top */
+div._33NHwSNM8FexMEXbDIk3OS {
+  display: none !important;
+}
+
+/* hide 'seen at' in private messages */
+div.yyTXN-4uV3hAH2aSFTXOx._3N3OmnoVC-8oD9DeAi02W6 {
+  display: none !important;
+}
+
+/* hide the welcome to beeper thing */
+div.mx_HomePage_default_wrapper {
+  display: none !important;
+}
+
+/* hide the 'you're an inbox wizard, harry' message */
+div.unread_hint {
+  display: none !important;
+}
+
+
+body {
+   background-image: url("https://i.ibb.co/SydBn0Y/artwork-1.png");
+   background-position: top;
+   background-size: cover;
+}
+
+html {
+    /*dark transparent purple bubbles*/
+    /*--theme-my-bubble-color: rgba(73, 33, 148, 0.6);*/
+    /*soft purple gradient bubbles*/
+    --theme-my-bubble-color: linear-gradient(to left, rgba(158, 134, 194, 0.5), rgba(96, 31, 194, 0.5));
+   /*vibrant sunset gradient bubbles*/
+   /*--theme-my-bubble-color: linear-gradient(to right, rgba(165, 3, 252, 0.5), rgba(252, 94, 3, 0.5));*/
+
+    --theme-accent-color: #a675d8;
+    --theme-their-bubble-color:  rgba(165, 165, 168, 0.9);
+    --theme-chat-background-color: #FFFFFF;
+    /*--theme-chat-background-image: url("https://cdn.leonardo.ai/users/98215bb5-38d7-49c4-a7e7-af06abd9c00a/generations/ea466bd6-60a2-4f1b-b03f-16fa9648f2e2/variations/Default_icy_glacier_reaching_miles_into_space_with_a_glowing_c_3_ea466bd6-60a2-4f1b-b03f-16fa9648f2e2_1.jpg");*/
+
+    --theme-borderwidth: 0;
+    --theme-borderradius: 13px;
+    --theme-bubble-padding-v: 8px;
+    --theme-bubble-padding-h: 12px;
+
+
+
+    --chatview__backgroundcolor: var(--theme-chat-background-color);
+    --chatview__backgroundimage: var(--theme-chat-background-image);
+
+    --chatview__fontsize: 2.2rem;
+    --chatview__lineheight: var(--chatview__fontsize);
+    --chatview__paddingleft: var(--size-spacing-400);
+    --chatview__paddingright: var(--size-spacing-400);
+
+    /*--chatview__composer__borderradius: var(--theme-borderradius);*/
+    /*--chatview__composer__backgroundcolor: #efefef;*/
+
+
+    --chatview__composer__bordercolor: rgba(74, 43, 179, 0.5);
+    --chatview__composer__borderstyle: ridge;
+    --chatview__composer__borderwidth: 2px;
+
+
+
+
+
+    --chatview__message_group__margintop: 12px;
+
+    --chatview__message_tail__opacity: 0.;
+    --chatview__message_tail__color: var(--theme-their-bubble-color);
+    --chatview__message__backgroundcolor: var(--theme-their-bubble-color);
+    --chatview__message__fontcolor: #141414;
+
+    --chatview__message__paddingleft: var(--theme-bubble-padding-h);
+    --chatview__message__paddingright: var(--theme-bubble-padding-h);
+    --chatview__message__paddingtop: var(--theme-bubble-padding-v);
+    --chatview__message__paddingbottom: var(--theme-bubble-padding-v);
+    --chatview__message__marginleft: 4px;
+    --chatview__message__marginright: 4px;
+    --chatview__message__margintop: 4px;
+
+    --chatview__message__borderradius: var(--theme-borderradius);
+    --chatview__message_sharp__borderradius: var(--theme-borderradius);
+
+    --chatview__message_sender_name__alpha: 1;
+    --chatview__message_sender_name__lightness: 35%;
+
+    --chatview__message_self__backgroundcolor: var(--theme-my-bubble-color);
+    --chatview__readmarker__fontcolor: var(--theme-accent-color);
+
+    --chatview__readreceipt__fontcolor: rgba( 200, 200, 200);
+
+    /*border for profile pictures*/
+    --chatview__message_sender_avatar__borderradius: 50%;
+    --chatview__message_sender_avatar__borderwidth: 3px;
+    --chatview__message_sender_avatar__borderstyle: inset;
+    --chatview__message_sender_avatar__bordercolor: rgba(93, 25, 156, 0.7);
+
+}
+
+html[theme="dark"] {
+    --theme-their-bubble-color:  rgba(20, 20, 20, 0.7);
+    --theme-chat-background-color: rgba(10, 10, 10, 0.1);
+    /*--theme-chat-background-image: url("https://i.ibb.co/SydBn0Y/artwork-1.png");*/
+  
+
+
+
+    --chatview__composer__backgroundcolor:  rgba(35, 35, 38, 0.5);
+    --chatview__message__fontcolor: #F6F6F6;
+    --chatview__message_sender_name__lightness: 65%;
+    --chatview__composer__boxshadow: 0 0 10px 10px rgba(74, 43, 179, 1);
+   
+}
+
+
+.mx_Dialog {
+background-color: rgba(30, 10, 30, 0.9);
+}
+
+
+.mx_MatrixChat_wrapper--windows .bp_LeftPanel,
+.mx_MatrixChat_wrapper--linux .bp_LeftPanel {
+    background-color: rgba(10, 10, 10, 0.6);
+} 
+
+.mx_RoomHeader {
+     background-color: rgba(10, 10, 10, 0.2);
+}
+
+.bp_TitleBar {
+    background-color: rgba(23, 25, 38, 0.8);
+}
+
+.bp_MainPanel {
+     background-color: #1e1e1e00;
+}
+
+.mx_MainSplit {
+     background: #1e1e1e00;
+}
+
+.mx_MatrixChat_wrapper--windows ._1fJQLY3NzmLrdWaOTqOBgG, .mx_MatrixChat_wrapper--linux ._1fJQLY3NzmLrdWaOTqOBgG {
+background-color: rgba(23, 25, 38, 0.8);
+}
+
+
+.mx_MatrixChat > .mx_ResizeHandle, .mx_RightPanel_ResizeWrapper .mx_ResizeHandle {
+    margin: 0px -9.5px 0px -2.5px;
+    box-shadow: rgba(74, 43, 179, 0.5) 1px 0px 0px 0px inset;
+}
+
+.mx_MainSplit > div > div {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: transparent !important;
+    font-size: 1.65rem;
+}
