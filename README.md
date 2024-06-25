@@ -1,4 +1,4 @@
-# Community-built themes for Beeper Desktop
+# Dark Mode iMessage Theme for Beeper Desktop
 
 New theme by Pedro Werner (dark mode only)
 
