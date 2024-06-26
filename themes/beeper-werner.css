@@ -102,7 +102,7 @@ html {
     --theme-their-bubble-color:  rgba(165, 165, 168, 0.909);
     --theme-chat-background-color: rgba(103, 102, 102, 0.412);
 
-    --theme-borderwidth: 0;
+    --theme-borderwidth: 150px;
     --theme-borderradius: 13px;
     --theme-bubble-padding-v: 5px;
     --theme-bubble-padding-h: 10px;
