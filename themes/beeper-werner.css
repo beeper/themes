@@ -1,3 +1,16 @@
+* {
+  font: SF Pro Rounded, Verdana, SF Pro Display;
+}
+
+.bp_LeftPanel .rooms .rooms_scroll-container {
+  margin-right: 0;
+}
+
+.mx_EventTile_message .mx_EventTile_line :not(.mx_MImageBody,.mx_MVideoBody) {
+  max-width: 150px;
+}
+
+
 /* hides the "all" or "read" tabs */
 .rooms_actions {
   display: none !important;
@@ -37,11 +50,11 @@
 }
 
 .bp_TitleBar {
-    background-color: rgba(23, 25, 38, 0.8);
+    background-color: rgba(23, 25, 38, 0.557);
 }
 
 .bp_MainPanel {
-     background-color: #1e1e1e00;
+     background-color: #1e1e1e02;
 }
 
 .mx_MainSplit {
@@ -49,24 +62,20 @@
 }
 
 .mx_MatrixChat_wrapper--windows ._1fJQLY3NzmLrdWaOTqOBgG, .mx_MatrixChat_wrapper--linux ._1fJQLY3NzmLrdWaOTqOBgG {
-background-color: rgba(23, 25, 38, 0.8);
+background-color: rgba(23, 25, 38, 0.501);
 }
 
 
 .mx_MatrixChat > .mx_ResizeHandle, .mx_RightPanel_ResizeWrapper .mx_ResizeHandle {
-    margin: 0px -9.5px 0px -2.5px;
+    margin: 0px -2.5px 0px -2.5px;
     box-shadow: rgba(43, 78, 179, 0.5) 1px 0px 0px 0px inset;
 }
-
-
 
 body {
    background-position: top;
    background-size: cover;
-   background-color: rgba(15, 12, 12, 0.384)
+   background-color: rgba(15, 12, 12, 0.105)
 }
-
-
 
 /* trim network icon styles */
 [data-type="bp_RoomTile"] > div > div > div > div {
@@ -78,40 +87,30 @@ div._1BqyLbX2P4Ugt-sdNnI9Ob._3P3fvvlfCyimK5Wx17JEV {
   display: none !important;
 }
 
-/* hide the title of the chat on the top */
-div._33NHwSNM8FexMEXbDIk3OS {
-  display: none !important;
-}
-
-
-
 /* hide the welcome to beeper thing */
 div.mx_HomePage_default_wrapper {
   display: none !important;
 }
 
-
 html {
-    /*dark transparent purple bubbles*/
-    /*--theme-my-bubble-color: rgba(73, 33, 148, 0.6);*/
-    /*soft purple gradient bubbles*/
-    --theme-my-bubble-color: linear-gradient(to left, color(display-p3 0.29 0.561 0.969), color(display-p3 0.282 0.553 0.969 / 0.894));
+
+    --theme-my-bubble-color: linear-gradient(to left, color(display-p3 0.29 0.561 0.969 / 0.805), color(display-p3 0.237 0.459 0.799 / 1));
    /*vibrant sunset gradient bubbles*/
    /*--theme-my-bubble-color: linear-gradient(to right, rgba(165, 3, 252, 0.5), rgba(252, 94, 3, 0.5));*/
 
-    --theme-accent-color: color(display-p3 0.286 0.557 0.969);
-    --theme-their-bubble-color:  rgba(165, 165, 168, 0.815);
-    --theme-chat-background-color: #FFFFFF;
+    --theme-accent-color: color(display-p3 0.286 0.557 0.969 / 0.894);
+    --theme-their-bubble-color:  rgba(165, 165, 168, 0.909);
+    --theme-chat-background-color: rgba(103, 102, 102, 0.412);
 
     --theme-borderwidth: 0;
     --theme-borderradius: 13px;
-    --theme-bubble-padding-v: 4px;
+    --theme-bubble-padding-v: 5px;
     --theme-bubble-padding-h: 10px;
-
-
 
     --chatview__backgroundcolor: var(--theme-chat-background-color);
     --chatview__backgroundimage: var(--theme-chat-background-image);
+  
+    --chatview__message__paddingleft: 2px;
 
     --chatview__fontsize: 2.2rem;
     --chatview__lineheight: var(--chatview__fontsize);
@@ -119,18 +118,14 @@ html {
     --chatview__paddingright: var(--size-spacing-400);
 
     /*--chatview__composer__borderradius: var(--theme-borderradius);*/
-    /*--chatview__composer__backgroundcolor: #efefef;*/
 
-
-    --chatview__composer__bordercolor: rgba(43, 95, 179, 0.5);
+    --chatview__message__borderwidth: 100%;
+    
+    --chatview__composer__bordercolor: rgba(217, 217, 217, 0.191);
     --chatview__composer__borderstyle: ridge;
     --chatview__composer__borderwidth: 2px;
 
-
-
-
-
-    --chatview__message_group__margintop: 12px;
+    --chatview__message_group__margintop: 15px;
 
     --chatview__message_tail__opacity: 0.;
     --chatview__message_tail__color: var(--theme-their-bubble-color);
@@ -149,7 +144,7 @@ html {
     --chatview__message_sharp__borderradius: var(--theme-borderradius);
 
     --chatview__message_sender_name__alpha: 1;
-    --chatview__message_sender_name__lightness: 35%;
+    --chatview__message_sender_name__lightness: 55%;
 
     --chatview__message_self__backgroundcolor: var(--theme-my-bubble-color);
     --chatview__readmarker__fontcolor: var(--theme-accent-color);
@@ -164,22 +159,25 @@ html {
 
 }
 
-
 html[theme="dark"] {
-    --theme-their-bubble-color:  color(display-p3 0.231 0.231 0.239 / 0.691);
-    --theme-chat-background-color: rgba(10, 10, 10, 0.066);
+    --theme-their-bubble-color:  color(display-p3 0.231 0.231 0.239 / 0.754);
+    --theme-chat-background-color: rgba(50, 51, 51, 0.064);
     /*--theme-chat-background-image: url("https://i.ibb.co/SydBn0Y/artwork-1.png");*/
 
-
-
-
-    --chatview__composer__backgroundcolor:  rgba(35, 35, 38, 0.5);
+    --chatview__composer__backgroundcolor:  rgba(35, 35, 38, 0.257);
     --chatview__message__fontcolor: #F6F6F6;
     --chatview__message_sender_name__lightness: 65%;
     --chatview__composer__boxshadow: 0 0 10px 10px rgba(43, 77, 179, 1);
+    
+    --chatview__paddingleft: 5px;
+    --chatview__paddingtop: 10px;
+    --chatview__paddingbottom: 10px;
+    
+    --theme-borderwidth: 0;
+    
+    --chatview__message_code__backgroundcolor: rgba(187, 186, 186, 0.517);
 
 }
-
 
 /* Visually (not functionally) hide the draggable divider for expanding chat summaries */
 .mx_MatrixChat > .mx_ResizeHandle, .mx_RightPanel_ResizeWrapper .mx_ResizeHandle {
@@ -187,8 +185,6 @@ html[theme="dark"] {
     -webkit-box-shadow: none;
     box-shadow: none;
 }
-
-
 .AppControls {
     position: absolute;
     top: var(--app-control-top);
@@ -214,9 +210,21 @@ html[theme="dark"] {
   --app-control-top: 12px;
 }
 
-
-
-
+.AppControls {
+    position: absolute;
+    top: var(--app-control-top);
+    z-index: 1000;
+    left: var(--app-control-left);
+}
+.AppControls-button { height: 100%; }
+.bp_TitleBar {
+    height: 0!important;
+    min-height: unset!important;
+}
+.bp_Header {
+    width: calc(100% - var(--app-control-wide) - var(--app-control-left));
+    align-self: end;
+}
 
 /* Inbox - Favourites */
 
@@ -227,12 +235,12 @@ html[theme="dark"] {
   --devalias-fav-height: 40px;
   --devalias-fav-avatar-width: 40px;
   --devalias-fav-avatar-height: 40px;
-  --devalias-fav-avatar-font-size: 18px;
+  --devalias-fav-avatar-font-size: 22px;
 }
 
 .bp_LeftPanel .rooms .favourites__icons {
 
-  padding: 0px;
+  padding: 13px;
   text-align: center;
   border: 1px;
   box-sizing: border-box; /* Inclui padding e border na largura e altura */
@@ -257,14 +265,14 @@ html[theme="dark"] {
 }
 
 .bp_LeftPanel .rooms .favourites .bp_RoomTile.small .mx_BaseAvatar_image {
-  width: var(--devalias-fav-avatar-width, 40px) !important;
-  height: var(--devalias-fav-avatar-height, 40px) !important;
+  width: var(--devalias-fav-avatar-width, 30px) !important;
+  height: var(--devalias-fav-avatar-height, 30px) !important;
 }
 
 .bp_LeftPanel .rooms .favourites .bp_RoomTile.small .mx_BaseAvatar_initial {
   font-size: var(--devalias-fav-avatar-font-size, 19.8px) !important;
-  width: var(--devalias-fav-avatar-width, 40px) !important;
-  line-height: var(--devalias-fav-avatar-width, 40px) !important;
+  width: var(--devalias-fav-avatar-width, 30px) !important;
+  line-height: var(--devalias-fav-avatar-width, 30px) !important;
 }
 
 .bp_LeftPanel .rooms .favourites .bp_RoomTile.small .outline .outline-details {
@@ -306,7 +314,7 @@ html[theme="dark"] {
   /* Don't take up the entire screen */
   width: fit-content;
   height: fit-content;
-  padding: 20px;
+  padding: 10px;
   border-radius: 20px;
 
   /* Center the dialog */
@@ -330,7 +338,7 @@ html[theme="dark"] {
 
 .mx_AppearanceUserSettingsTab .mx_Field.mx_Field_textarea {
   width: 100% !important;
-  height: 700px !important;
+  height: 900px !important;
 }
 
 /* 'Chat Networks' 'tab' in the 'Settings' dialog*/
@@ -340,13 +348,11 @@ html[theme="dark"] {
   margin-left: 16px;
 }
 
-
 /* 'Chat Networks' button on the main Settings menu */
  
 #mx_ContextualMenu_Container .mx_AccessibleButton[aria-label="Chat Networks"]::after {
   content: "🔗";
 }
-
 
 /* Inbox - Favourites */
 
@@ -360,10 +366,9 @@ html[theme="dark"] {
   --devalias-fav-avatar-font-size: 18px;
 }
 
-
 .bp_LeftPanel .rooms .favourites__icons .icon {
   flex: 1 1 auto; /* Allow items to grow and shrink equally */
-  max-width: 100px; /* Adjust max width as needed */
+  max-width: fit-content; /* Adjust max width as needed */
   margin: 5px; /* Optional: Adjust margins for spacing */
   padding: 10px; /* Optional: Adjust padding for spacing */
 }
@@ -401,6 +406,4 @@ html[theme="dark"] {
 }
 
 
-* {
-  font: SF Pro Display;
-}
+
