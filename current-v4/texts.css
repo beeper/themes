@@ -1,0 +1,1111 @@
+/* Beeper Texts Theme - Custom CSS
+ * Transposes the legacy Texts.app theme to work with Beeper
+ * Based on desktop-css/default/ SCSS files
+ */
+
+/* ===== SECTION 1: ROOT VARIABLES (LIGHT MODE) ===== */
+:root {
+    /* Font and Layout Variables */
+    --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "Helvetica Neue", sans-serif;
+
+    --header-height: 48px;
+    --filters-pane-width: 220px;
+    --min-sidebar-width: 280px;
+    --max-sidebar-width: 800px;
+    --threads-list-item-height: 54px;
+
+    --pinned-thread-base-size: 64px;
+    --pinned-thread-group-img-size: calc(var(--pinned-thread-base-size) / 1.5);
+    --pinned-thread-height: calc(
+        var(--pinned-thread-base-size) + (var(--pinned-thread-base-size) / 1.4)
+    );
+    --pinned-thread-width: calc(
+        var(--pinned-thread-base-size) + (var(--pinned-thread-base-size) / 2.5)
+    );
+
+    /* Base Colors */
+    --color-bg: white;
+    --color-bg-rgb: 255, 255, 255;
+    --color-fg: black;
+    --color-fg-rgb: 0, 0, 0;
+
+    --color-primary: rgb(0, 122, 255);
+    --color-primary-rgb: 0, 122, 255;
+
+    --color-gray-rgb: 120, 125, 135;
+
+    /* Base Color Tokens */
+    --color-base-gray-dark-50: rgb(46, 46, 46);
+    --color-base-gray-dark-50-rgb: 46, 46, 46;
+    --color-base-gray-dark-70: rgb(62, 62, 62);
+    --color-base-gray-dark-70-rgb: 62, 62, 62;
+    --color-base-gray-dark-80: rgb(80, 80, 80);
+    --color-base-gray-dark-80-rgb: 80, 80, 80;
+    --color-base-black: rgb(0, 0, 0);
+    --color-base-black-rgb: 0, 0, 0;
+    --color-base-white: rgb(255, 255, 255);
+    --color-base-white-rgb: 255, 255, 255;
+
+    /* Gray Scale */
+    --color-base-gray-20: rgb(248, 248, 248);
+    --color-base-gray-20-rgb: 248, 248, 248;
+    --color-base-gray-30: rgb(243, 243, 243);
+    --color-base-gray-30-rgb: 243, 243, 243;
+    --color-base-gray-40: rgb(237, 237, 237);
+    --color-base-gray-40-rgb: 237, 237, 237;
+    --color-base-gray-50: rgb(232, 232, 232);
+    --color-base-gray-50-rgb: 232, 232, 232;
+    --color-base-gray-60: rgb(226, 226, 226);
+    --color-base-gray-60-rgb: 226, 226, 226;
+    --color-base-gray-70: rgb(219, 219, 219);
+    --color-base-gray-70-rgb: 219, 219, 219;
+    --color-base-gray-80: rgb(199, 199, 199);
+    --color-base-gray-80-rgb: 199, 199, 199;
+    --color-base-gray-100: rgb(133, 133, 133);
+    --color-base-gray-100-rgb: 133, 133, 133;
+    --color-base-gray-110: rgb(89, 89, 89);
+    --color-base-gray-110-rgb: 89, 89, 89;
+    --color-base-gray-120: rgb(23, 23, 23);
+    --color-base-gray-120-rgb: 23, 23, 23;
+
+    /* System Blue */
+    --color-base-system-blue-80: rgb(76, 162, 255);
+    --color-base-system-blue-80-rgb: 76, 162, 255;
+    --color-base-system-blue-90: rgb(0, 122, 255);
+    --color-base-system-blue-90-rgb: 0, 122, 255;
+    --color-base-system-blue-100: rgb(0, 115, 240);
+    --color-base-system-blue-100-rgb: 0, 115, 240;
+    --color-base-system-blue-110: rgb(0, 105, 219);
+    --color-base-system-blue-110-rgb: 0, 105, 219;
+
+    /* Background Colors */
+    --color-background-app: var(--color-base-white);
+    --color-background-app-weak: var(--color-base-gray-20);
+    --color-background-elevated: var(--color-base-white);
+    --color-background-elevated-hover: var(--color-base-gray-40);
+    --color-background-grouped: var(--color-base-white);
+    --color-background-grouped-weak: var(--color-base-gray-30);
+    --color-background-object: var(--color-base-gray-30);
+
+    /* Button Backgrounds */
+    --color-background-button-primary: var(--color-base-system-blue-90);
+    --color-background-button-primary-active: var(--color-base-system-blue-100);
+    --color-background-button-primary-disabled: var(
+        --color-base-system-blue-80
+    );
+    --color-background-button-secondary: var(--color-base-white);
+    --color-background-button-secondary-active: var(--color-base-gray-20);
+    --color-background-button-secondary-disabled: var(--color-base-white);
+    --color-background-button-translucent: rgba(
+        var(--color-base-black-rgb),
+        0.1
+    );
+    --color-background-button-translucent-active: rgba(
+        var(--color-base-black-rgb),
+        0.15
+    );
+    --color-background-button-translucent-disabled: rgba(
+        var(--color-base-black-rgb),
+        0.05
+    );
+
+    /* Sidebar Backgrounds */
+    --color-background-sidebar: rgba(var(--color-base-white-rgb), 0.75);
+    --color-background-sidebar-opaque: var(--color-base-gray-30);
+    --color-background-sidebar-thread-focus: rgba(
+        var(--color-base-black-rgb),
+        0.1
+    );
+    --color-background-sidebar-thread-selected: var(
+        --color-background-selected-primary
+    );
+    --color-background-sidebar-thread-selected-unfocused: rgba(
+        var(--color-base-black-rgb),
+        0.15
+    );
+
+    /* Message Backgrounds */
+    --color-background-message-active: var(--color-base-gray-20);
+    --color-background-message-bubble-received: var(--color-base-gray-40);
+    --color-background-message-bubble-sent: var(--color-base-system-blue-90);
+    --color-background-message-bubble-linked: var(--color-background-app);
+
+    /* Selected States */
+    --color-background-selected-primary: var(--color-base-system-blue-90);
+    --color-background-selected-secondary: rgba(
+        var(--color-base-black-rgb),
+        0.1
+    );
+
+    /* Input Backgrounds */
+    --color-background-input: var(--color-base-gray-20);
+    --color-background-kbd: rgba(var(--color-base-black-rgb), 0.15);
+
+    /* Header and Menu Backgrounds */
+    --color-background-header-right: rgba(var(--color-base-white-rgb), 0.9);
+    --color-background-header-right-opaque: var(--color-base-white);
+    --color-background-menu: rgba(var(--color-base-gray-40-rgb), 0.9);
+    --color-background-menu-opaque: var(--color-base-gray-40);
+    --color-background-menu-option-hover: var(--color-base-system-blue-90);
+
+    /* Border Colors */
+    --color-border-neutrals: var(--color-base-gray-60);
+    --color-border-neutrals-strong: var(--color-base-gray-70);
+    --color-border-neutrals-weak: var(--color-base-gray-40);
+    --color-border-input: var(--color-base-gray-60);
+    --color-border-input-active: var(--color-base-gray-80);
+    --color-border-translucent: rgba(var(--color-base-black-rgb), 0.1);
+    --color-border-translucent-strong: rgba(var(--color-base-black-rgb), 0.15);
+    --color-border-translucent-strongest: rgba(
+        var(--color-base-black-rgb),
+        0.5
+    );
+    --color-border-translucent-weak: rgba(var(--color-base-black-rgb), 0.05);
+
+    /* Text Colors */
+    --color-text-neutrals: var(--color-base-gray-120);
+    --color-text-neutrals-subtle: var(--color-base-gray-100);
+    --color-text-neutrals-weak: var(--color-base-gray-110);
+    --color-text-on-accent: var(--color-base-white);
+    --color-text-on-accent-weak: rgba(var(--color-base-white-rgb), 0.7);
+    --color-text-translucent: rgba(var(--color-base-black-rgb), 0.9);
+    --color-text-translucent-subtle: rgba(var(--color-base-black-rgb), 0.5);
+    --color-text-translucent-weak: rgba(var(--color-base-black-rgb), 0.7);
+
+    /* Icon Colors */
+    --color-icon-neutrals: var(--color-base-gray-110);
+    --color-icon-neutrals-strong: var(--color-base-gray-120);
+    --color-icon-neutrals-subtle: var(--color-base-gray-80);
+    --color-icon-neutrals-weak: var(--color-base-gray-100);
+    --color-icon-on-accent: rgba(var(--color-base-white-rgb), 0.75);
+    --color-icon-on-accent-strong: rgba(var(--color-base-white-rgb), 0.9);
+    --color-icon-on-accent-weak: rgba(var(--color-base-white-rgb), 0.4);
+    --color-icon-translucent: rgba(var(--color-base-black-rgb), 0.6);
+    --color-icon-translucent-strong: rgba(var(--color-base-black-rgb), 0.9);
+    --color-icon-translucent-subtle: rgba(var(--color-base-black-rgb), 0.3);
+    --color-icon-translucent-weak: rgba(var(--color-base-black-rgb), 0.4);
+
+    /* Scrollbar */
+    --color-background-scrollbar: rgba(var(--color-base-black-rgb), 0.3);
+    --color-background-scrollbar-hover: rgba(var(--color-base-black-rgb), 0.5);
+
+    /* Misc */
+    --color-background-tag: rgba(var(--color-base-black-rgb), 0.1);
+    --color-overlay-modal: rgba(var(--color-base-black-rgb), 0.4);
+    --color-transparent: rgba(var(--color-base-black-rgb), 0);
+
+    /* Pane Backgrounds */
+    --left-pane-bg: transparent;
+    --right-pane-bg: rgba(var(--color-bg-rgb), 1);
+
+    /* Legacy Variables for Compatibility */
+    --mark-bg: rgb(255, 235, 59);
+    --error-color: #f44336;
+    --warning-color: rgb(255, 152, 0);
+    --snoozed-indicator-bg: rgb(255, 152, 0);
+    --error-indicator-bg: var(--error-color);
+    --message-snoozed-border: rgb(255, 152, 0);
+    --message-errored-beacon: var(--error-color);
+    --sms-sent-bg: rgb(76, 175, 80);
+
+    /* Audio Bar */
+    --compose-message-accent: #7f7f7f;
+    --audio-bar-button: #8f939e;
+    --audio-bar-preview-progress: #84888e;
+    --audio-bar-bg: #f1f4f8;
+    --audio-bar-border: #e3e9f2;
+
+    /* Keyboard Keys */
+    --key-border: #c4c4c4;
+    --key-bg: linear-gradient(to bottom, #e8e8e8, #d8d8d8);
+    --color-key-bottom-bg: #c4c4c4;
+
+    /* Preferences */
+    --prefs-well: rgba(0, 0, 0, 0.02);
+
+    /* Skeleton */
+    --skeleton-bg: url("../../../public/img/skeleton.svg");
+}
+
+/* ===== USER STYLES ===== */
+
+body {
+    -webkit-font-smoothing: auto;
+    --margin-50: 2px;
+    --margin-75: 3px;
+    --margin-100: 4px;
+    --margin-200: 6px;
+    --margin-300: 8px;
+    --margin-400: 10px;
+    --margin-450: 11px;
+    --margin-500: 12px;
+    --margin-600: 14px;
+    --margin-700: 16px;
+    --margin-800: 18px;
+    --margin-900: 20px;
+    --margin-900: 22px;
+    --margin-1000: 24px;
+    --margin-1200: 28px;
+    --margin-1400: 32px;
+    --font-letter-spacing-headline: -0.046875rem;
+    --font-letter-spacing-title: 0rem;
+    --font-letter-spacing-body: 0.00625rem;
+    --font-letter-spacing-label: 0.015625rem;
+    --font-letter-spacing-special: 0.0125rem;
+    --font-weight-regular: 400;
+    --font-weight-emphasized: 600;
+    --font-weight-fullscreen: 700;
+    --font-size-headline-display: 2.25rem;
+    --font-size-headline: 1.75rem;
+    --font-headline-emphasized: normal var(--font-weight-emphasized)
+        var(--font-size-headline) / var(--font-size-headline-display)
+        var(--font-family);
+    --font-size-title-small: 1rem;
+    --line-height-title-small: 1.25rem;
+    --font-title-small-regular: normal var(--font-weight-regular)
+        var(--font-size-title-small) / var(--line-height-title-small)
+        var(--font-family);
+    --font-title-small-emphasized: normal var(--font-weight-emphasized)
+        var(--font-size-title-small) / var(--line-height-title-small)
+        var(--font-family);
+    --font-size-title-medium: 1.0625rem;
+    --line-height-title-medium: 1.5rem;
+    --font-title-medium-regular: normal var(--font-weight-regular)
+        var(--font-size-title-medium) / var(--line-height-title-medium)
+        var(--font-family);
+    --font-title-medium-emphasized: normal var(--font-weight-emphasized)
+        var(--font-size-title-medium) / var(--line-height-title-medium)
+        var(--font-family);
+    --font-size-title-large: 1.125rem;
+    --line-height-title-large: 1.625rem;
+    --font-title-large-regular: normal var(--font-weight-regular)
+        var(--font-size-title-large) / var(--line-height-title-large)
+        var(--font-family);
+    --font-title-large-emphasized: normal var(--font-weight-emphasized)
+        var(--font-size-title-large) / var(--line-height-title-large)
+        var(--font-family);
+    --font-size-body-small: 0.8125rem;
+    --line-height-body-small: 1rem;
+    --font-body-small-regular: normal var(--font-weight-regular)
+        var(--font-size-body-small) / var(--line-height-body-small)
+        var(--font-family);
+    --font-body-small-emphasized: normal var(--font-weight-emphasized)
+        var(--font-size-body-small) / var(--line-height-body-small)
+        var(--font-family);
+    --font-size-body-medium: 0.875rem;
+    --line-height-body-medium: 1.125rem;
+    --font-body-medium-regular: normal var(--font-weight-regular)
+        var(--font-size-body-medium) / var(--line-height-body-medium)
+        var(--font-family);
+    --font-body-medium-emphasized: normal var(--font-weight-emphasized)
+        var(--font-size-body-medium) / var(--line-height-body-medium)
+        var(--font-family);
+    --font-size-body-large: 0.9375rem;
+    --line-height-body-large: 1.25rem;
+    --font-body-large-regular: normal var(--font-weight-regular)
+        var(--font-size-body-large) / var(--line-height-body-large)
+        var(--font-family);
+    --font-body-large-emphasized: normal var(--font-weight-emphasized)
+        var(--font-size-body-large) / var(--line-height-body-large)
+        var(--font-family);
+    --font-size-label-xsmall: 0.625rem;
+    --line-height-label-xsmall: 0.4375rem;
+    --font-label-xsmall-regular: normal var(--font-weight-regular)
+        var(--font-size-label-xsmall) / var(--line-height-label-small)
+        var(--font-family);
+    --font-label-xsmall-emphasized: normal var(--font-weight-emphasized)
+        var(--font-size-label-xsmall) / var(--line-height-label-small)
+        var(--font-family);
+    --font-size-label-small: 0.6875rem;
+    --line-height-label-small: 0.875rem;
+    --font-label-small-regular: normal var(--font-weight-regular)
+        var(--font-size-label-small) / var(--line-height-label-small)
+        var(--font-family);
+    --font-label-small-emphasized: normal var(--font-weight-emphasized)
+        var(--font-size-label-small) / var(--line-height-label-small)
+        var(--font-family);
+    --font-size-label-medium: 0.75rem;
+    --line-height-label-medium: 0.9375rem;
+    --font-label-medium-regular: normal var(--font-weight-regular)
+        var(--font-size-label-medium) / var(--line-height-label-medium)
+        var(--font-family);
+    --font-label-medium-emphasized: normal var(--font-weight-emphasized)
+        var(--font-size-label-medium) / var(--line-height-label-medium)
+        var(--font-family);
+    --font-size-label-large: 0.8125rem;
+    --line-height-label-large: 1rem;
+    --font-label-large-regular: normal var(--font-weight-regular)
+        var(--font-size-label-large) / var(--line-height-label-large)
+        var(--font-family);
+    --font-label-large-emphasized: normal var(--font-weight-emphasized)
+        var(--font-size-label-large) / var(--line-height-label-large)
+        var(--font-family);
+    --font-size-special-link: 0.875rem;
+    --line-height-special-link: 1.25rem;
+    --font-special-link-regular: normal var(--font-weight-regular)
+        var(--font-size-special-link) / var(--line-height-special-link)
+        var(--font-family);
+    --font-line-height-large: 1.125rem;
+    --font-line-height-medium: 1rem;
+    --font-line-height-small: 0.9375rem;
+    --font-line-height-xsmall: 0.875rem;
+    --font-line-height-xxsmall: 0.75rem;
+    --font-size-emoji: 3rem;
+    --inbox-avatar-size: 28px;
+    --cv-avatar-size: 28px;
+    --set-selector-icon-size: 32px;
+    --inbox-icon-size: 20px;
+    --inbox-search-icon-size: 15px;
+    --border-radius-25: 4px;
+    --border-radius-6: 6px;
+    --border-radius-50: 8px;
+    --border-radius-75: 10px;
+    --border-radius-100: 12px;
+    --border-radius-200: 20px;
+    --border-radius-conversation-bubble: 17px;
+    --inbox-filter-size: 40px;
+    --account-switcher-brand-icon-size: 20px;
+    --account-switcher-width: 54px;
+    --min-media-width: 40px;
+    --composer-attachment-min-width: 180px;
+    --composer-attachment-max-width: 240px;
+    --composer-attachment-max-height: 66px;
+    --divider-height: 0.33px;
+    --divider-opacity: 0.2;
+    --composer-link-preview-width: 180px;
+    --prefs-avatar-height: 130px;
+    --message-padding-horizontal: 12px;
+    --message-padding-vertical: 5px;
+}
+
+/* ===== SECTION 2: DARK MODE OVERRIDES ===== */
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Base Colors - Dark */
+        --color-bg: #252830;
+        --color-bg-rgb: 37, 40, 48;
+        --color-fg: white;
+        --color-fg-rgb: 255, 255, 255;
+
+        --color-primary: #0a84ff;
+        --color-primary-rgb: 10, 132, 255;
+
+        /* Gray Scale - Dark */
+        --color-base-gray-10: rgb(22, 22, 22);
+        --color-base-gray-10-rgb: 22, 22, 22;
+        --color-base-gray-20: rgb(28, 28, 28);
+        --color-base-gray-20-rgb: 28, 28, 28;
+        --color-base-gray-30: rgb(35, 35, 35);
+        --color-base-gray-30-rgb: 35, 35, 35;
+        --color-base-gray-40: rgb(40, 40, 40);
+        --color-base-gray-40-rgb: 40, 40, 40;
+        --color-base-gray-50: rgb(46, 46, 46);
+        --color-base-gray-50-rgb: 46, 46, 46;
+        --color-base-gray-60: rgb(52, 52, 52);
+        --color-base-gray-60-rgb: 52, 52, 52;
+        --color-base-gray-70: rgb(62, 62, 62);
+        --color-base-gray-70-rgb: 62, 62, 62;
+        --color-base-gray-80: rgb(80, 80, 80);
+        --color-base-gray-80-rgb: 80, 80, 80;
+        --color-base-gray-85: rgb(94, 94, 94);
+        --color-base-gray-85-rgb: 94, 94, 94;
+        --color-base-gray-90: rgb(112, 112, 112);
+        --color-base-gray-90-rgb: 112, 112, 112;
+        --color-base-gray-100: rgb(126, 126, 126);
+        --color-base-gray-100-rgb: 126, 126, 126;
+        --color-base-gray-110: rgb(173, 173, 173);
+        --color-base-gray-110-rgb: 173, 173, 173;
+        --color-base-gray-120: rgb(237, 237, 237);
+        --color-base-gray-120-rgb: 237, 237, 237;
+
+        /* System Blue - Dark */
+        --color-base-system-blue-80: rgb(0, 91, 184);
+        --color-base-system-blue-80-rgb: 0, 91, 184;
+        --color-base-system-blue-90: rgb(10, 132, 255);
+        --color-base-system-blue-90-rgb: 10, 132, 255;
+        --color-base-system-blue-100: rgb(66, 160, 255);
+        --color-base-system-blue-100-rgb: 66, 160, 255;
+        --color-base-system-blue-110: rgb(92, 173, 255);
+        --color-base-system-blue-110-rgb: 92, 173, 255;
+
+        /* Background Colors - Dark */
+        --color-background-app: var(--color-base-gray-10);
+        --color-background-app-weak: var(--color-base-gray-20);
+        --color-background-elevated: var(--color-base-gray-30);
+        --color-background-elevated-hover: var(--color-base-gray-50);
+        --color-background-grouped: var(--color-base-gray-20);
+        --color-background-grouped-weak: var(--color-base-gray-10);
+        --color-background-object: var(--color-base-gray-30);
+
+        /* Button Backgrounds - Dark */
+        --color-background-button-primary: var(--color-base-system-blue-90);
+        --color-background-button-primary-active: var(
+            --color-base-system-blue-100
+        );
+        --color-background-button-primary-disabled: var(
+            --color-base-system-blue-80
+        );
+        --color-background-button-secondary: var(--color-base-gray-80);
+        --color-background-button-secondary-active: var(--color-base-gray-90);
+        --color-background-button-secondary-disabled: var(--color-base-gray-70);
+        --color-background-button-translucent: rgba(
+            var(--color-base-white-rgb),
+            0.1
+        );
+        --color-background-button-translucent-active: rgba(
+            var(--color-base-white-rgb),
+            0.15
+        );
+        --color-background-button-translucent-disabled: rgba(
+            var(--color-base-white-rgb),
+            0.05
+        );
+
+        /* Sidebar Backgrounds - Dark */
+        --color-background-sidebar: rgba(var(--color-base-gray-40-rgb), 0.6);
+        --color-background-sidebar-opaque: var(--color-base-gray-30);
+        --color-background-sidebar-thread-focus: rgba(
+            var(--color-base-white-rgb),
+            0.1
+        );
+        --color-background-sidebar-thread-selected: var(
+            --color-background-selected-primary
+        );
+        --color-background-sidebar-thread-selected-unfocused: rgba(
+            var(--color-base-white-rgb),
+            0.15
+        );
+
+        /* Message Backgrounds - Dark */
+        --color-background-message-active: var(--color-base-gray-20);
+        --color-background-message-bubble-received: var(--color-base-gray-40);
+        --color-background-message-bubble-sent: var(
+            --color-base-system-blue-90
+        );
+        --color-background-message-bubble-linked: var(--color-base-gray-20);
+
+        /* Selected States - Dark */
+        --color-background-selected-primary: var(--color-base-system-blue-90);
+        --color-background-selected-secondary: rgba(
+            var(--color-base-white-rgb),
+            0.1
+        );
+
+        /* Input Backgrounds - Dark */
+        --color-background-input: var(--color-base-gray-10);
+        --color-background-kbd: rgba(var(--color-base-white-rgb), 0.15);
+
+        /* Header and Menu Backgrounds - Dark */
+        --color-background-header-right: rgba(
+            var(--color-base-gray-30-rgb),
+            0.9
+        );
+        --color-background-header-right-opaque: var(--color-base-gray-30);
+        --color-background-menu: rgba(var(--color-base-gray-30-rgb), 0.9);
+        --color-background-menu-opaque: var(--color-base-gray-30);
+        --color-background-menu-option-hover: var(--color-base-system-blue-80);
+
+        /* Border Colors - Dark */
+        --color-border-neutrals: var(--color-base-gray-60);
+        --color-border-neutrals-strong: var(--color-base-gray-70);
+        --color-border-neutrals-weak: var(--color-base-gray-40);
+        --color-border-input: var(--color-base-gray-60);
+        --color-border-input-active: var(--color-base-gray-80);
+        --color-border-translucent: rgba(var(--color-base-white-rgb), 0.1);
+        --color-border-translucent-strong: rgba(
+            var(--color-base-white-rgb),
+            0.15
+        );
+        --color-border-translucent-strongest: rgba(
+            var(--color-base-white-rgb),
+            0.5
+        );
+        --color-border-translucent-weak: rgba(
+            var(--color-base-white-rgb),
+            0.05
+        );
+
+        /* Text Colors - Dark */
+        --color-text-neutrals: var(--color-base-gray-120);
+        --color-text-neutrals-subtle: var(--color-base-gray-100);
+        --color-text-neutrals-weak: var(--color-base-gray-110);
+        --color-text-on-accent: var(--color-base-white);
+        --color-text-on-accent-weak: rgba(var(--color-base-white-rgb), 0.7);
+        --color-text-translucent: rgba(var(--color-base-white-rgb), 0.9);
+        --color-text-translucent-subtle: rgba(var(--color-base-white-rgb), 0.5);
+        --color-text-translucent-weak: rgba(var(--color-base-white-rgb), 0.7);
+
+        /* Icon Colors - Dark */
+        --color-icon-neutrals: var(--color-base-gray-110);
+        --color-icon-neutrals-strong: var(--color-base-gray-120);
+        --color-icon-neutrals-subtle: var(--color-base-gray-80);
+        --color-icon-neutrals-weak: var(--color-base-gray-100);
+        --color-icon-on-accent: rgba(var(--color-base-white-rgb), 0.75);
+        --color-icon-on-accent-strong: rgba(var(--color-base-white-rgb), 0.9);
+        --color-icon-on-accent-weak: rgba(var(--color-base-white-rgb), 0.4);
+        --color-icon-translucent: rgba(var(--color-base-white-rgb), 0.6);
+        --color-icon-translucent-strong: rgba(var(--color-base-white-rgb), 0.9);
+        --color-icon-translucent-subtle: rgba(var(--color-base-white-rgb), 0.3);
+        --color-icon-translucent-weak: rgba(var(--color-base-white-rgb), 0.4);
+
+        /* Scrollbar - Dark */
+        --color-background-scrollbar: rgba(var(--color-base-white-rgb), 0.3);
+        --color-background-scrollbar-hover: rgba(
+            var(--color-base-white-rgb),
+            0.5
+        );
+
+        /* Misc - Dark */
+        --color-background-tag: rgba(var(--color-base-white-rgb), 0.1);
+        --color-overlay-modal: rgba(var(--color-base-black-rgb), 0.4);
+        --color-transparent: rgba(var(--color-base-black-rgb), 0);
+
+        /* Audio Bar - Dark */
+        --compose-message-accent: #d8d8d8;
+        --audio-bar-button: #d8d8d8;
+        --audio-bar-preview-progress: #ffffff;
+        --audio-bar-bg: #303236;
+        --audio-bar-border: #606366;
+
+        /* Keyboard Keys - Dark */
+        --key-border: linear-gradient(to bottom, #363636, #303130);
+        --key-bg: linear-gradient(to bottom, #373737, #1b1b1b);
+        --color-key-bottom-bg: #2e2e2e;
+
+        /* Preferences - Dark */
+        --prefs-well: rgb(9, 9, 9);
+    }
+}
+
+/* ===== SECTION 3: TRANSPARENCY OVERRIDES ===== */
+.no-transparency,
+.reduce-transparency {
+    --left-pane-bg: var(--color-background-sidebar-opaque);
+    --color-background-header-right: var(
+        --color-background-header-right-opaque
+    );
+    --color-background-menu: var(--color-background-menu-opaque);
+}
+
+/* ===== SECTION 4: LAYOUT AND STRUCTURAL FIXES ===== */
+
+/* Left Pane Styling */
+
+.account-switcher {
+    padding-top: 50px;
+    margin-top: 5.25rem;
+    height: calc(100% - 5.25rem);
+}
+
+.left,
+.account-switcher {
+    background: var(--left-pane-bg);
+    border-right: 1px solid var(--color-border-translucent);
+}
+
+.account-switcher > .account-container {
+    margin-top: -22px;
+}
+
+.left-pane-footer {
+    position: relative;
+}
+
+.left-pane-footer::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: calc(-1 * var(--margin-300));
+    right: calc(-1 * var(--margin-300));
+    border-top: 1px solid var(--color-border-translucent);
+}
+
+.account-switcher .left-pane-footer .left-pane-footer-buttons button {
+    color: var(--color-icon-translucent-weak);
+}
+
+.tab-bar,
+.tab-bar-btn button svg {
+    color: var(--color-icon-translucent-weak);
+}
+
+.AccountFilters-module__button {
+    padding: 2.5px 6px;
+    font: var(--font-label-medium-regular);
+    color: var(--color-text-translucent-subtle);
+}
+
+.AccountFilters-module__button.AccountFilters-module__selected {
+    font: var(--font-label-medium-regular);
+    color: var(--color-text-translucent);
+    background: none;
+}
+
+.sidebar-button.sidebar-button--fixed button,
+.filters-pane-list .sidebar-button {
+    border-radius: var(--border-radius-6);
+}
+
+.filters-pane-list .sidebar-button {
+    padding: 4px;
+}
+
+/* Right Pane Styling */
+.right-wrapper {
+    --frame-gap: 0;
+    --frame-gap-double: 0;
+}
+
+.right-pane-header.right-pane-header-thread {
+    border-radius: 0;
+    background: var(--color-background-header-right-opaque);
+    box-shadow: none;
+}
+
+.right-wrapper .right.right-thread .right-pane-header,
+.right-wrapper .right.right-prefs .right-pane-header {
+    border-bottom: 1px solid var(--color-border-neutrals-weak);
+}
+
+body:not(.sub-window) .thread-header {
+    justify-content: space-between;
+    padding: 0 var(--margin-400) !important;
+}
+
+.thread-header .participant-imgs,
+.thread-header-left .participant-imgs .participant-img,
+.thread-header-left .participant-imgs .participant-img.multiple,
+.thread-header .GroupAvatar-module__wrapper {
+    width: 32px !important;
+    height: 32px !important;
+}
+
+.thread-header .thread-title-top {
+    font-size: 13px;
+}
+
+.feedback-widget .feedback-btn {
+    font: var(--font-label-xsmall-regular);
+    text-transform: uppercase;
+    color: var(--color-text-neutrals-weak);
+    border-color: rgba(var(--color-fg-rgb), 0.1);
+    background: var(--color-bg);
+}
+
+.feedback-emoji-picker button,
+.feedback-emoji-picker .feedback-emoji-unselected {
+    border-color: rgba(var(--color-fg-rgb), 0.1);
+}
+
+.subheader-content,
+.conversation {
+    border-radius: 0;
+}
+
+/* Thread List Styling */
+.threads-list-container {
+    border-top: 1px solid var(--color-border-translucent);
+}
+
+.threads-list-container::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 5.25rem;
+    width: 100%;
+    height: var(--divider-height);
+    border-top: 1px solid var(--color-border-translucent);
+}
+
+body:not(.sub-window) .virtual-list {
+    margin-top: 2.125rem;
+}
+
+body:not(.sub-window) .virtual-list:has(.AccountFilters) {
+    margin-top: 0;
+}
+
+/* Message Bubble Styling */
+.bubble-mode .message-contents {
+    background: var(--color-background-message-bubble-received);
+    border-radius: 16px 16px 16px 8px;
+}
+
+.bubble-mode .is-sender .message-contents {
+    background: var(--color-background-message-bubble-sent);
+    border-radius: 16px 16px 8px 16px;
+}
+
+.bubble-mode
+    .is-sender:not(.type-action):not(.is-deleted)
+    .message-text-container {
+    color: var(--color-text-on-accent);
+}
+
+.conversation .participant-img {
+    width: var(--cv-avatar-size);
+    height: var(--cv-avatar-size);
+}
+
+/* Reactions */
+.message-reactions.bubble > .message-reaction-container {
+    background: var(--color-secondary-container);
+    border: 1px solid var(--color-border-neutrals);
+}
+
+.message-reactions.bubble
+    > .message-reaction-container.MessageReactions-module__isOwnReaction {
+        border-color: var(--color-background-message-bubble-sent);
+}
+
+.MessageReactions-module__isOwnReaction::before {
+    display: none;
+}
+
+/* Sidebar Thread */
+.sidebar-thread section::after {
+    display: none;
+}
+
+.sidebar-thread.selected .thread-children {
+    background: var(--color-background-sidebar-thread-selected-unfocused);
+}
+
+body:not(.window-unfocused) .sidebar-thread.selected .thread-children {
+    background: var(--color-primary);
+    color: var(--color-text-on-accent);
+}
+
+.sidebar-thread.has-cursor .thread-children {
+    background: var(--color-background-sidebar-thread-focus);
+}
+
+.ThreadListItem-module__wrapper.ThreadListItem-module__isSelected::before {
+    background: var(--color-background-selected-primary);
+    border-radius: var(--border-radius-6);
+}
+
+body.window-unfocused
+    .ThreadListItem-module__wrapper.ThreadListItem-module__isSelected::before {
+    background: var(--color-background-sidebar-thread-selected-unfocused);
+}
+
+body.compact-chat-list .ThreadListItem-module__unreadCount {
+    line-height: 0.5rem;
+    visibility: hidden;
+    position: relative;
+}
+
+body.compact-chat-list .ThreadListItem-module__unreadCount::after {
+    content: "";
+    visibility: visible;
+    position: absolute;
+    height: 0.5rem;
+    width: 0.5rem;
+    border-radius: 100%;
+    background: var(--color-background-selected-primary);
+}
+
+body:not(.window-unfocused)
+    .ThreadListItem-module__wrapper.ThreadListItem-module__isSelected
+    .ThreadListItem-module__unreadCount::after {
+    background: var(--color-base-white);
+}
+
+.ThreadListItem-module__title,
+.ThreadListItem-module__show-unreads:not(.ThreadListItem-module__isUnread)
+    .ThreadListItem-module__title {
+    font-weight: 600;
+}
+
+.ThreadListItem-module__title,
+.ThreadListItem-module__preview {
+    mask-image: linear-gradient(90deg, #020024, #000 80%, transparent);
+    text-overflow: clip;
+    -webkit-line-clamp: none;
+    flex-grow: 1;
+}
+
+.ThreadListItem-module__body {
+    font-size: 12px;
+    color: var(--color-base-white);
+}
+
+.ThreadListItem-module__wrapper:hover
+    .ThreadListItem-module__hoverActions
+    + .ThreadListItem-module__proIndicators {
+    opacity: 1;
+    transform: scale(1);
+    visibility: visible;
+}
+
+.ThreadListItem-module__hoverActions {
+    display: none;
+}
+
+/* Message Container Hover and Selection */
+.message-container:hover {
+    border-left-color: rgba(var(--color-primary-rgb), 0.5);
+}
+
+.message-container.is-selected {
+    background: var(--color-background-message-active);
+    border-right-color: var(--color-primary);
+}
+
+.MessageSender-module__senderName {
+    font: var(--font-label-medium-regular);
+}
+
+/* Date indicators */
+.sticky-date-placeholder {
+    height: 70px;
+}
+
+.sticky-date-slider {
+    margin-top: 32px;
+}
+
+.date div {
+    background: var(--color-background-elevated);
+    border: 1px solid var(--color-border-neutrals-weak);
+    border-radius: 100px;
+    color: var(--color-text-neutrals-weak);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 3px 8px;
+    white-space: nowrap;
+}
+
+/* Scroll to bottom */
+.ScrollToBottom-module__scrollToBottom {
+    background: var(--color-background-elevated);
+    border: 1px solid var(--color-border-neutrals);
+    border-radius: 50%;
+    bottom: 0;
+    color: var(--color-icon-neutrals-strong);
+    filter: none;
+    box-shadow: none;
+    height: 28px;
+    margin: var(--margin-100);
+    opacity: 0;
+    padding: 5px;
+    pointer-events: none;
+    position: absolute;
+    right: 10px;
+    transition: opacity 0.15s ease-out;
+    width: 28px;
+}
+
+.ScrollToBottom-module__scrollToBottom.ScrollToBottom-module__newMessagesContainer
+    span {
+    display: none;
+}
+
+.ScrollToBottom-module__scrollToBottom.ScrollToBottom-module__circle {
+    width: 28px;
+    height: 28px;
+}
+
+.ScrollToBottom-module__scrollToBottom.ScrollToBottom-module__circle svg {
+    width: 28px;
+    height: 28px;
+}
+
+.ScrollToBottom-module__container > svg > path {
+    visibility: hidden;
+}
+
+.ScrollToBottom-module__container:has(
+        .ScrollToBottom-module__scrollButtonVisible
+    )::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border: 1.5px solid var(--color-icon-neutrals-strong);
+    border-width: 0 0 1.5px 1.5px;
+    opacity: 0.8;
+    bottom: 12px;
+    right: 20px;
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.ScrollToBottom-module__scrollToBottom.ScrollToBottom-module__scrollButtonVisible {
+    transition-delay: 50ms;
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* ===== SECTION 5: CSS MODULES BRIDGE SELECTORS ===== */
+
+/* Compose Message Text Area */
+[class*="ComposeMessage-module__textArea"] {
+    caret-color: var(--color-primary);
+}
+
+.ComposeMessage-module__input {
+    background: transparent;
+    border: 1px solid var(--color-border-input);
+    border-radius: 16px 16px 8px 16px;
+    color: var(--color-text-neutrals);
+}
+
+.ComposeMessage-module__input:has(.ProseMirror-focused) {
+    border-color: var(--color-border-input-active);
+}
+
+.ComposeMessage-module__textArea {
+    padding: 5px 0;
+    caret-color: var(--color-text-translucent) !important;
+    --caret-color: var(--color-text-translucent) !important;
+}
+
+.ComposeMessage-module__textAreaButtons {
+    height: 20px;
+    bottom: 13px;
+    padding-right: var(--margin-300);
+}
+
+.ComposeMessage-module__textAreaButtons svg,
+.BrandHiddenControls-module__toggle svg {
+    width: 18px;
+    height: 18px;
+}
+
+.ComposeMessage-module__textAreaButtons .btn-icon {
+    padding: 2px;
+}
+
+.BrandSendButton-module__container,
+.BrandHiddenControls-module__toggle {
+    padding: 5px;
+}
+
+.BrandHiddenControls-module__toggle {
+    background: none;
+}
+
+.BrandHiddenControls-module__control:first-child {
+    margin: 0;
+}
+
+.BrandSendButton-module__container:disabled {
+    background: var(--color-background-button-primary-disabled);
+}
+
+.BrandSendButton-module__container svg {
+    width: 18px;
+    height: 18px;
+}
+
+.ComposeMessage-module__rightButtons {
+    margin: 0 5px 1px;
+}
+
+.BrandSendButton-module__container:disabled svg {
+    color: var(--color-text-translucent-weak);
+}
+
+/* Brand Tooltip Containers */
+[class*="BrandTooltip-module__container"] {
+    /* Inherits styling from CSS variables */
+}
+
+/* Account Badge */
+[class*="AccountBadge-module__dot"] {
+    background: var(--color-primary);
+}
+
+/* ===== SECTION 6: SCROLLBAR STYLING (OPTIONAL) ===== */
+.custom-scrollbars ::-webkit-scrollbar {
+    width: 12px;
+}
+
+.custom-scrollbars ::-webkit-scrollbar-thumb {
+    border: 3px solid transparent;
+    background-clip: padding-box;
+    border-radius: 20px;
+    background-color: var(--color-background-scrollbar);
+    transition: background 0.5s ease;
+    min-height: 40px;
+}
+
+.custom-scrollbars ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-background-scrollbar-hover);
+}
+
+.custom-scrollbars ::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+.custom-scrollbars ::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
+
+/* ===== SECTION 7: ADDITIONAL TEXTS THEME ENHANCEMENTS ===== */
+
+/* Typography */
+body {
+    font: 13px/1.4 var(--font-family);
+    color: var(--color-text-neutrals);
+}
+
+/* Button Styling */
+.styled-inputs button {
+    border-radius: 8px;
+    background: rgba(var(--color-gray-rgb), 0.25);
+    color: var(--color-text-neutrals);
+}
+
+.styled-inputs button.primary {
+    background: var(--color-primary);
+    color: white;
+}
+
+/* Input Styling */
+.styled-inputs input,
+.styled-inputs textarea {
+    border: 1px solid var(--color-border-input);
+    border-radius: 8px;
+    background: var(--color-background-input);
+}
+
+.styled-inputs input:focus,
+.styled-inputs textarea:focus {
+    border-color: var(--color-border-input-active);
+}
+
+/* Keyboard Key Styling */
+kbd {
+    background: var(--color-background-kbd);
+    border-radius: 4px;
+}
+
+/* Spoiler Styling */
+.spoiler {
+    background: black;
+    color: black;
+    padding: 1px 2px;
+    border-radius: 2px;
+    transition: 0.3s background ease;
+}
+
+.spoiler.clicked {
+    background: rgba(black, 0.3);
+    color: white;
+}
+
+/* Thread Label Styling */
+.thread-label {
+    background-color: var(--color-background-tag);
+    border-radius: 20px;
+    padding: 2px 5px;
+}
+
+/* ===== END OF BEEPER TEXTS THEME ===== */
