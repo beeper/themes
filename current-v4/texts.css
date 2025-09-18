@@ -750,9 +750,26 @@ body:not(.sub-window) .virtual-list:has(.AccountFilters) {
 }
 
 /* Reactions */
+.message-main footer {
+    margin-left: 0;
+}
+
+.bubble-mode .is-sender footer {
+    margin-right: 0;
+}
+
+.message-reactions.bubble {
+    margin-top: var(--margin-50);
+    margin-bottom: 0;
+}
+
 .message-reactions.bubble > .message-reaction-container {
     background: var(--color-secondary-container);
     border: 1px solid var(--color-border-neutrals);
+}
+
+.MessageReactions-module__isOwnReaction::before {
+    display: none;
 }
 
 .message-reactions.bubble
@@ -760,8 +777,28 @@ body:not(.sub-window) .virtual-list:has(.AccountFilters) {
         border-color: var(--color-background-message-bubble-sent);
 }
 
-.MessageReactions-module__isOwnReaction::before {
+.message-reaction {
+    line-height: 1;
+    font-size: 14px;
+    padding: 0 var(--margin-100);
+}
+
+.message-reaction-avatars {
     display: none;
+}
+
+.message-interactions {
+    margin-left: var(--margin-100);
+}
+
+.message-show-replies-button {
+    font: var(--font-label-small-regular);
+    color: var(--color-text-neutrals-subtle);
+    transition: 0.15s color ease;
+}
+
+.message-show-replies-button:hover {
+    color: var(--color-text-neutrals)
 }
 
 /* Sidebar Thread */
