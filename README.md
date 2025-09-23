@@ -23,4 +23,4 @@ Beeper Desktop is fully customizable. You can use custom CSS to give Beeper Desk
 ### How to submit a new theme
 
 Submit a Pull Request to this repository with the CSS file, a screenshot of your theme, and short description.
-View [variables.scss](https://github.com/beeper/themes/tree/main/variables.scss) for all default values.
+View [variables.scss](https://github.com/beeper/themes/blob/main/deprecated-v3/variables.scss) for all default values.
