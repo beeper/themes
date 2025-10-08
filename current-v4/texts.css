@@ -686,6 +686,10 @@ body:not(.sub-window) .thread-header {
     font-size: 13px;
 }
 
+.thread-header-lhs {
+    display: none;
+}
+
 .feedback-widget .feedback-btn {
     font: var(--font-label-xsmall-regular);
     text-transform: uppercase;
@@ -702,6 +706,10 @@ body:not(.sub-window) .thread-header {
 .subheader-content,
 .conversation {
     border-radius: 0;
+}
+
+.messages-list-scrolling-container {
+    padding: 0 var(--margin-300);
 }
 
 /* Thread List Styling */
@@ -745,11 +753,15 @@ body:not(.sub-window) .virtual-list:has(.AccountFilters) {
 }
 
 .conversation .participant-img {
-    width: var(--cv-avatar-size);
-    height: var(--cv-avatar-size);
+    width: var(--cv-avatar-size) !important;
+    height: var(--cv-avatar-size) !important;
 }
 
 /* Reactions */
+.BrandMessageFlyover-module__flyover li span {
+    font-size: 14px;
+}
+
 .message-main footer {
     margin-left: 0;
 }
@@ -833,6 +845,8 @@ body.compact-chat-list .ThreadListItem-module__unreadCount {
     line-height: 0.5rem;
     visibility: hidden;
     position: relative;
+    align-items: flex-start;
+    justify-content: flex-end;
 }
 
 body.compact-chat-list .ThreadListItem-module__unreadCount::after {
@@ -882,7 +896,7 @@ body:not(.window-unfocused)
     display: none;
 }
 
-/* Message Container Hover and Selection */
+/* Message Container */
 .message-container:hover {
     border-left-color: rgba(var(--color-primary-rgb), 0.5);
 }
@@ -1144,5 +1158,3 @@ kbd {
     border-radius: 20px;
     padding: 2px 5px;
 }
-
-/* ===== END OF BEEPER TEXTS THEME ===== */
