@@ -1,0 +1,50 @@
+/*
+ * Beeper Dark Purple Theme - Custom CSS
+ * Color scheme based on JetBrains Dark Purple Theme by OlyaB
+*/
+
+:root, html {
+  /* Use system font - line can be commented out/removed if you want to stick with Inter */
+  --font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif !important;
+}
+
+/* Only supports dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --theme-purple: #713a91;
+    --theme-frame: #1d1d26;
+    --theme-bg: #2c2c3b;
+    --theme-text: #d0d0d9;
+  	--color-primary: var(--theme-purple);
+  	--color-surface: var(--theme-bg);
+  	--color-background-sidebar-opaque: var(--theme-frame);
+  	--color-background-grouped-weak: var(--theme-frame);
+  	--color-background-grouped: var(--theme-frame);
+  	--color-border-neutrals-weak: var(--theme-bg);
+  	--color-text-neutrals: var(--theme-text);
+  	--color-background-preferences-option-selected: var(--theme-purple);
+  	--color-background-commandbar-opaque: var(--theme-frame);
+  	--color-background-commandbar-command-highlighted: var(--theme-purple);
+  	--color-secondary-container: var(--theme-bg);
+  	--color-tertiary-container: var(--theme-frame);
+  	--color-background-selected: var(--theme-purple);
+  	--color-background-button-primary: var(--theme-purple);
+  	--color-background-button-primary-active: var(--theme-purple);
+  }
+
+  .command.command.highlighted .command-children {
+  	background: var(--theme-purple) !important;
+  }
+
+  .panes, .compose-message-container > * {
+  	background: #2c2c3b55;
+  }
+
+  .linked-message {
+  	color: inherit !important;
+  }
+
+  .sidebar-thread.isSelected > section:before {
+  	background: var(--theme-bg);
+  }
+}
