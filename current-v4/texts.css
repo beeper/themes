@@ -653,7 +653,7 @@ body {
 }
 
 /* Right Pane Styling */
-.right-wrapper {
+.main-window .right-wrapper {
     --frame-gap: 0;
     --frame-gap-double: 0;
 }
