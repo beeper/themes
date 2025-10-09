@@ -23,3 +23,9 @@ Beeper Desktop is fully customizable. You can use custom CSS to give Beeper Desk
 ### How to submit a new theme
 
 Submit a Pull Request to this repository with the CSS file, a screenshot of your theme, and short description.
+
+View [variables.css](https://github.com/beeper/themes/tree/main/current-v4/variables.css) for default values excerpted from the [Beeper Texts Theme.](https://github.com/beeper/themes/tree/main/current-v4/texts.css)
+
+### Try the Beeper Texts Theme
+
+The [Beeper Texts Theme](https://github.com/beeper/themes/tree/main/current-v4/texts.css) is a custom CSS theme for Beeper Desktop v4 that transposes the best parts of the legacy [Texts.app](https://texts.com/) theme to work with Beeper.
