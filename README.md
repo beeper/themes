@@ -26,6 +26,25 @@ Submit a Pull Request to this repository with the CSS file, a screenshot of your
 
 View [variables.css](https://github.com/beeper/themes/tree/main/current-v4/variables.css) for default values excerpted from the [Beeper Texts Theme.](https://github.com/beeper/themes/tree/main/current-v4/texts.css)
 
+---
+
 ### Try the Beeper Texts Theme
 
 The [Beeper Texts Theme](https://github.com/beeper/themes/tree/main/current-v4/texts.css) is a custom CSS theme for Beeper Desktop v4 that transposes the best parts of the legacy [Texts.app](https://texts.com/) theme to work with Beeper.
+
+#### Recommended Appearance Settings
+
+Use the settings recommended below in Beeper Desktop → Settings → Appearance for the best look:
+
+<img width="480" height="413" alt="Chat List" src="https://github.com/user-attachments/assets/ce6a72a8-3ba0-4efc-a941-9fdb887e488c" />
+<img width="480" height="352" alt="Conversation View" src="https://github.com/user-attachments/assets/be90055b-2f8c-4016-8404-255361c57fad" />
+
+#### Theme Previews
+
+**Light Mode**
+
+<img width="1280" height="835" alt="Screenshot 2025-10-08 at 17 33 56" src="https://github.com/user-attachments/assets/00b8e528-a019-4149-8140-29f68f86788c" />
+
+**Dark Mode**
+
+<img width="1280" height="835" alt="Screenshot 2025-10-08 at 17 33 47" src="https://github.com/user-attachments/assets/d7874dc8-4ab4-4a40-90d0-11c110ff5cc6" />
