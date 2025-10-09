@@ -3,7 +3,7 @@
  * Based on desktop-css/default/ SCSS files
  */
 
-/* ===== SECTION 1: ROOT VARIABLES (LIGHT MODE) ===== */
+/* === ROOT VARIABLES (LIGHT MODE) === */
 :root {
     /* Font and Layout Variables */
     --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -228,7 +228,7 @@
     --skeleton-bg: url("../../../public/img/skeleton.svg");
 }
 
-/* ===== USER STYLES ===== */
+/* === USER STYLES === */
 
 body {
     -webkit-font-smoothing: auto;
@@ -379,7 +379,7 @@ body {
     --message-padding-vertical: 5px;
 }
 
-/* ===== SECTION 2: DARK MODE OVERRIDES ===== */
+/* === DARK MODE OVERRIDES === */
 @media (prefers-color-scheme: dark) {
     :root {
         /* Base Colors - Dark */
@@ -578,7 +578,7 @@ body {
     }
 }
 
-/* ===== SECTION 3: TRANSPARENCY OVERRIDES ===== */
+/* === TRANSPARENCY OVERRIDES === */
 .no-transparency,
 .reduce-transparency {
     --left-pane-bg: var(--color-background-sidebar-opaque);
@@ -588,10 +588,9 @@ body {
     --color-background-menu: var(--color-background-menu-opaque);
 }
 
-/* ===== SECTION 4: LAYOUT AND STRUCTURAL FIXES ===== */
+/* === LAYOUT AND STRUCTURE === */
 
 /* Left Pane Styling */
-
 .account-switcher {
     padding-top: 50px;
     margin-top: 5.25rem;
@@ -650,6 +649,127 @@ body {
 
 .filters-pane-list .sidebar-button {
     padding: 4px;
+}
+
+/* Thread List Styling */
+.threads-list-container {
+    border-top: 1px solid var(--color-border-translucent);
+}
+
+.threads-list-container::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 5.25rem;
+    width: 100%;
+    height: var(--divider-height);
+    border-top: 1px solid var(--color-border-translucent);
+}
+
+body:not(.sub-window) .virtual-list {
+    margin-top: 2.125rem;
+}
+
+body:not(.sub-window) .virtual-list:has(.AccountFilters) {
+    margin-top: 0;
+}
+
+/* Sidebar Thread */
+.sidebar-thread section::after {
+    display: none;
+}
+
+.sidebar-thread.selected .thread-children {
+    background: var(--color-background-sidebar-thread-selected-unfocused);
+}
+
+body:not(.window-unfocused) .sidebar-thread.selected .thread-children {
+    background: var(--color-primary);
+    color: var(--color-text-on-accent);
+}
+
+body:not(.window-unfocused)
+    .ThreadListItem-module__wrapper.ThreadListItem-module__isSelected
+    .ThreadListItem-module__internal,
+body:not(.window-unfocused)
+    .ThreadListItem-module__wrapper.ThreadListItem-module__isSelected
+    .ThreadListItem-module__body,
+body:not(.window-unfocused)
+    .ThreadListItem-module__wrapper.ThreadListItem-module__isSelected
+    .ThreadListItem-module__timestamp,
+body:not(.window-unfocused)
+    .ThreadListItem-module__wrapper.ThreadListItem-module__isSelected
+    .ThreadListReadIcon-module__threadReadIcon {
+    color: var(--color-text-on-accent);
+}
+
+.sidebar-thread.has-cursor .thread-children {
+    background: var(--color-background-sidebar-thread-focus);
+}
+
+.ThreadListItem-module__wrapper.ThreadListItem-module__isSelected::before {
+    background: var(--color-background-selected-primary);
+    border-radius: var(--border-radius-6);
+}
+
+body.window-unfocused
+    .ThreadListItem-module__wrapper.ThreadListItem-module__isSelected::before {
+    background: var(--color-background-sidebar-thread-selected-unfocused);
+}
+
+body.compact-chat-list .ThreadListItem-module__unreadCount {
+    line-height: 0.5rem;
+    visibility: hidden;
+    position: relative;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+
+body.compact-chat-list .ThreadListItem-module__unreadCount::after {
+    content: "";
+    visibility: visible;
+    position: absolute;
+    height: 0.5rem;
+    width: 0.5rem;
+    border-radius: 100%;
+    background: var(--color-background-selected-primary);
+}
+
+body:not(.window-unfocused)
+    .ThreadListItem-module__wrapper.ThreadListItem-module__isSelected
+    .ThreadListItem-module__unreadCount::after {
+    background: var(--color-base-white);
+}
+
+.ThreadListItem-module__title,
+.ThreadListItem-module__show-unreads:not(.ThreadListItem-module__isUnread)
+    .ThreadListItem-module__title {
+    font-weight: 600;
+}
+
+.ThreadListItem-module__title,
+.ThreadListItem-module__preview {
+    mask-image: linear-gradient(90deg, #020024, #000 80%, transparent);
+    text-overflow: clip;
+    -webkit-line-clamp: none;
+    flex-grow: 1;
+}
+
+.ThreadListItem-module__body {
+    font-size: 12px;
+    color: var(--color-text-neutrals);
+}
+
+.ThreadListItem-module__wrapper:hover
+    .ThreadListItem-module__hoverActions
+    + .ThreadListItem-module__proIndicators {
+    opacity: 1;
+    transform: scale(1);
+    visibility: visible;
+}
+
+.ThreadListItem-module__hoverActions {
+    display: none;
 }
 
 /* Right Pane Styling */
@@ -712,29 +832,6 @@ body:not(.sub-window) .thread-header {
     padding: 0 var(--margin-300);
 }
 
-/* Thread List Styling */
-.threads-list-container {
-    border-top: 1px solid var(--color-border-translucent);
-}
-
-.threads-list-container::before {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 5.25rem;
-    width: 100%;
-    height: var(--divider-height);
-    border-top: 1px solid var(--color-border-translucent);
-}
-
-body:not(.sub-window) .virtual-list {
-    margin-top: 2.125rem;
-}
-
-body:not(.sub-window) .virtual-list:has(.AccountFilters) {
-    margin-top: 0;
-}
-
 /* Message Bubble Styling */
 .bubble-mode .message-contents {
     background: var(--color-background-message-bubble-received);
@@ -786,7 +883,7 @@ body:not(.sub-window) .virtual-list:has(.AccountFilters) {
 
 .message-reactions.bubble
     > .message-reaction-container.MessageReactions-module__isOwnReaction {
-        border-color: var(--color-background-message-bubble-sent);
+    border-color: var(--color-background-message-bubble-sent);
 }
 
 .message-reaction {
@@ -810,90 +907,7 @@ body:not(.sub-window) .virtual-list:has(.AccountFilters) {
 }
 
 .message-show-replies-button:hover {
-    color: var(--color-text-neutrals)
-}
-
-/* Sidebar Thread */
-.sidebar-thread section::after {
-    display: none;
-}
-
-.sidebar-thread.selected .thread-children {
-    background: var(--color-background-sidebar-thread-selected-unfocused);
-}
-
-body:not(.window-unfocused) .sidebar-thread.selected .thread-children {
-    background: var(--color-primary);
-    color: var(--color-text-on-accent);
-}
-
-.sidebar-thread.has-cursor .thread-children {
-    background: var(--color-background-sidebar-thread-focus);
-}
-
-.ThreadListItem-module__wrapper.ThreadListItem-module__isSelected::before {
-    background: var(--color-background-selected-primary);
-    border-radius: var(--border-radius-6);
-}
-
-body.window-unfocused
-    .ThreadListItem-module__wrapper.ThreadListItem-module__isSelected::before {
-    background: var(--color-background-sidebar-thread-selected-unfocused);
-}
-
-body.compact-chat-list .ThreadListItem-module__unreadCount {
-    line-height: 0.5rem;
-    visibility: hidden;
-    position: relative;
-    align-items: flex-start;
-    justify-content: flex-end;
-}
-
-body.compact-chat-list .ThreadListItem-module__unreadCount::after {
-    content: "";
-    visibility: visible;
-    position: absolute;
-    height: 0.5rem;
-    width: 0.5rem;
-    border-radius: 100%;
-    background: var(--color-background-selected-primary);
-}
-
-body:not(.window-unfocused)
-    .ThreadListItem-module__wrapper.ThreadListItem-module__isSelected
-    .ThreadListItem-module__unreadCount::after {
-    background: var(--color-base-white);
-}
-
-.ThreadListItem-module__title,
-.ThreadListItem-module__show-unreads:not(.ThreadListItem-module__isUnread)
-    .ThreadListItem-module__title {
-    font-weight: 600;
-}
-
-.ThreadListItem-module__title,
-.ThreadListItem-module__preview {
-    mask-image: linear-gradient(90deg, #020024, #000 80%, transparent);
-    text-overflow: clip;
-    -webkit-line-clamp: none;
-    flex-grow: 1;
-}
-
-.ThreadListItem-module__body {
-    font-size: 12px;
-    color: var(--color-base-white);
-}
-
-.ThreadListItem-module__wrapper:hover
-    .ThreadListItem-module__hoverActions
-    + .ThreadListItem-module__proIndicators {
-    opacity: 1;
-    transform: scale(1);
-    visibility: visible;
-}
-
-.ThreadListItem-module__hoverActions {
-    display: none;
+    color: var(--color-text-neutrals);
 }
 
 /* Message Container */
@@ -991,8 +1005,6 @@ body:not(.window-unfocused)
     pointer-events: all;
 }
 
-/* ===== SECTION 5: CSS MODULES BRIDGE SELECTORS ===== */
-
 /* Compose Message Text Area */
 [class*="ComposeMessage-module__textArea"] {
     caret-color: var(--color-primary);
@@ -1058,7 +1070,7 @@ body:not(.window-unfocused)
 }
 
 .BrandSendButton-module__container:disabled svg {
-    color: var(--color-text-translucent-weak);
+    color: var(--color-icon-on-accent);
 }
 
 /* Brand Tooltip Containers */
@@ -1071,7 +1083,7 @@ body:not(.window-unfocused)
     background: var(--color-primary);
 }
 
-/* ===== SECTION 6: SCROLLBAR STYLING (OPTIONAL) ===== */
+/* === SCROLLBAR STYLING === */
 .custom-scrollbars ::-webkit-scrollbar {
     width: 12px;
 }
@@ -1099,7 +1111,7 @@ body:not(.window-unfocused)
     background-color: transparent;
 }
 
-/* ===== SECTION 7: ADDITIONAL TEXTS THEME ENHANCEMENTS ===== */
+/* === ADDITIONAL TEXTS THEME ADJUSTMENTS === */
 
 /* Typography */
 body {
