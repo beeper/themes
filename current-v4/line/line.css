@@ -30,3 +30,15 @@
     + svg {
     display: none !important;
 }
+
+.network-status
+    .BrandNetworkIcon-module__brandBackground[style*="rgb(84, 155, 87)"] {
+    background: var(--line-icon) center center / cover no-repeat !important;
+    border-radius: 4px;
+}
+
+.network-status
+    .BrandNetworkIcon-module__brandBackground[style*="rgb(84, 155, 87)"]
+    + svg {
+    display: none !important;
+}
