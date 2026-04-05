@@ -19,15 +19,14 @@
     display: none !important;
 }
 
-.sidebar-button
-    .BrandNetworkIcon-module__brandBackground[style*="rgb(84, 155, 87)"] {
+[data-id="your-line-bridge-name"] .BrandNetworkIcon-module__brandBackground {
     background: var(--line-icon) center center / cover no-repeat !important;
     border-radius: 4px;
 }
 
-.sidebar-button
-    .BrandNetworkIcon-module__brandBackground[style*="rgb(84, 155, 87)"]
-    + svg {
+[data-id="your-line-bridge-name"]
+    .BrandNetworkIcon-module__brandNetworkIcon
+    > svg {
     display: none !important;
 }
 
