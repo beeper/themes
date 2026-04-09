@@ -630,6 +630,77 @@ body {
     color: var(--color-icon-translucent-weak);
 }
 
+.left-pane-header {
+    min-height: 64px !important;
+}
+
+.left-pane-header .tab-bar {
+    display: grid !important;
+    grid-template-columns: 1fr auto auto auto;
+    grid-template-rows: 20px 16px;
+    column-gap: 12px;
+    row-gap: 0;
+    margin-left: 0 !important;
+    padding-top: 4px !important;
+    align-items: start !important;
+    overflow: visible !important;
+}
+
+.left-pane-header .tab-bar > .tab-bar-btn {
+    grid-row: 1;
+    align-self: start;
+}
+
+.left-pane-header .tab-bar .tab-bar-btn button {
+    position: relative !important;
+    top: 0 !important;
+    align-self: start !important;
+}
+
+.left-pane-header .tab-bar button[class*="currentAccount"] {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    position: relative !important;
+    top: 0 !important;
+    justify-self: start !important;
+    align-self: start !important;
+    width: fit-content !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    flex: none !important;
+    margin-left: 18px !important;
+    height: 100% !important;
+    overflow: visible !important;
+}
+
+.left-pane-header .tab-bar button[class*="currentAccount"] [class*="sidebarHeader"] {
+    justify-content: flex-start !important;
+    min-height: 36px !important;
+}
+
+.left-pane-header .tab-bar button[class*="currentAccount"] [class*="displayNameContainer"] {
+    min-height: 20px !important;
+    padding-left: 0 !important;
+}
+
+.left-pane-header .tab-bar button[class*="currentAccount"] [class*="filterSubtitle"] {
+    position: static !important;
+    padding-left: var(--margin-50) !important;
+    margin-top: 0 !important;
+    width: auto !important;
+}
+
+.left-pane-header .tab-bar button[class*="filterButton"] {
+    box-sizing: border-box !important;
+    padding: 0 5px !important;
+    margin: 0 !important;
+}
+
+.left-pane-header .tab-bar button[class*="filterButton"][class*="active"] {
+    padding: 0 5px !important;
+    margin: 0 !important;
+}
+
 .AccountFilters-module__button {
     padding: 2.5px 6px;
     font: var(--font-label-medium-regular);
@@ -671,7 +742,12 @@ body:not(.sub-window) .virtual-list {
 }
 
 body:not(.sub-window) .virtual-list:has(.AccountFilters) {
-    margin-top: 0;
+    margin-top: 2.125rem;
+}
+
+body:not(.sub-window) .left:has(.tab-bar button[class*="filterButton"][class*="active"])
+    .pinned-threads {
+    margin-top: 2.125rem;
 }
 
 /* Sidebar Thread */
