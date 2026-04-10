@@ -745,7 +745,9 @@ body:not(.sub-window) .virtual-list:has(.AccountFilters) {
     margin-top: 2.125rem;
 }
 
-body:not(.sub-window) .left:has(.tab-bar button[class*="filterButton"][class*="active"])
+body:not(.sub-window)
+    .left:has(.tab-bar button[class*="filterButton"][class*="active"])
+    .inbox-zero
     .pinned-threads {
     margin-top: 2.125rem;
 }
