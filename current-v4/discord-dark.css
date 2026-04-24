@@ -1,0 +1,291 @@
+/*
+# Custom Beeper.app style — Discord Dark Theme
+Reload: open command bar → "Reload custom CSS"
+Dev tools: open command bar → "open console"
+*/
+
+/* ─── CSS variable overrides (no media query — Electron dark mode detection
+       may not fire prefers-color-scheme) ──────────────────────────────────── */
+:root {
+  --color-base-black:          #1A1A1E !important;
+  --color-base-gray-10:        #1A1A1E !important;
+  --color-surface:             #1A1A1E !important;
+  --color-secondary-container: #121214 !important;
+  --color-tertiary-container:  #0F0F11 !important;
+  --color-on-surface:          #DCDDDE !important;
+  --color-on-surface-variant:  #96989D !important;
+  --color-fg:                  #DCDDDE !important;
+}
+
+/* ─── Direct background overrides ───────────────────────────────────────── */
+body {
+  background-color: #1A1A1E !important;
+}
+
+/* Remove rounded corners and margin from the chat area wrapper */
+.right-wrapper .right,
+.right-wrapper .right:not(.right-thread) {
+  border-radius: 0 !important;
+  margin: 0 !important;
+  filter: none !important;
+}
+
+.panes,
+.thread-info,
+.thread-info-inner,
+.WelcomeView-module__wrapper,
+.calendar-pane,
+.right-pane-header,
+.conversation,
+.subheader-content {
+  background-color: #1A1A1E !important;
+  border-radius: 0 !important;
+}
+
+/* ─── Sidebar ────────────────────────────────────────────────────────────── */
+.left,
+.left-pane-header,
+.left-pane-footer,
+[class*="LeftPane"],
+[class*="leftPane"] {
+  background-color: #121214 !important;
+}
+
+/* ─── Bubbles ────────────────────────────────────────────────────────────── */
+
+/* Received */
+.MessageContent-module__contents {
+  background: #26262A !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  color: #DCDDDE !important;
+}
+
+/* Sent */
+.MessageContent-module__contents.MessageContent-module__isSender {
+  background: #2E2E34 !important;
+  border-radius: 12px !important;
+  color: #DCDDDE !important;
+}
+
+/* ─── Fix: own messages pushed to the right ──────────────────────────────── */
+.bubble-mode .is-sender .message-contents {
+  margin-left: 0 !important;
+}
+.is-sender .message-contents-container {
+  flex-direction: row !important;
+}
+
+/* My message quoted by someone else → LEFT */
+.LinkedMessage-module__linkedMessage.LinkedMessage-module__isSender {
+  margin-left: 0 !important;
+  align-items: flex-start !important;
+  width: 100% !important;
+}
+
+/* Someone else's message quoted by me → RIGHT */
+.is-sender .LinkedMessage-module__linkedMessage:not(.LinkedMessage-module__isSender) {
+  margin-left: auto !important;
+  align-items: flex-end !important;
+  width: 100% !important;
+}
+
+
+/* Reply preview — no outline, subtle background (all cases) */
+.LinkedMessage-module__linkedMessageContent,
+.linked-message-content {
+  background: #26262A !important;
+  border: none !important;
+  border-radius: 12px !important;
+  color: #96989D !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Right-align preview content only when I'm replying to someone else */
+.is-sender .LinkedMessage-module__linkedMessage:not(.LinkedMessage-module__isSender) .LinkedMessage-module__linkedMessageContent {
+  margin-left: auto !important;
+}
+
+/* Reply branch line — visible against dark background */
+.BrandReplyLineSegment-module__container {
+  color: #4E5058 !important;
+}
+
+/* Widen aside column for branch connector (default: left side) */
+.message-main {
+  grid-template-columns: 40px 1fr !important;
+}
+
+/* When I reply to someone else — flip grid so branch is on the RIGHT */
+.message-container.is-sender:has(.LinkedMessage-module__linkedMessage:not(.LinkedMessage-module__isSender)) .message-main {
+  grid-template-columns: 1fr 40px !important;
+  grid-template-areas:
+    "linked-message    aside-linked-message"
+    "message-content   aside-message-content"
+    "message-footer    aside-message-footer" !important;
+}
+
+/* Flip branch line margins so it hugs the right edge */
+.message-container.is-sender:has(.LinkedMessage-module__linkedMessage:not(.LinkedMessage-module__isSender)) .MessageContainer-module__replyLineFromLinkedMessage,
+.message-container.is-sender:has(.LinkedMessage-module__linkedMessage:not(.LinkedMessage-module__isSender)) .LinkedMessage-module__replyLineFromLinkedMessage,
+.message-container.is-sender:has(.LinkedMessage-module__linkedMessage:not(.LinkedMessage-module__isSender)) .MessageContainer-module__replyLineAlongMessageBody,
+.message-container.is-sender:has(.LinkedMessage-module__linkedMessage:not(.LinkedMessage-module__isSender)) .MessageContainer-module__replyLineAlongMessageFooter {
+  margin-left: auto !important;
+  margin-right: 15px !important;
+}
+
+/* Mirror the branch SVG so the curve points the right way */
+.message-container.is-sender:has(.LinkedMessage-module__linkedMessage:not(.LinkedMessage-module__isSender)) .BrandReplyLineSegment-module__container {
+  transform: scaleX(-1) !important;
+}
+
+/* ─── Uniform font size across all message types ────────────────────────── */
+.message-contents,
+.bubble-mode .type-action .message-contents,
+.MessageContent-module__contents,
+.message-text,
+.msg-text {
+  font-size: 14px !important;
+}
+
+/* ─── Media + caption: connected bubble (paint-only) ────────────────────── */
+/* When a message has both an attachment AND text, give the attachment area
+   the bubble's background + rounded top corners + overflow clip so the image
+   is clipped to the curve. Then square off the text bubble's top so the two
+   parts snap together into one pill. No width/height changes → no jitter. */
+.is-sender .message-click-boundary:has(.message-attachments-container):has(.message-contents-container.hasText) .message-attachments-container {
+  background: #2E2E34 !important;
+  border-radius: 12px 12px 0 0 !important;
+  overflow: hidden !important;
+}
+
+.message-container:not(.is-sender) .message-click-boundary:has(.message-attachments-container):has(.message-contents-container.hasText) .message-attachments-container {
+  background: #26262A !important;
+  border-radius: 12px 12px 0 0 !important;
+  overflow: hidden !important;
+}
+
+/* Stretch the attachment container to match main's width (= text bubble width) */
+.message-click-boundary:has(.message-attachments-container):has(.message-contents-container.hasText) .message-attachments-container,
+.message-click-boundary:has(.message-attachments-container):has(.message-contents-container.hasText) .message-attachments,
+.message-click-boundary:has(.message-attachments-container):has(.message-contents-container.hasText) .MessageAttachment-module__videoContainer,
+.message-click-boundary:has(.message-attachments-container):has(.message-contents-container.hasText) .video-player,
+.message-click-boundary:has(.message-attachments-container):has(.message-contents-container.hasText) .video-main,
+.message-click-boundary:has(.message-attachments-container):has(.message-contents-container.hasText) .video-container {
+  width: 100% !important;
+}
+
+/* Media fills container width; contain preserves full image, bubble bg fills side gaps.
+   border-radius: 0 so the image flush-connects to the text bubble below. */
+.message-click-boundary:has(.message-attachments-container):has(.message-contents-container.hasText) video.video,
+.message-click-boundary:has(.message-attachments-container):has(.message-contents-container.hasText) .message-attachments img {
+  width: 100% !important;
+  object-fit: contain !important;
+  border-radius: 0 !important;
+}
+
+/* .enhanced-img background-image div */
+.message-click-boundary:has(.message-attachments-container):has(.message-contents-container.hasText) .enhanced-img {
+  width: 100% !important;
+  background-size: contain !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  border-radius: 0 !important;
+}
+
+/* Text container stretches to match attachment width (both fill main) */
+.message-click-boundary:has(.message-attachments-container):has(.message-contents-container.hasText) .message-contents-container,
+.message-click-boundary:has(.message-attachments-container):has(.message-contents-container.hasText) .MessageContent-module__contents {
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Square off the top of the text bubble — it connects directly to the attachment above */
+.message-click-boundary:has(.message-attachments-container):has(.message-contents-container.hasText) .MessageContent-module__contents {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+/* ─── Text + link preview: connected bubble ─────────────────────────────── */
+/* DOM order: preview first [0], text second [1]. Flip with CSS order so text
+   appears above the preview. Then connect them as one pill. */
+
+/* Text floats to top */
+.message-click-boundary:has(.message-contents-container.hasText):has(.LinkPreview-module__container) .message-contents-container,
+.message-click-boundary:has(.message-contents-container.hasText):has(.LinkPreview-module__videoEmbedContainer) .message-contents-container {
+  order: 1 !important;
+}
+
+/* Preview sinks to bottom: fill width, flat top, rounded bottom, no gap above */
+.message-click-boundary:has(.message-contents-container.hasText) .LinkPreview-module__container,
+.message-click-boundary:has(.message-contents-container.hasText) .LinkPreview-module__videoEmbedContainer {
+  order: 2 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  border-radius: 0 0 12px 12px !important;
+  overflow: hidden !important;
+  margin-top: 0 !important;
+}
+
+/* Video embed content fills the card width */
+.message-click-boundary:has(.message-contents-container.hasText) .LinkPreview-module__videoEmbedContent,
+.message-click-boundary:has(.message-contents-container.hasText) .LinkPreview-module__videoEmbedMeta,
+.message-click-boundary:has(.message-contents-container.hasText) .yt-lite {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Collapse flex gap between text and preview */
+.message-click-boundary:has(.message-contents-container.hasText):has(.LinkPreview-module__container) main,
+.message-click-boundary:has(.message-contents-container.hasText):has(.LinkPreview-module__videoEmbedContainer) main {
+  gap: 0 !important;
+}
+
+/* Text bubble: flat bottom + full width to match preview card */
+.message-click-boundary:has(.message-contents-container.hasText):has(.LinkPreview-module__container) .message-contents-container,
+.message-click-boundary:has(.message-contents-container.hasText):has(.LinkPreview-module__videoEmbedContainer) .message-contents-container,
+.message-click-boundary:has(.message-contents-container.hasText):has(.LinkPreview-module__container) .MessageContent-module__contents,
+.message-click-boundary:has(.message-contents-container.hasText):has(.LinkPreview-module__videoEmbedContainer) .MessageContent-module__contents {
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.message-click-boundary:has(.message-contents-container.hasText):has(.LinkPreview-module__container) .MessageContent-module__contents,
+.message-click-boundary:has(.message-contents-container.hasText):has(.LinkPreview-module__videoEmbedContainer) .MessageContent-module__contents {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+/* ─── Message hover ──────────────────────────────────────────────────────── */
+.message-container:hover,
+.message-container:hover .message {
+  background-color: transparent !important;
+}
+
+/* ─── Composer input ─────────────────────────────────────────────────────── */
+.ComposeMessage-module__wrapper {
+  background-color: #1A1A1E !important;
+}
+
+.ComposeMessage-module__input {
+  background-color: #26262A !important;
+  min-height: 36px !important;
+  border-radius: 12px !important;
+}
+
+.ComposeMessage-module__textArea {
+  padding: 6px 4px !important;
+}
+
+.ComposeMessage-module__input .ProseMirror,
+.ComposeMessage-module__input [contenteditable] {
+  color: #DCDDDE !important;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #1A1B1E; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #111214; }
