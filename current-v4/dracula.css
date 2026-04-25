@@ -1,0 +1,410 @@
+/* === ROOT VARIABLES — LIGHT MODE = ALUCARD CLASSIC === */
+:root {
+    /* Font and Layout Variables (unchanged) */
+    --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+
+    --header-height: 48px;
+    --filters-pane-width: 220px;
+    --min-sidebar-width: 280px;
+    --max-sidebar-width: 800px;
+    --threads-list-item-height: 54px;
+
+    --pinned-thread-base-size: 64px;
+    --pinned-thread-group-img-size: calc(var(--pinned-thread-base-size) / 1.5);
+    --pinned-thread-height: calc(var(--pinned-thread-base-size) + (var(--pinned-thread-base-size) / 1.4));
+    --pinned-thread-width: calc(var(--pinned-thread-base-size) + (var(--pinned-thread-base-size) / 2.5));
+
+    /* Base Colors — Alucard */
+    --color-bg: #FFFBEB;                /* Background */
+    --color-bg-rgb: 255, 251, 235;
+    --color-fg: #1F1F1F;                /* Foreground */
+    --color-fg-rgb: 31, 31, 31;
+
+    /* Accent/Primary (use Alucard Purple as primary accent) */
+    --color-primary: #644AC9;
+    --color-primary-rgb: 100, 74, 201;
+
+    /* Neutral Gray reference (approximate from Alucard UI palette) */
+    --color-gray-rgb: 108, 102, 75;     /* Current Line / Comment tone */
+
+    /* Base Color Tokens */
+    --color-base-black: #1F1F1F;
+    --color-base-black-rgb: 31, 31, 31;
+    --color-base-white: #FFFBEB;
+    --color-base-white-rgb: 255, 251, 235;
+
+    /* Gray Scale (mapped from Alucard UI palette) */
+    --color-base-gray-20: #ECE9DF;      /* Background Lighter */
+    --color-base-gray-20-rgb: 236, 233, 223;
+    --color-base-gray-30: #DEDCCF;      /* Background Light */
+    --color-base-gray-30-rgb: 222, 220, 207;
+    --color-base-gray-40: #CECCC0;      /* Background Dark */
+    --color-base-gray-40-rgb: 206, 204, 192;
+    --color-base-gray-50: #BCBAB3;      /* Background Darker */
+    --color-base-gray-50-rgb: 188, 186, 179;
+    --color-base-gray-60: #CFCFDE;      /* Selection (light) */
+    --color-base-gray-60-rgb: 207, 207, 222;
+    --color-base-gray-70: #EFEDDC;      /* Floating interactive */
+    --color-base-gray-70-rgb: 239, 237, 220;
+    --color-base-gray-80: #EDE7D3;      /* extra step */
+    --color-base-gray-80-rgb: 237, 231, 211;
+    --color-base-gray-100: #6C664B;     /* Current Line / Comment */
+    --color-base-gray-100-rgb: 108, 102, 75;
+    --color-base-gray-110: #9E9477;     /* subtle text */
+    --color-base-gray-110-rgb: 158, 148, 119;
+    --color-base-gray-120: #2C2B31;     /* darkest text alt */
+    --color-base-gray-120-rgb: 44, 43, 49;
+
+    /* Syntax Palette — Alucard */
+    --color-dracula-red: #CB3A2A;
+    --color-dracula-orange: #A34D14;
+    --color-dracula-yellow: #846E15;
+    --color-dracula-green: #14710A;
+    --color-dracula-cyan: #036A96;
+    --color-dracula-purple: #644AC9;
+    --color-dracula-pink: #A3144D;
+    --color-dracula-comment: #6C664B;
+
+    /* UI Backgrounds */
+    --color-background-app: var(--color-base-white);
+    --color-background-app-weak: var(--color-base-gray-20);
+    --color-background-elevated: var(--color-base-gray-30);
+    --color-background-elevated-hover: var(--color-base-gray-40);
+    --color-background-grouped: var(--color-base-gray-20);
+    --color-background-grouped-weak: var(--color-base-gray-70);
+    --color-background-object: var(--color-base-gray-30);
+
+    /* Buttons */
+    --color-background-button-primary: var(--color-primary);
+    --color-background-button-primary-active: #7862D0; /* Bright Blue (Alucard) */
+    --color-background-button-primary-disabled: #BCBAB3;
+    --color-background-button-secondary: var(--color-base-gray-20);
+    --color-background-button-secondary-active: var(--color-base-gray-30);
+    --color-background-button-secondary-disabled: var(--color-base-gray-20);
+    --color-background-button-translucent: rgba(var(--color-fg-rgb), 0.08);
+    --color-background-button-translucent-active: rgba(var(--color-fg-rgb), 0.12);
+    --color-background-button-translucent-disabled: rgba(var(--color-fg-rgb), 0.05);
+
+    /* Sidebar */
+    --color-background-sidebar: rgba(var(--color-base-white-rgb), 0.85);
+    --color-background-sidebar-opaque: var(--color-base-gray-30);
+    --color-background-sidebar-thread-focus: rgba(var(--color-fg-rgb), 0.08);
+    --color-background-sidebar-thread-selected: var(--color-background-selected-primary);
+    --color-background-sidebar-thread-selected-unfocused: rgba(var(--color-fg-rgb), 0.12);
+
+    /* Messages */
+    --color-background-message-active: var(--color-base-gray-20);
+    --color-background-message-bubble-received: var(--color-base-gray-30);
+    --color-background-message-bubble-sent: var(--color-primary);
+    --color-background-message-bubble-linked: var(--color-background-app);
+
+    /* Selected States */
+    --color-background-selected-primary: var(--color-primary);
+    --color-background-selected-secondary: rgba(var(--color-fg-rgb), 0.1);
+
+    /* Inputs */
+    --color-background-input: var(--color-base-gray-20);
+    --color-background-kbd: rgba(var(--color-fg-rgb), 0.12);
+
+    /* Header/Menu */
+    --color-background-header-right: rgba(var(--color-base-white-rgb), 0.92);
+    --color-background-header-right-opaque: var(--color-base-white);
+    --color-background-menu: rgba(var(--color-base-gray-60-rgb), 0.9);
+    --color-background-menu-opaque: var(--color-base-gray-60);
+    --color-background-menu-option-hover: var(--color-primary);
+
+    /* Borders */
+    --color-border-neutrals: var(--color-base-gray-40);
+    --color-border-neutrals-strong: var(--color-base-gray-50);
+    --color-border-neutrals-weak: var(--color-base-gray-20);
+    --color-border-input: var(--color-base-gray-40);
+    --color-border-input-active: var(--color-base-gray-50);
+    --color-border-translucent: rgba(var(--color-fg-rgb), 0.12);
+    --color-border-translucent-strong: rgba(var(--color-fg-rgb), 0.18);
+    --color-border-translucent-strongest: rgba(var(--color-fg-rgb), 0.5);
+    --color-border-translucent-weak: rgba(var(--color-fg-rgb), 0.06);
+
+    /* Text */
+    --color-text-neutrals: var(--color-fg);
+    --color-text-neutrals-subtle: var(--color-base-gray-110);
+    --color-text-neutrals-weak: var(--color-base-gray-100);
+    --color-text-on-accent: #FFFBEB;
+    --color-text-on-accent-weak: rgba(var(--color-base-white-rgb), 0.8);
+    --color-text-translucent: rgba(var(--color-fg-rgb), 0.9);
+    --color-text-translucent-subtle: rgba(var(--color-fg-rgb), 0.6);
+    --color-text-translucent-weak: rgba(var(--color-fg-rgb), 0.75);
+
+    /* Icons */
+    --color-icon-neutrals: var(--color-base-gray-100);
+    --color-icon-neutrals-strong: var(--color-fg);
+    --color-icon-neutrals-subtle: var(--color-base-gray-110);
+    --color-icon-neutrals-weak: var(--color-base-gray-80);
+    --color-icon-on-accent: rgba(var(--color-base-white-rgb), 0.85);
+    --color-icon-on-accent-strong: rgba(var(--color-base-white-rgb), 0.95);
+    --color-icon-on-accent-weak: rgba(var(--color-base-white-rgb), 0.6);
+    --color-icon-translucent: rgba(var(--color-fg-rgb), 0.65);
+    --color-icon-translucent-strong: rgba(var(--color-fg-rgb), 0.9);
+    --color-icon-translucent-subtle: rgba(var(--color-fg-rgb), 0.35);
+    --color-icon-translucent-weak: rgba(var(--color-fg-rgb), 0.5);
+
+    /* Scrollbar */
+    --color-background-scrollbar: rgba(var(--color-fg-rgb), 0.3);
+    --color-background-scrollbar-hover: rgba(var(--color-fg-rgb), 0.5);
+
+    /* Misc */
+    --color-background-tag: rgba(var(--color-fg-rgb), 0.1);
+    --color-overlay-modal: rgba(var(--color-base-black-rgb), 0.35);
+    --color-transparent: rgba(var(--color-base-black-rgb), 0);
+
+    /* Panes */
+    --left-pane-bg: transparent;
+    --right-pane-bg: rgba(var(--color-bg-rgb), 1);
+
+    /* Legacy/Status */
+    --mark-bg: #CFCFDE;                  /* selection-like */
+    --error-color: #CB3A2A;              /* Functional Red */
+    --warning-color: #A39514;            /* Functional Orange */
+    --snoozed-indicator-bg: #A39514;
+    --error-indicator-bg: var(--error-color);
+    --message-snoozed-border: #A39514;
+    --message-errored-beacon: var(--error-color);
+    --sms-sent-bg: #198D0C;              /* Bright Green */
+
+    /* Audio Bar */
+    --compose-message-accent: #6C664B;
+    --audio-bar-button: #6C664B;
+    --audio-bar-preview-progress: #2C2B31;
+    --audio-bar-bg: #EFEDDC;
+    --audio-bar-border: #CECCC0;
+
+    /* Keyboard Keys */
+    --key-border: #BCBAB3;
+    --key-bg: linear-gradient(to bottom, #ECE9DF, #DEDCCF);
+    --color-key-bottom-bg: #CECCC0;
+
+    /* Preferences */
+    --prefs-well: #EFEDDC;
+
+    /* Skeleton */
+    --skeleton-bg: url("../../../public/img/skeleton.svg");
+
+    /* ANSI — Alucard */
+    --ansi-black: #FFFBEB;
+    --ansi-red: #CB3A2A;
+    --ansi-green: #14710A;
+    --ansi-yellow: #846E15;
+    --ansi-blue: #644AC9;
+    --ansi-magenta: #A3144D;
+    --ansi-cyan: #036A96;
+    --ansi-white: #1F1F1F;
+    --ansi-bright-black: #6C664B;
+    --ansi-bright-red: #D74C3D;
+    --ansi-bright-green: #198D0C;
+    --ansi-bright-yellow: #9E841A;
+    --ansi-bright-blue: #7862D0;
+    --ansi-bright-magenta: #BF185A;
+    --ansi-bright-cyan: #047FB4;
+    --ansi-bright-white: #2C2B31;
+}
+
+/* === DARK MODE OVERRIDES — DARK = DRACULA CLASSIC === */
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Base Colors — Dracula */
+        --color-bg: #282A36;              /* Background */
+        --color-bg-rgb: 40, 42, 54;
+        --color-fg: #F8F8F2;              /* Foreground */
+        --color-fg-rgb: 248, 248, 242;
+
+        /* Primary accent: Dracula Purple */
+        --color-primary: #BD93F9;
+        --color-primary-rgb: 189, 147, 249;
+
+        /* Syntax Palette — Dracula */
+        --color-dracula-red: #FF5555;
+        --color-dracula-orange: #FFB86C;
+        --color-dracula-yellow: #F1FA8C;
+        --color-dracula-green: #50FA7B;
+        --color-dracula-cyan: #8BE9FD;
+        --color-dracula-purple: #BD93F9;
+        --color-dracula-pink: #FF79C6;
+        --color-dracula-comment: #6272A4;
+
+        /* Gray Scale / UI Surfaces */
+        --color-base-gray-10: #191A21;    /* Darker */
+        --color-base-gray-10-rgb: 25, 26, 33;
+        --color-base-gray-20: #21222C;    /* Dark */
+        --color-base-gray-20-rgb: 33, 34, 44;
+        --color-base-gray-30: #343746;    /* Light */
+        --color-base-gray-30-rgb: 52, 55, 70;
+        --color-base-gray-40: #424450;    /* Lighter */
+        --color-base-gray-40-rgb: 66, 68, 80;
+        --color-base-gray-50: #44475A;    /* Selection */
+        --color-base-gray-50-rgb: 68, 71, 90;
+        --color-base-gray-60: #6272A4;    /* Current Line / Comments */
+        --color-base-gray-60-rgb: 98, 114, 164;
+        --color-base-gray-70: #8A90AD;
+        --color-base-gray-70-rgb: 138, 144, 173;
+        --color-base-gray-80: #AEB4CE;
+        --color-base-gray-80-rgb: 174, 180, 206;
+        --color-base-gray-85: #D6ACFF;    /* Bright Blue tone */
+        --color-base-gray-85-rgb: 214, 172, 255;
+        --color-base-gray-90: #EDEDF5;
+        --color-base-gray-90-rgb: 237, 237, 245;
+        --color-base-gray-100: #F8F8F2;   /* Foreground */
+        --color-base-gray-100-rgb: 248, 248, 242;
+        --color-base-gray-110: #D0D0C8;   /* subtle text */
+        --color-base-gray-110-rgb: 208, 208, 200;
+        --color-base-gray-120: #FFFFFF;   /* max contrast */
+        --color-base-gray-120-rgb: 255, 255, 255;
+
+        /* Backgrounds */
+        --color-background-app: var(--color-bg);
+        --color-background-app-weak: var(--color-base-gray-20);
+        --color-background-elevated: var(--color-base-gray-30);
+        --color-background-elevated-hover: var(--color-base-gray-50);
+        --color-background-grouped: var(--color-base-gray-20);
+        --color-background-grouped-weak: var(--color-base-gray-10);
+        --color-background-object: var(--color-base-gray-30);
+
+        /* Buttons */
+        --color-background-button-primary: var(--color-primary);
+        --color-background-button-primary-active: #D6ACFF;
+        --color-background-button-primary-disabled: #6272A4;
+        --color-background-button-secondary: var(--color-base-gray-40);
+        --color-background-button-secondary-active: var(--color-base-gray-50);
+        --color-background-button-secondary-disabled: var(--color-base-gray-30);
+        --color-background-button-translucent: rgba(var(--color-base-white-rgb), 0.1);
+        --color-background-button-translucent-active: rgba(var(--color-base-white-rgb), 0.15);
+        --color-background-button-translucent-disabled: rgba(var(--color-base-white-rgb), 0.05);
+
+        /* Sidebar */
+        --color-background-sidebar: rgba(var(--color-base-gray-30-rgb), 0.6);
+        --color-background-sidebar-opaque: var(--color-base-gray-30);
+        --color-background-sidebar-thread-focus: rgba(var(--color-base-white-rgb), 0.1);
+        --color-background-sidebar-thread-selected: var(--color-background-selected-primary);
+        --color-background-sidebar-thread-selected-unfocused: rgba(var(--color-base-white-rgb), 0.15);
+
+        /* Messages */
+        --color-background-message-active: var(--color-base-gray-20);
+        --color-background-message-bubble-received: var(--color-base-gray-50);
+        --color-background-message-bubble-sent: var(--color-primary);
+        --color-background-message-bubble-linked: var(--color-base-gray-20);
+
+        /* Selected States */
+        --color-background-selected-primary: var(--color-primary);
+        --color-background-selected-secondary: rgba(var(--color-base-white-rgb), 0.1);
+
+        /* Inputs */
+        --color-background-input: var(--color-base-gray-20);
+        --color-background-kbd: rgba(var(--color-base-white-rgb), 0.15);
+
+        /* Header/Menu */
+        --color-background-header-right: rgba(var(--color-base-gray-30-rgb), 0.9);
+        --color-background-header-right-opaque: var(--color-base-gray-30);
+        --color-background-menu: rgba(var(--color-base-gray-30-rgb), 0.9);
+        --color-background-menu-opaque: var(--color-base-gray-30);
+        --color-background-menu-option-hover: #8BE9FD;
+
+        /* Borders */
+        --color-border-neutrals: var(--color-base-gray-40);
+        --color-border-neutrals-strong: var(--color-base-gray-50);
+        --color-border-neutrals-weak: var(--color-base-gray-20);
+        --color-border-input: var(--color-base-gray-40);
+        --color-border-input-active: var(--color-base-gray-50);
+        --color-border-translucent: rgba(var(--color-base-white-rgb), 0.1);
+        --color-border-translucent-strong: rgba(var(--color-base-white-rgb), 0.15);
+        --color-border-translucent-strongest: rgba(var(--color-base-white-rgb), 0.5);
+        --color-border-translucent-weak: rgba(var(--color-base-white-rgb), 0.05);
+
+        /* Text */
+        --color-text-neutrals: var(--color-fg);
+        --color-text-neutrals-subtle: #E6E6E6;
+        --color-text-neutrals-weak: #D0D0C8;
+        --color-text-on-accent: #282A36;
+        --color-text-on-accent-weak: rgba(40, 42, 54, 0.8);
+        --color-text-translucent: rgba(var(--color-base-white-rgb), 0.9);
+        --color-text-translucent-subtle: rgba(var(--color-base-white-rgb), 0.6);
+        --color-text-translucent-weak: rgba(var(--color-base-white-rgb), 0.75);
+
+        /* Icons */
+        --color-icon-neutrals: #E6E6E6;
+        --color-icon-neutrals-strong: var(--color-fg);
+        --color-icon-neutrals-subtle: #C8C8C0;
+        --color-icon-neutrals-weak: #AEB4CE;
+        --color-icon-on-accent: rgba(40, 42, 54, 0.85);
+        --color-icon-on-accent-strong: rgba(40, 42, 54, 0.95);
+        --color-icon-on-accent-weak: rgba(40, 42, 54, 0.6);
+        --color-icon-translucent: rgba(var(--color-base-white-rgb), 0.6);
+        --color-icon-translucent-strong: rgba(var(--color-base-white-rgb), 0.9);
+        --color-icon-translucent-subtle: rgba(var(--color-base-white-rgb), 0.3);
+        --color-icon-translucent-weak: rgba(var(--color-base-white-rgb), 0.4);
+
+        /* Scrollbar */
+        --color-background-scrollbar: rgba(var(--color-base-white-rgb), 0.3);
+        --color-background-scrollbar-hover: rgba(var(--color-base-white-rgb), 0.5);
+
+        /* Misc */
+        --color-background-tag: rgba(var(--color-base-white-rgb), 0.1);
+        --color-overlay-modal: rgba(0, 0, 0, 0.4);
+        --color-transparent: rgba(0, 0, 0, 0);
+
+        /* Audio Bar */
+        --compose-message-accent: #D8D8D8;
+        --audio-bar-button: #D8D8D8;
+        --audio-bar-preview-progress: #FFFFFF;
+        --audio-bar-bg: #303236;
+        --audio-bar-border: #606366;
+
+        /* Keyboard Keys */
+        --key-border: linear-gradient(to bottom, #363636, #303130);
+        --key-bg: linear-gradient(to bottom, #373737, #1B1B1B);
+        --color-key-bottom-bg: #2E2E2E;
+
+        /* Preferences */
+        --prefs-well: #1F2024;
+
+        /* ANSI — Dracula */
+        --ansi-black: #21222C;
+        --ansi-red: #FF5555;
+        --ansi-green: #50FA7B;
+        --ansi-yellow: #F1FA8C;
+        --ansi-blue: #BD93F9;
+        --ansi-magenta: #FF79C6;
+        --ansi-cyan: #8BE9FD;
+        --ansi-white: #F8F8F2;
+        --ansi-bright-black: #6272A4;
+        --ansi-bright-red: #FF6E6E;
+        --ansi-bright-green: #69FF94;
+        --ansi-bright-yellow: #FFFFA5;
+        --ansi-bright-blue: #D6ACFF;
+        --ansi-bright-magenta: #FF92DF;
+        --ansi-bright-cyan: #A4FFFF;
+        --ansi-bright-white: #FFFFFF;
+    }
+}
+
+/* === FUNCTIONAL COLORS (shared) === */
+:root {
+    --functional-red: #DE5735;      /* critical */
+    --functional-orange: #A39514;   /* warning */
+    --functional-green: #089108;    /* success */
+    --functional-cyan: #0081D6;     /* info/links */
+    --functional-purple: #815CD6;   /* focus */
+
+    /* Map functional colors into components if needed */
+    --focus-ring: var(--functional-purple);
+    --link-color: var(--functional-cyan);
+    --danger-bg: var(--functional-red);
+    --success-bg: var(--functional-green);
+    --warning-bg: var(--functional-orange);
+}
+
+/* === TRANSPARENCY OVERRIDES === */
+.no-transparency,
+.reduce-transparency {
+    --left-pane-bg: var(--color-background-sidebar-opaque);
+    --color-background-header-right: var(--color-background-header-right-opaque);
+    --color-background-menu: var(--color-background-menu-opaque);
+}
+
