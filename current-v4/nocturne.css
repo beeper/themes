@@ -1,0 +1,800 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300..700&display=swap');
+
+:root {
+  --glass-bg-base: #050608;
+  --glass-bg-deep: #0b0d11;
+  --glass-bg-elevated: rgba(24, 27, 33, 0.7);
+  --glass-bg-elevated-strong: rgba(18, 20, 26, 0.86);
+  --glass-bg-soft: rgba(255, 255, 255, 0.055);
+  --glass-bg-soft-hover: rgba(255, 255, 255, 0.085);
+  --glass-bg-soft-active: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-border-strong: rgba(255, 255, 255, 0.16);
+  --glass-shadow: 0 18px 50px rgba(0, 0, 0, 0.38);
+  --glass-shadow-soft: 0 10px 28px rgba(0, 0, 0, 0.26);
+  --glass-shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --glass-radius-lg: 22px;
+  --glass-radius-md: 16px;
+  --glass-radius-sm: 12px;
+  --glass-text: #f4f7fb;
+  --glass-text-muted: rgba(232, 236, 242, 0.68);
+  --glass-text-faint: rgba(232, 236, 242, 0.48);
+  --glass-accent: rgba(208, 214, 224, 0.92);
+  --glass-accent-soft: rgba(185, 192, 203, 0.4);
+  --glass-panel-outline: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+  --glass-sender: linear-gradient(145deg, rgba(64, 69, 80, 0.68), rgba(30, 33, 41, 0.78));
+  --glass-receiver: linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.025));
+  --glass-transition-fast: 160ms ease;
+  --glass-transition: 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  --glass-transition-slow: 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  --composer-idle-scale: 0.93;
+  --composer-active-scale: 1;
+  --composer-send-scale: 1.08;
+  --composer-bounce-distance: 8px;
+  --composer-bounce-overshoot: -3px;
+  --composer-active-ease: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --composer-send-ease: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --composer-active-duration: 320ms;
+  --composer-send-duration: 520ms;
+}
+
+* {
+  font-family: 'Lexend', 'Segoe UI Emoji', sans-serif !important;
+}
+
+html,
+body,
+.bp_LeftPanel,
+.bp_MainPanel,
+.mx_RoomHeader,
+.mx_EventTile,
+.mx_EventTile_body,
+.mx_MTextBody,
+.mx_Dialog,
+.mx_BasicMessageComposer .mx_BasicMessageComposer_input {
+  font-family: 'Lexend', 'Segoe UI Emoji', sans-serif !important;
+}
+
+html,
+body {
+  background:
+    radial-gradient(circle at top left, rgba(118, 128, 148, 0.16), transparent 36%),
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.06), transparent 28%),
+    linear-gradient(145deg, #06070a 0%, #0a0c10 34%, #10131a 100%) !important;
+  color: var(--glass-text) !important;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 20%),
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.05), transparent 38%);
+  opacity: 0.9;
+  z-index: 0;
+}
+
+.bp_LeftPanel,
+.bp_MainPanel,
+.mx_RoomView,
+.mx_RightPanel,
+.mx_MatrixChat,
+.mx_MatrixChat_wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+.message-main.negate-redacted-region,
+.message-click-boundary,
+.message-children {
+  overflow: visible !important;
+}
+
+.bp_LeftPanel {
+  background: linear-gradient(180deg, rgba(15, 17, 22, 0.98), rgba(9, 11, 15, 0.98)) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.04) !important;
+}
+
+.bp_MainPanel,
+.mx_RoomView,
+.mx_MatrixChat,
+.mx_RoomView_body,
+.mx_AutoHideScrollbar {
+  background: transparent !important;
+}
+
+
+.conversation,
+.panes,
+.subheader-content {
+  padding-bottom: 2px !important;
+}
+
+.mx_RoomView_messageListWrapper,
+.mx_AutoHideScrollbar.mx_RoomView_messagePanel {
+  padding-bottom: 16px !important;
+}
+
+.mx_RoomHeader,
+.mx_BasicMessageComposer,
+.mx_ReplyPreview,
+.mx_Dialog,
+.mx_ContextualMenu,
+.mx_Menu,
+.linked-message-content.LinkedMessage-module__linkedMessageContent {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(33, 36, 43, 0.98), rgba(18, 20, 26, 0.98)) padding-box,
+    var(--glass-panel-outline) border-box !important;
+  border: 1px solid transparent !important;
+  border-radius: var(--glass-radius-lg) !important;
+  box-shadow: var(--glass-shadow-soft), var(--glass-shadow-inset) !important;
+}
+
+.mx_RoomHeader {
+  margin: 12px 14px 10px !important;
+  padding: 10px 14px !important;
+  transition:
+    transform var(--glass-transition),
+    box-shadow var(--glass-transition),
+    background-color var(--glass-transition) !important;
+}
+
+.mx_RoomHeader:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.09) !important;
+}
+
+.mx_BasicMessageComposer {
+  margin: 18px 14px 14px !important;
+  padding: 10px 12px !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  position: relative;
+}
+
+.ComposeMessage-module__wrapper {
+  position: relative !important;
+  overflow: visible !important;
+  background: #000000 !important;
+}
+
+
+/* Idle: scale content inside the pill, not the pill itself */
+.ComposeMessage-module__wrapper > * {
+  position: relative;
+  z-index: 3;
+  transform: translateY(0);
+  scale: var(--composer-idle-scale);
+  transition:
+    scale var(--composer-active-duration) var(--composer-active-ease),
+    transform var(--composer-active-duration) var(--composer-active-ease) !important;
+}
+
+.mx_BasicMessageComposer:focus-within {
+  transform: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+  background: transparent !important;
+}
+
+.ComposeMessage-module__messageInputContainer {
+  border-radius: 14px !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  opacity: 1 !important;
+}
+
+/* Inner elements: no independent transforms or animations */
+.ComposeMessage-module__row,
+.ComposeMessage-module__textArea,
+#message-input,
+#message-input[contenteditable="true"],
+.tiptap.ProseMirror,
+.ProseMirror,
+.BrandSendButton-module__container,
+.ComposeMessage-module__rightButtons,
+.ComposeMessage-module__rightButtons * {
+  transform: none !important;
+  animation: none !important;
+}
+
+/* Unshrink only when editor has content (paragraph loses is-empty class when typing) */
+.ComposeMessage-module__wrapper:has(.ProseMirror p:not(.is-empty)) > * {
+  animation: none;
+  transform: translateY(0);
+  scale: var(--composer-active-scale);
+}
+
+/* When the editor clears after send, bounce downward then settle back into idle scale */
+.ComposeMessage-module__wrapper:has(.ProseMirror p.is-empty) > * {
+  scale: var(--composer-idle-scale);
+  animation: composerSentBounce var(--composer-send-duration) var(--composer-send-ease) both;
+}
+
+.ComposeMessage-module__messageInputContainer:focus-within,
+.ComposeMessage-module__textArea:focus-within,
+#message-input:focus-within {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+
+.mx_BasicMessageComposer:focus-within .ComposeMessage-module__rightButtons,
+.mx_BasicMessageComposer:focus-within .ComposeMessage-module__rightButtons *,
+.mx_BasicMessageComposer:focus-within .ComposeMessage-module__textArea,
+.mx_BasicMessageComposer:focus-within #message-input {
+  opacity: 1 !important;
+}
+
+.ComposeMessage-module__rightButtons,
+.ComposeMessage-module__rightButtons *,
+.ComposeMessage-module__textArea,
+#message-input {
+  transition: opacity 180ms ease !important;
+}
+
+.mx_BasicMessageComposer:focus-within .ComposeMessage-module__textArea,
+.mx_BasicMessageComposer:focus-within #message-input {
+  transform: none !important;
+}
+
+.ComposeMessage-module__messageInputContainer,
+.ComposeMessage-module__textArea,
+#message-input,
+#message-input[contenteditable="true"],
+.tiptap.ProseMirror,
+.ProseMirror {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.mx_BasicMessageComposer .mx_BasicMessageComposer_input,
+.mx_BasicMessageComposer_input,
+.mx_BasicMessageComposer_input * ,
+.mx_BasicMessageComposer textarea,
+.mx_BasicMessageComposer input,
+.mx_BasicMessageComposer [contenteditable="true"],
+.mx_BasicMessageComposer [role="textbox"],
+textarea,
+input,
+[contenteditable="true"] {
+  background: transparent !important;
+  color: var(--glass-text) !important;
+  border-radius: var(--glass-radius-md) !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transition:
+    background-color var(--glass-transition-fast),
+    color var(--glass-transition-fast),
+    box-shadow var(--glass-transition-fast),
+    border-color var(--glass-transition-fast) !important;
+}
+
+.ComposeMessage-module__textArea,
+.tiptap.ProseMirror,
+.ProseMirror {
+  caret-color: #f4f7fb !important;
+}
+
+#message-input,
+#message-input[contenteditable="true"],
+.tiptap.ProseMirror.ProseMirror-focused,
+.ProseMirror.ProseMirror-focused {
+  caret-color: #ffffff !important;
+}
+
+.ComposeMessage-module__textArea:focus-within,
+.tiptap.ProseMirror.ProseMirror-focused,
+.ProseMirror.ProseMirror-focused {
+  transform: none !important;
+}
+
+.mx_BasicMessageComposer .mx_BasicMessageComposer_input:focus,
+.mx_BasicMessageComposer_input:focus,
+.mx_BasicMessageComposer textarea:focus,
+.mx_BasicMessageComposer input:focus,
+.mx_BasicMessageComposer [contenteditable="true"]:focus,
+.mx_BasicMessageComposer [role="textbox"]:focus,
+textarea:focus,
+input:focus,
+[contenteditable="true"]:focus {
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+  border: none !important;
+}
+
+.mx_BasicMessageComposer .mx_BasicMessageComposer_input,
+.mx_BasicMessageComposer .mx_AutosizeComposer,
+.mx_BasicMessageComposer .mx_AutosizeComposer_input,
+.mx_BasicMessageComposer .mx_AutosizeComposer_editor,
+.mx_BasicMessageComposer .public-DraftEditor-content,
+.mx_BasicMessageComposer .DraftEditor-root,
+.mx_BasicMessageComposer .DraftEditor-editorContainer,
+.mx_BasicMessageComposer .public-DraftStyleDefault-block,
+.mx_BasicMessageComposer .ql-container,
+.mx_BasicMessageComposer .ql-editor {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.BrandSendButton-module__container,
+button.BrandSendButton-module__container {
+  background: #0c0c0c !important;
+}
+
+.BrandSendButton-module__container:not(:disabled):not([aria-disabled="true"]),
+button.BrandSendButton-module__container:not(:disabled):not([aria-disabled="true"]) {
+  background: #3a3f4b !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 8px 18px rgba(0, 0, 0, 0.18) !important;
+}
+
+.BrandSendButton-module__container:disabled,
+.BrandSendButton-module__container[aria-disabled="true"],
+button.BrandSendButton-module__container:disabled,
+button.BrandSendButton-module__container[aria-disabled="true"] {
+  background: #0c0c0c !important;
+  box-shadow: none !important;
+  opacity: 0.82 !important;
+}
+
+.message-container:not(.type-emoji) .message-contents-container.hasText > .message-contents.MessageContent-module__contents,
+.message-container:not(.type-emoji) .message-contents.MessageContent-module__contents {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.09) !important;
+  backdrop-filter: blur(48px) saturate(220%) brightness(1.12) !important;
+  -webkit-backdrop-filter: blur(48px) saturate(220%) brightness(1.12) !important;
+  background: rgba(34, 39, 49, 0.18) !important;
+  animation: messageBubbleIn 1000ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  will-change: transform, opacity, filter;
+  transform: translateZ(0);
+  transition:
+    transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    background-color 180ms ease,
+    background 180ms ease,
+    box-shadow 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 180ms ease !important;
+}
+
+.message-container,
+.mx_EventTile {
+  position: relative;
+  z-index: 2;
+}
+
+.MessageAttachment-module__imageAttachment,
+img.MessageAttachment-module__imageAttachment {
+  animation: mediaMessageIn 1000ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  will-change: transform, opacity, filter;
+  transform: translateZ(0);
+  transition:
+    transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 220ms ease !important;
+}
+
+.message-container.type-emoji .preserving-whitespace,
+.message-container.type-emoji div.preserving-whitespace,
+.type-emoji .preserving-whitespace {
+  animation: messageBubbleIn 1000ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  will-change: transform, opacity, filter;
+  transform: translateZ(0);
+  transition:
+    transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 220ms ease !important;
+}
+
+.MessageAttachment-module__imageAttachment:hover,
+img.MessageAttachment-module__imageAttachment:hover,
+.message-container.type-emoji .preserving-whitespace:hover,
+.message-container.type-emoji div.preserving-whitespace:hover,
+.type-emoji .preserving-whitespace:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.24) !important;
+}
+
+.message-container.type-emoji .preserving-whitespace,
+.message-container.type-emoji div.preserving-whitespace,
+.type-emoji .preserving-whitespace {
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.message-container:not(.type-emoji) .message-contents.MessageContent-module__contents::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.07) 48%, transparent 100%);
+  opacity: 0;
+  transform: translateX(-24%);
+  transition:
+    opacity var(--glass-transition-fast),
+    transform var(--glass-transition) !important;
+}
+
+.message-container:not(.type-emoji) .message-contents-container.hasText > .message-contents.MessageContent-module__contents:hover,
+.message-container:not(.type-emoji) .message-contents.MessageContent-module__contents:hover {
+  transform: none;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  z-index: 12;
+}
+
+.message-container:not(.type-emoji) .message-contents-container.hasText > .message-contents.MessageContent-module__contents:active,
+.message-container:not(.type-emoji) .message-contents.MessageContent-module__contents:active,
+.message-container:not(.type-emoji) .message-contents-container.hasText > .message-contents.MessageContent-module__contents:focus-visible,
+.message-container:not(.type-emoji) .message-contents.MessageContent-module__contents:focus-visible,
+.message-container.is-selected:not(.type-emoji) .message-contents-container.hasText > .message-contents.MessageContent-module__contents,
+.message-container.is-selected:not(.type-emoji) .message-contents.MessageContent-module__contents,
+.message-container:not(.type-emoji):focus-within .message-contents-container.hasText > .message-contents.MessageContent-module__contents,
+.message-container:not(.type-emoji):focus-within .message-contents.MessageContent-module__contents,
+.message-container:not(.type-emoji) .message-click-boundary:focus-within .message-contents-container.hasText > .message-contents.MessageContent-module__contents,
+.message-container:not(.type-emoji) .message-click-boundary:focus-within .message-contents.MessageContent-module__contents {
+  transform: translateY(1px) scale(0.985) !important;
+  box-shadow:
+    inset 0 2px 10px rgba(255, 255, 255, 0.08),
+    inset 0 -6px 18px rgba(0, 0, 0, 0.22),
+    0 4px 10px rgba(0, 0, 0, 0.12) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.mx_EventTile:hover .message-contents.MessageContent-module__contents,
+.mx_EventTile:hover .MessageContent-module__contents,
+.mx_EventTile_line:hover .message-contents.MessageContent-module__contents,
+.mx_EventTile_line:hover .MessageContent-module__contents,
+.message-container:hover .message-contents.MessageContent-module__contents,
+.message-container:hover .MessageContent-module__contents {
+  transform: none !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  z-index: 12 !important;
+}
+
+.message-container:hover,
+.mx_EventTile:hover,
+.message-container.is-selected,
+.mx_EventTile:focus-within {
+  z-index: 15 !important;
+}
+
+.message-container .message-contents-container.hasText > .message-contents.MessageContent-module__contents:hover::before,
+.message-container:not(.type-emoji) .message-contents.MessageContent-module__contents:hover::before {
+  opacity: 1;
+  transform: translateX(18%);
+}
+
+.mx_EventTile:hover .message-contents.MessageContent-module__contents::before,
+.mx_EventTile:hover .MessageContent-module__contents::before,
+.mx_EventTile_line:hover .message-contents.MessageContent-module__contents::before,
+.mx_EventTile_line:hover .MessageContent-module__contents::before,
+.message-container:hover .message-contents.MessageContent-module__contents::before,
+.message-container:hover .MessageContent-module__contents::before {
+  opacity: 1;
+  transform: translateX(18%);
+}
+
+.message-container:not(.type-emoji):hover .mx_MTextBody,
+.message-container:not(.type-emoji):hover .mx_EventTile_body,
+.message-container:not(.type-emoji):hover .mx_EventTile_content,
+.message-container:not(.type-emoji):hover .MessageContent-module__contents,
+.mx_EventTile:hover .mx_MTextBody,
+.mx_EventTile:hover .mx_EventTile_body,
+.mx_EventTile:hover .mx_EventTile_content,
+.mx_EventTile:hover .MessageContent-module__contents {
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.12) !important;
+}
+
+.message-container:not(.type-emoji):hover .message-contents.MessageContent-module__contents.MessageContent-module__isSender,
+.mx_EventTile:hover .message-contents.MessageContent-module__contents.MessageContent-module__isSender {
+  background: linear-gradient(145deg, rgba(78, 84, 97, 0.9), rgba(38, 42, 51, 0.96)) !important;
+}
+
+.message-container:not(.type-emoji) .message-contents-container.hasText > .message-contents.MessageContent-module__contents.MessageContent-module__isSender:active,
+.message-container:not(.type-emoji) .message-contents.MessageContent-module__contents.MessageContent-module__isSender:active,
+.message-container:not(.type-emoji) .message-contents-container.hasText > .message-contents.MessageContent-module__contents.MessageContent-module__isSender:focus-visible,
+.message-container:not(.type-emoji) .message-contents.MessageContent-module__contents.MessageContent-module__isSender:focus-visible,
+.message-container.is-selected:not(.type-emoji) .message-contents-container.hasText > .message-contents.MessageContent-module__contents.MessageContent-module__isSender,
+.message-container.is-selected:not(.type-emoji) .message-contents.MessageContent-module__contents.MessageContent-module__isSender,
+.message-container:not(.type-emoji):focus-within .message-contents-container.hasText > .message-contents.MessageContent-module__contents.MessageContent-module__isSender,
+.message-container:not(.type-emoji):focus-within .message-contents.MessageContent-module__contents.MessageContent-module__isSender,
+.message-container:not(.type-emoji) .message-click-boundary:focus-within .message-contents-container.hasText > .message-contents.MessageContent-module__contents.MessageContent-module__isSender,
+.message-container:not(.type-emoji) .message-click-boundary:focus-within .message-contents.MessageContent-module__contents.MessageContent-module__isSender {
+  background: linear-gradient(145deg, rgba(82, 88, 102, 0.96), rgba(43, 47, 56, 0.99)) !important;
+}
+
+.message-container:not(.type-emoji):hover .message-contents.MessageContent-module__contents:not(.MessageContent-module__isSender),
+.mx_EventTile:hover .message-contents.MessageContent-module__contents:not(.MessageContent-module__isSender),
+.mx_EventTile:hover .mx_EventTile_line.mx_EventTile_body {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.06)) !important;
+}
+
+.message-container:not(.type-emoji) .message-contents-container.hasText > .message-contents.MessageContent-module__contents:not(.MessageContent-module__isSender):active,
+.message-container:not(.type-emoji) .message-contents.MessageContent-module__contents:not(.MessageContent-module__isSender):active,
+.message-container:not(.type-emoji) .message-contents-container.hasText > .message-contents.MessageContent-module__contents:not(.MessageContent-module__isSender):focus-visible,
+.message-container:not(.type-emoji) .message-contents.MessageContent-module__contents:not(.MessageContent-module__isSender):focus-visible,
+.message-container.is-selected:not(.type-emoji) .message-contents-container.hasText > .message-contents.MessageContent-module__contents:not(.MessageContent-module__isSender),
+.message-container.is-selected:not(.type-emoji) .message-contents.MessageContent-module__contents:not(.MessageContent-module__isSender),
+.message-container:not(.type-emoji):focus-within .message-contents-container.hasText > .message-contents.MessageContent-module__contents:not(.MessageContent-module__isSender),
+.message-container:not(.type-emoji):focus-within .message-contents.MessageContent-module__contents:not(.MessageContent-module__isSender),
+.message-container:not(.type-emoji) .message-click-boundary:focus-within .message-contents-container.hasText > .message-contents.MessageContent-module__contents:not(.MessageContent-module__isSender),
+.message-container:not(.type-emoji) .message-click-boundary:focus-within .message-contents.MessageContent-module__contents:not(.MessageContent-module__isSender) {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.09)) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  box-shadow:
+    inset 0 2px 12px rgba(255, 255, 255, 0.12),
+    inset 0 -8px 20px rgba(0, 0, 0, 0.18),
+    0 4px 10px rgba(0, 0, 0, 0.1) !important;
+}
+
+.message-container:not(.type-emoji) .message-contents-container.hasText > .message-contents.MessageContent-module__contents.MessageContent-module__isSender,
+.message-container:not(.type-emoji) .message-contents.MessageContent-module__contents.MessageContent-module__isSender {
+  background: rgba(72, 79, 96, 0.16) !important;
+  color: var(--glass-text) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  transform-origin: right bottom;
+}
+
+.message-container:not(.type-emoji) .message-contents-container.hasText > .message-contents.MessageContent-module__contents:not(.MessageContent-module__isSender),
+.message-container:not(.type-emoji) .message-contents.MessageContent-module__contents:not(.MessageContent-module__isSender),
+.mx_EventTile:not(.mx_EventTile_info) .mx_EventTile_line.mx_EventTile_body {
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: var(--glass-text) !important;
+}
+
+.message-container.type-emoji .message-contents-container > .message-contents,
+.message-container.type-emoji .message-contents-container > .message-contents.MessageContent-module__contents,
+.message-container.type-emoji .message-contents.MessageContent-module__contents {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-radius: 0 !important;
+}
+
+.linked-message-content.LinkedMessage-module__linkedMessageContent {
+  background:
+    linear-gradient(155deg, rgba(36, 40, 48, 0.98), rgba(24, 27, 33, 0.98)) padding-box,
+    var(--glass-panel-outline) border-box !important;
+}
+
+span.linked-message-inline-text,
+.mx_ReplyPreview,
+.mx_EventTile_reply,
+.mx_MTextBody,
+.mx_EventTile_content {
+  color: var(--glass-text) !important;
+}
+
+.message-seen-by,
+span.message-seen-by {
+  color: #7f7f7f !important;
+  display: inline-block;
+  opacity: 0.62;
+  transform: translateY(1px);
+  transition:
+    opacity 180ms ease,
+    color 180ms ease,
+    transform 180ms ease !important;
+}
+
+.mx_EventTile:hover .message-seen-by,
+.mx_EventTile:hover span.message-seen-by,
+.message-container:hover .message-seen-by,
+.message-container:hover span.message-seen-by {
+  opacity: 1;
+  transform: translateY(0);
+  color: #9a9a9a !important;
+}
+
+.mx_MessageTimestamp,
+.message-seen-by-container,
+.message-seen-by-label,
+.mx_EventTile_senderDetails,
+.mx_BaseAvatar_initial,
+.mx_RoomSublist_label,
+.mx_RoomHeader .mx_RoomHeader_topic,
+.mx_RoomHeader .mx_RoomHeader_nametag,
+.mx_RoomHeader .mx_RoomHeader_subtitle {
+  color: var(--glass-text-muted) !important;
+}
+
+.mx_RoomTile,
+.mx_RoomSublist_tiles .mx_RoomTile,
+.ThreadListItem-module__internal,
+div.ThreadListItem-module__internal,
+.mx_SpacePanel .mx_AccessibleButton,
+.mx_AccessibleButton,
+.mx_IconizedContextMenu_item,
+.mx_Menu_item {
+  border-radius: var(--glass-radius-md) !important;
+  transition:
+    background-color var(--glass-transition-fast),
+    color var(--glass-transition-fast),
+    box-shadow var(--glass-transition-fast),
+    border-color var(--glass-transition-fast),
+    filter var(--glass-transition-fast),
+    transform var(--glass-transition-fast) !important;
+}
+
+.mx_RoomTile:hover,
+.ThreadListItem-module__internal:hover,
+div.ThreadListItem-module__internal:hover,
+.mx_SpacePanel .mx_AccessibleButton:hover,
+.mx_AccessibleButton:hover,
+.mx_IconizedContextMenu_item:hover,
+.mx_Menu_item:hover {
+  background: linear-gradient(180deg, rgba(95, 109, 132, 0.24), rgba(73, 85, 103, 0.18)) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 8px 18px rgba(0, 0, 0, 0.16) !important;
+  filter: brightness(1.04);
+  transform: translateX(4px);
+}
+
+.mx_RoomTile_selected,
+.mx_RoomTile.mx_RoomTile_selected,
+.mx_RoomTile[aria-selected="true"],
+.ThreadListItem-module__internal[aria-selected="true"],
+.mx_SpaceButton_active {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.06)) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 10px 26px rgba(0, 0, 0, 0.18) !important;
+  transform: translateX(4px);
+}
+
+.mx_RoomTile_selected .mx_RoomTile_name,
+.mx_RoomTile[aria-selected="true"] .mx_RoomTile_name,
+.mx_RoomTile_selected .mx_RoomTile_topicPreview {
+  color: var(--glass-text) !important;
+}
+
+.mx_RoomList,
+.mx_RoomSublist,
+.mx_LeftPanel,
+.mx_LeftPanel_roomListContainer {
+  background: transparent !important;
+}
+
+.mx_Dialog,
+.mx_ContextualMenu,
+.mx_Menu {
+  color: var(--glass-text) !important;
+}
+
+.mx_Dialog * ,
+.mx_ContextualMenu *,
+.mx_Menu * {
+  color: inherit !important;
+}
+
+.mx_EventTile {
+  animation: messageRowIn 820ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  will-change: transform, opacity;
+  transition: transform var(--glass-transition-fast), opacity var(--glass-transition-fast) !important;
+}
+
+.mx_EventTile:hover {
+  transform: translateX(2px);
+}
+
+::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent !important;
+  border: none !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: transparent !important;
+}
+
+* {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+::selection {
+  background: rgba(202, 209, 221, 0.22);
+  color: var(--glass-text);
+}
+
+@keyframes glassFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes messageRowIn {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes messageBubbleIn {
+  0% {
+    opacity: 0;
+    filter: blur(12px);
+    transform: translateY(28px);
+  }
+
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes mediaMessageIn {
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(24px) scale(0.985);
+  }
+
+  30% {
+    opacity: 1;
+    filter: blur(1.5px);
+  }
+
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes composerSentBounce {
+  0%   { transform: translateY(0); }
+  28%  { transform: translateY(var(--composer-bounce-distance)); }
+  65%  { transform: translateY(var(--composer-bounce-overshoot)); }
+  100% { transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
