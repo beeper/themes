@@ -366,6 +366,8 @@ body {
     --border-radius-conversation-bubble: 17px;
     --inbox-filter-size: 40px;
     --account-switcher-brand-icon-size: 20px;
+    --composer-bridge-icon-size: 20px;
+    --composer-bridge-badge-size: 14px;
     --account-switcher-width: 54px;
     --min-media-width: 40px;
     --composer-attachment-min-width: 180px;
@@ -1090,6 +1092,7 @@ body:not(.sub-window) .thread-header {
     border: 1px solid var(--color-border-input);
     border-radius: 16px 16px 8px 16px;
     color: var(--color-text-neutrals);
+    overflow: visible;
 }
 
 .ComposeMessage-module__input:has(.ProseMirror-focused) {
@@ -1097,9 +1100,47 @@ body:not(.sub-window) .thread-header {
 }
 
 .ComposeMessage-module__textArea {
-    padding: 5px 0;
+    padding: 7px 0 3px;
     caret-color: var(--color-text-translucent) !important;
     --caret-color: var(--color-text-translucent) !important;
+}
+
+.ComposeMessage-module__input
+    :is(.brand-combined-icon, .brand-background, [class*="BrandNetworkIcon-module__brandNetworkIcon"]) {
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
+    height: var(--composer-bridge-icon-size) !important;
+    max-height: var(--composer-bridge-icon-size) !important;
+    max-width: var(--composer-bridge-icon-size) !important;
+    min-height: var(--composer-bridge-icon-size) !important;
+    min-width: var(--composer-bridge-icon-size) !important;
+    object-fit: contain;
+    object-position: center;
+    overflow: visible !important;
+    width: var(--composer-bridge-icon-size) !important;
+}
+
+.ComposeMessage-module__input
+    > :is(img, canvas, [style*="background-image"]),
+.ComposeMessage-module__input
+    .is-badge
+    :is(.brand-combined-icon, .brand-background),
+.ComposeMessage-module__input
+    [class*="BrandNetworkIcon-module__isBadge"]
+    :is(.brand-combined-icon, .brand-background) {
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
+    height: var(--composer-bridge-badge-size) !important;
+    max-height: var(--composer-bridge-badge-size) !important;
+    max-width: var(--composer-bridge-badge-size) !important;
+    min-height: var(--composer-bridge-badge-size) !important;
+    min-width: var(--composer-bridge-badge-size) !important;
+    object-fit: contain;
+    object-position: center;
+    overflow: visible !important;
+    width: var(--composer-bridge-badge-size) !important;
 }
 
 .ComposeMessage-module__textAreaButtons {
