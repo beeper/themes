@@ -1,0 +1,1381 @@
+/*
+  Golden Gate Messages — Beeper Desktop v4 theme
+  Makes Beeper Desktop look and feel like Apple Messages on macOS 27 Golden Gate.
+
+  Author:   @leninebike (https://github.com/leninebike)
+  Tested:   Beeper Desktop v4.3.176, macOS 27 Golden Gate, light and dark mode
+  Licence:  Apache-2.0 (as the beeper/themes repository)
+
+  Requires: message style "Bubbles" (Settings → Appearance); the theme targets .bubble-mode.
+  Apply:    Settings → Appearance → Custom CSS → "Open CSS file in editor",
+            paste, save, then "Reload CSS".
+            After changing --gg-row-pad, also reload the window (Cmd+R): the chat
+            list is virtualised and only re-measures its rows on a full reload.
+  Inspect:  command bar (Cmd+K) → "open console" → Cmd+Shift+C.
+
+  Contents
+    1.  Tokens — colours, glass, sizes (tweak these first)
+    2.  Layout — edge-to-edge panes, no rounded frame, full-height conversation
+    3.  Sidebar — floating header, list typography and rhythm, selected row
+    4.  Toolbar — inbox + filter capsule; compose and search moved to the conversation pane
+    5.  Account switcher — "Inbox" as an icon segment of the toolbar capsule
+    6.  Conversation header — avatar + name pill, info button
+    7.  Bubbles — colours, tails, replies, reactions, sender names
+    8.  Composer — text field, "+" and send buttons
+    9.  Toasts, motion (info pane basics)
+    10. Dark mode
+    11. Info pane — square corners, composer width while it is open
+    12. New message view — search row starts below the floating buttons
+    13. Popup menus — macOS-style panel, rows, highlight and separators
+
+  Notes on Beeper's DOM that shaped this file
+    • Beeper's module CSS loads after custom CSS, so some rules need !important.
+    • .subheader-content wraps the WHOLE conversation (header, messages,
+      composer and info pane): never style "all buttons" inside it.
+    • Never put a transform on .thread-header or on the conversation pane: the
+      avatar and name are positioned relative to them and disappear.
+    • Over the virtualised chat list, backdrop-filter blurs images and colours
+      but not text in Beeper's Electron build, so nothing relies on blur for
+      legibility.
+    • Translucent text colours also fade colour emoji: text colours are solid.
+*/
+
+
+/* ═══════════════════════════════ 1. TOKENS ═══════════════════════════════ */
+
+:root {
+  --color-background-sidebar-opaque: #f2f2f4;
+}
+
+body {
+  /* Apple system colours (light) */
+  --gg-blue: #0a7cff;                   /* selected row, active send button */
+  --gg-sent-top: #52bbff;               /* sent bubbles: fixed gradient, as in Messages — */
+  --gg-sent-bottom: #178bfc;            /* light at the top of the window, deeper at the bottom */
+  --gg-selected-shade: rgba(0, 0, 0, 0.16);  /* darkening of a selected bubble */
+  --gg-bubble-in: #e9e9eb;              /* received bubbles */
+  --gg-bubble-in-text: #000;
+  --gg-bg: 255, 255, 255;               /* conversation background, as "R, G, B" */
+  --gg-sidebar: #f2f2f4;
+  /* Text colours are SOLID on purpose: Chromium applies a colour's alpha to
+     colour emoji too, so translucent text greys emoji out. These are the
+     translucent system labels pre-blended onto the theme's backgrounds. */
+  --gg-label-1: #1f1f1f;                /* primary label   (black 88% on white) */
+  --gg-label-2: #8a8a8e;                /* secondary label (#3c3c43 60% on white) */
+  --gg-separator: rgba(60, 60, 67, 0.14);
+
+  /* Chat list typography (Messages uses solid black titles, mid-grey previews) */
+  --gg-list-title: #000;
+  --gg-list-sub: #79797a;               /* black 50% on the sidebar grey */
+
+  /* Liquid Glass — Golden Gate flavour: slightly more opaque, more contrast */
+  --gg-glass-bg: rgba(255, 255, 255, 0.68);
+  --gg-glass-border: rgba(255, 255, 255, 0.8);
+  --gg-glass-blur: blur(24px) saturate(180%);
+  --gg-glass-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.07),
+    0 6px 20px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+  --gg-toolbar-bg: rgba(255, 255, 255, 0.5);
+
+  /* Sidebar toolbar capsule */
+  --gg-tb-bg: rgba(255, 255, 255, 0.55);
+  --gg-tb-bg-hover: rgba(255, 255, 255, 0.8);
+  --gg-tb-bg-active: rgba(0, 0, 0, 0.06);
+  --gg-tb-border: rgba(0, 0, 0, 0.08);
+  --gg-tb-highlight: rgba(255, 255, 255, 0.9);
+  --gg-tb-icon: rgba(0, 0, 0, 0.72);
+
+  /* Composer: grey field, light round buttons (as in iMessage) */
+  --gg-field-bg: rgba(244, 244, 246, 0.64);   /* frosted: light grey alone, pale tint over bubbles */
+  --gg-field-border: rgba(0, 0, 0, 0.08);
+  --gg-field-blur: blur(8px) saturate(140%) brightness(1.04);
+  --gg-cbtn-bg: rgba(255, 255, 255, 0.9);
+  --gg-cbtn-bg-hover: rgba(242, 242, 244, 0.95);
+  --gg-cbtn-border: rgba(0, 0, 0, 0.12);
+  --gg-cbtn-icon: rgba(0, 0, 0, 0.88);
+
+  /* Sizes and positions */
+  --gg-toolbar-h: 76px;                 /* hover toolbar band: ends ~8px below the name pill */
+  --gg-avatar-offset: 1px;              /* nudges the conversation avatar + name pill down */
+  --gg-sidebar-top: calc(var(--header-height) + 8px);  /* list starts below the sidebar header */
+  --gg-sidebar-fade: 28px;              /* how far the sidebar header fade reaches into the list */
+  --gg-row-pad: 7px;                    /* extra vertical padding per chat row (reload window after changing) */
+  --gg-btn: 38px;                       /* size of every round button and toolbar segment */
+  --gg-compose-h: var(--gg-btn);        /* height of the text field AND the "+" / send buttons */
+  --gg-radius-bubble: 18px;
+  --gg-radius-row: 10px;
+
+  /* Native Beeper variables */
+  --border-radius-75: 0px;              /* rounded corner of the conversation pane (native: 10px) */
+  --header-height: 52px;
+  --color-primary: var(--gg-blue);
+  --font-size-label-medium: 0.65rem;
+  --font-letter-spacing-label: 0;
+}
+
+
+/* ═══════════════════════════════ 2. LAYOUT ═══════════════════════════════ */
+
+/* Golden Gate: the sidebar runs to the window edge and the conversation sits
+   flush against it — no inset card, gap or rounded frame. */
+.right-wrapper {
+  --frame-gap: 0px;
+  border-radius: 0 !important;
+}
+
+.right-wrapper .right,
+.right-wrapper .right.right-thread {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+  margin: 0 !important;
+  /* Invisible filter on purpose: it keeps this pane as the containing block of
+     the position:fixed composer (Beeper's native drop-shadow did this). Without
+     it the composer is sized to the whole window and gets cut off. */
+  filter: drop-shadow(0 0 0 transparent) !important;
+}
+
+/* The same 10px corner is also drawn and clipped by these */
+.right-pane-header.right-pane-header-thread,
+.conversation,
+.subheader-content {
+  border-radius: 0 !important;
+}
+
+/* Full-height conversation: the message list runs from the top of the window to
+   the bottom, under the (floating) header and composer. Beeper leaves a 1px
+   margin here; the avatar is offset separately in section 6. */
+.subheader-content {
+  margin-top: 0 !important;
+}
+
+/* Solid conversation background (white / #1e1e1e) instead of Beeper's black */
+.right-wrapper .right,
+.conversation,
+.messages-list-scrolling-container {
+  background-color: rgb(var(--gg-bg)) !important;
+}
+
+.resize-handle {
+  border-left: 0.5px solid var(--gg-separator);
+}
+
+
+/* ═══════════════════════════════ 3. SIDEBAR ══════════════════════════════ */
+
+/* Floating header: the list scrolls all the way up under the traffic lights
+   and toolbar, fading out beneath them. */
+.threads {
+  position: relative;
+}
+
+.left-pane-header {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* The header's own material would isolate any backdrop-filter inside it, so
+   effects are stripped from it and its wrappers. The fade is drawn by ::before,
+   which is not an ancestor of anything. */
+.left-pane-header,
+.left-pane-header .tab-bar,
+.left-pane-header .tab-bar-container {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+  mask: none !important;
+  -webkit-mask: none !important;
+  mix-blend-mode: normal !important;
+}
+
+.left-pane-header::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 calc(-1 * var(--gg-sidebar-fade)) 0;
+  z-index: -1;
+  pointer-events: none;
+  /* lighter tint than before, so the blur underneath shows: in Beeper it
+     softens images and colours (text stays sharp but is veiled) */
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--gg-sidebar) 70%, transparent) 0%,
+    color-mix(in srgb, var(--gg-sidebar) 45%, transparent) 55%,
+    transparent 100%
+  );
+  -webkit-backdrop-filter: blur(20px) saturate(170%) !important;
+  backdrop-filter: blur(20px) saturate(170%) !important;
+  -webkit-mask-image: linear-gradient(to bottom, #000 45%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 45%, transparent 100%);
+}
+
+/* The empty header area drags the window (Electron); controls stay clickable */
+.left-pane-header,
+.left-pane-header .tab-bar,
+.left-pane-header .tab-bar-container {
+  -webkit-app-region: drag;
+  app-region: drag;
+}
+
+.left-pane-header button,
+.left-pane-header .tab-bar-btn,
+.left-pane-header [role="button"],
+button.CurrentAccount-module__currentAccount {
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+}
+
+/* List starts below the header. Blur over the list only partly works in
+   Beeper (images blur, text stays sharp), so the header's blur is helped by a
+   gentle mask: rows fade as they slide under the traffic lights and toolbar,
+   and are fully visible where the list starts at rest. */
+.threads .virtual-list {
+  /* gentle fade only (rows keep ~30% at the very top), so there is still
+     something under the header for the blur to act on */
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0, #000 var(--gg-sidebar-top));
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0, #000 var(--gg-sidebar-top));
+  padding-top: var(--gg-sidebar-top) !important;
+  scroll-padding-top: var(--gg-sidebar-top);
+  box-sizing: border-box;
+}
+
+[class*="ThreadListReadIcon-module__iconContainer"] {
+  display: none;
+}
+
+[class*="AccountFilters-module__wrapper"] {
+  height: 26px;
+  gap: 0;
+  justify-content: left;
+}
+
+[class*="AccountFilters-module__button"] {
+  padding: 2px 11px;
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+/* Row rhythm: taller rows (~80px instead of ~66px), avatar centred on the text */
+[class*="ThreadListItem-module__wrapper"] {
+  padding-top: calc(var(--gg-row-pad) + 2px) !important;
+  padding-bottom: var(--gg-row-pad) !important;
+  box-sizing: border-box;
+}
+
+[class*="ThreadListItem-module__internal"] {
+  align-items: center;
+}
+
+/* List avatars only (scoped: applied everywhere it also shrank the header avatar) */
+.threads [class*="ThreadAvatar-module__avatar"] {
+  width: 90%;
+  height: 90%;
+  margin-left: 5px;
+}
+
+/* Typography as in Messages: 13px bold black titles, 12px mid-grey previews */
+[class*="ThreadListItem-module__title"] {
+  font-size: 0.8125rem;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  color: var(--gg-list-title) !important;
+}
+
+[class*="ThreadListItem-module__preview"] {
+  font-size: 0.75rem;
+  line-height: 0.95rem;
+}
+
+[class*="ThreadListItem-module__timestamp"],
+[class*="ThreadListItem-module__time"] {
+  font-size: 0.72rem;
+}
+
+[class*="ThreadListItem-module__preview"],
+[class*="ThreadListItem-module__timestamp"],
+[class*="ThreadListItem-module__time"] {
+  color: var(--gg-list-sub) !important;
+  opacity: 1 !important;                /* colour, not opacity, keeps emoji crisp */
+  letter-spacing: 0 !important;
+}
+
+/* Selected conversation: solid blue row with white text */
+.sidebar-thread.isSelected {
+  background: none !important;
+}
+
+[class*="ThreadListItem-module__wrapper"][class*="ThreadListItem-module__isSelected"] {
+  background-color: var(--gg-blue) !important;
+  border-radius: var(--gg-radius-row);
+}
+
+[class*="ThreadListItem-module__isSelected"] [class*="ThreadListItem-module__content"],
+[class*="ThreadListItem-module__isSelected"] [class*="ThreadListItem-module__content"] *,
+[class*="ThreadListItem-module__isSelected"] [class*="ThreadListItem-module__title"] {
+  color: #fff !important;
+  opacity: 1 !important;
+}
+
+[class*="ThreadListItem-module__isSelected"] [class*="ThreadListItem-module__preview"],
+[class*="ThreadListItem-module__isSelected"] [class*="ThreadListItem-module__time"] {
+  color: #dbeaff !important;            /* white 85% on blue, solid (emoji stay vivid) */
+}
+
+
+/* ═══════════════════════════ 4. SIDEBAR TOOLBAR ══════════════════════════ */
+
+/* Filter, search and compose share ONE glass capsule, as related toolbar
+   buttons do in Golden Gate. It is drawn segment by segment (first rounded on
+   the left, last on the right, middle square). Positions are counted among
+   .tab-bar-btn only, because they share their parent with the account switcher. */
+.tab-bar-container {
+  padding-right: 10px;
+  gap: 0;
+  align-items: center;
+  background: none !important;
+}
+
+.tab-bar-btn {
+  margin: 0 !important;
+  background: none !important;          /* the tooltip wrapper has no fill of its own */
+}
+
+/* Keep the capsule on the right now that "Inbox" has left the top bar */
+.tab-bar .tab-bar-btn:nth-child(1 of .tab-bar-btn) {
+  margin-left: auto !important;
+}
+
+.tab-bar-btn button {
+  width: 38px;
+  height: var(--gg-btn);
+  min-width: 0;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 !important;
+  background-color: var(--gg-tb-bg) !important;  /* also overrides FilterButton's own fill */
+  -webkit-backdrop-filter: var(--gg-glass-blur);
+  backdrop-filter: var(--gg-glass-blur);
+  border: 0.5px solid var(--gg-tb-border);
+  border-left-width: 0;
+  border-right-width: 0;
+  box-shadow: inset 0 1px 0 var(--gg-tb-highlight);
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.tab-bar-btn:nth-child(1 of .tab-bar-btn) button {
+  width: 42px;
+  padding-left: 4px;
+  border-left-width: 0.5px;
+  border-radius: 999px 0 0 999px !important;
+}
+
+/* Search (2nd button) sits apart at the top-right of the conversation pane,
+   as a round button like compose. A sidebar ancestor traps position:fixed, so
+   "right" would mean the sidebar's right edge; instead it is placed from the
+   left, using the window width (the sidebar starts at the window's left edge). */
+.left-pane-header .tab-bar .tab-bar-btn:nth-child(2 of .tab-bar-btn) {
+  position: fixed !important;
+  top: calc((var(--header-height) - var(--gg-btn)) / 2);
+  left: calc(100vw - var(--gg-btn) - 12px);
+  right: auto;
+  z-index: 30;
+}
+
+.left-pane-header .tab-bar .tab-bar-btn:nth-child(2 of .tab-bar-btn) button {
+  width: var(--gg-btn);
+  height: var(--gg-btn);
+  padding: 0;
+  border-width: 0.5px !important;
+  border-style: solid;
+  border-color: var(--gg-cbtn-border) !important;
+  border-radius: 999px !important;
+  background-color: var(--gg-cbtn-bg) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.left-pane-header .tab-bar .tab-bar-btn:nth-child(2 of .tab-bar-btn) button:hover {
+  background-color: var(--gg-cbtn-bg-hover) !important;
+}
+
+.left-pane-header .tab-bar .tab-bar-btn:nth-child(2 of .tab-bar-btn) button svg {
+  color: var(--gg-cbtn-icon) !important;
+}
+
+.tab-bar-btn:nth-child(1 of .tab-bar-btn):nth-last-child(1 of .tab-bar-btn) button {
+  width: var(--gg-btn);
+  padding: 0;
+  border-radius: 999px !important;
+}
+
+/* Compose (new message) sits apart, at the top-left of the conversation pane,
+   as in Messages. It is positioned against the full-width sidebar header, just
+   past its right edge, so it follows the sidebar when it is resized. */
+.threads,
+.threads-list-container {
+  overflow: visible !important;         /* so the button is not clipped outside the sidebar */
+}
+
+.left-pane-header .tab-bar .tab-bar-btn:nth-last-child(1 of .tab-bar-btn) {
+  position: absolute !important;
+  top: calc((var(--header-height) - var(--gg-btn)) / 2);
+  left: calc(100% + 12px);
+  z-index: 30;
+}
+
+.left-pane-header .tab-bar .tab-bar-btn:nth-last-child(1 of .tab-bar-btn) button {
+  width: var(--gg-btn);
+  height: var(--gg-btn);
+  padding: 0;
+  border-width: 0.5px !important;
+  border-style: solid;
+  border-color: var(--gg-cbtn-border) !important;
+  border-radius: 999px !important;
+  background-color: var(--gg-cbtn-bg) !important;  /* same light button as the composer's "+" */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.left-pane-header .tab-bar .tab-bar-btn:nth-last-child(1 of .tab-bar-btn) button:hover {
+  background-color: var(--gg-cbtn-bg-hover) !important;
+}
+
+.left-pane-header .tab-bar .tab-bar-btn:nth-last-child(1 of .tab-bar-btn) button svg {
+  color: var(--gg-cbtn-icon) !important;
+}
+
+.tab-bar-btn button:hover {
+  background-color: var(--gg-tb-bg-hover) !important;
+}
+
+.tab-bar-btn button:active {
+  background-color: var(--gg-tb-bg-active) !important;
+}
+
+.tab-bar-btn button svg {
+  width: 16px;
+  height: 16px;
+  color: var(--gg-tb-icon) !important;
+}
+
+
+/* ═══════════════════════════ 5. ACCOUNT SWITCHER ═════════════════════════ */
+
+/* "Inbox" becomes an icon button: the first segment of the toolbar capsule,
+   left of the filter. The native button is held at ~29px wide by a Beeper rule
+   that cannot be overridden, so it is only an invisible anchor; the visible
+   segment is its child (.sidebarHeader), placed over the capsule's left end.
+   Clicks on the child still reach the button, so the menu works as before. */
+/* Two-segment capsule (inbox + filter), both 44px with the icons nudged 2px
+   towards the seam. The inbox segment is anchored to the filter
+   (CSS anchor positioning), so it always butts against it exactly. */
+body {
+  --gg-inbox-w: 44px;
+  --gg-inbox-icon-shift: 2px;   /* optical centre inside the rounded end */
+}
+
+.left-pane-header .tab-bar .tab-bar-btn:nth-child(1 of .tab-bar-btn) {
+  anchor-name: --gg-filter;
+}
+
+/* The full-width sidebar header is the positioning reference */
+.left-pane-header .tab-bar,
+.left-pane-header .tab-bar-container,
+.left-pane-header [class*="CurrentAccount-module__sidebarHeader"] {
+  position: static !important;
+}
+
+.left-pane-header .tab-bar button.CurrentAccount-module__currentAccount,
+button.CurrentAccount-module__currentAccount {
+  position: absolute !important;
+  top: anchor(top) !important;
+  position-anchor: --gg-filter;
+  right: anchor(left) !important;
+  bottom: auto !important;
+  left: auto !important;
+  translate: none !important;
+  z-index: 20;
+  height: var(--gg-btn) !important;
+  padding: 0 !important;
+  margin: 0 !important;                 /* also cancels Beeper's inline margin-left */
+  overflow: visible !important;
+  contain: none !important;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  /* The invisible button stretched across the empty header to its left, so
+     that whole area reacted to hover and clicks. Its box is limited to the
+     segment, and it ignores the pointer itself: only the visible segment
+     (its child) is hit-testable, and clicks there still bubble to the button. */
+  width: var(--gg-inbox-w) !important;
+  min-width: 0 !important;
+  max-width: var(--gg-inbox-w) !important;
+  flex: none !important;
+  pointer-events: none !important;
+}
+
+/* The visible segment: same glass as the capsule, rounded on the left */
+.left-pane-header button.CurrentAccount-module__currentAccount > [class*="CurrentAccount-module__sidebarHeader"] {
+  position: absolute !important;
+  top: 0;
+  right: 0;
+  width: var(--gg-inbox-w) !important;
+  height: var(--gg-btn) !important;
+  padding: 0 !important;
+  box-sizing: border-box;
+  border-radius: 999px 0 0 999px !important;
+  background-color: var(--gg-tb-bg) !important;
+  -webkit-backdrop-filter: var(--gg-glass-blur);
+  backdrop-filter: var(--gg-glass-blur);
+  border: 0.5px solid var(--gg-tb-border) !important;
+  border-right-width: 0 !important;
+  box-shadow: inset 0 1px 0 var(--gg-tb-highlight) !important;
+  transition: background-color 0.15s ease;
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+  pointer-events: auto !important;
+}
+
+.left-pane-header button.CurrentAccount-module__currentAccount:hover > [class*="CurrentAccount-module__sidebarHeader"] {
+  background-color: var(--gg-tb-bg-hover) !important;
+}
+
+.left-pane-header button.CurrentAccount-module__currentAccount:active > [class*="CurrentAccount-module__sidebarHeader"] {
+  background-color: var(--gg-tb-bg-active) !important;
+}
+
+/* The label and chevron are hidden; an SF-style "tray" (inbox) icon is drawn
+   instead; the wider segment and the shift give the three icons equal spacing. */
+.left-pane-header button.CurrentAccount-module__currentAccount > [class*="CurrentAccount-module__sidebarHeader"] > * {
+  display: none !important;
+}
+
+.left-pane-header button.CurrentAccount-module__currentAccount > [class*="CurrentAccount-module__sidebarHeader"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  translate: var(--gg-inbox-icon-shift) 0;
+  width: 17px;
+  height: 17px;
+  pointer-events: none;
+  background-color: var(--gg-tb-icon);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 13.5h4.6l1.6 2.5h4.6l1.6-2.5h4.6'/%3E%3Cpath d='M3.5 13.5 6 6.2A1.8 1.8 0 0 1 7.7 5h8.6A1.8 1.8 0 0 1 18 6.2l2.5 7.3v4.7a1.8 1.8 0 0 1-1.8 1.8H5.3a1.8 1.8 0 0 1-1.8-1.8z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 13.5h4.6l1.6 2.5h4.6l1.6-2.5h4.6'/%3E%3Cpath d='M3.5 13.5 6 6.2A1.8 1.8 0 0 1 7.7 5h8.6A1.8 1.8 0 0 1 18 6.2l2.5 7.3v4.7a1.8 1.8 0 0 1-1.8 1.8H5.3a1.8 1.8 0 0 1-1.8-1.8z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* The filter now closes the capsule: rounded on the right, no left border */
+.tab-bar-btn:nth-child(1 of .tab-bar-btn) button {
+  width: 44px !important;
+  padding-left: 0 !important;
+  padding-right: 4px !important;
+  border-left-width: 0 !important;
+  border-right-width: 0.5px !important;
+  border-radius: 0 999px 999px 0 !important;
+}
+
+
+/* ═════════════════════════ 6. CONVERSATION HEADER ════════════════════════ */
+
+/* No gradient: messages scroll under the avatar and name pill */
+.right-pane-header,
+.right-pane-header.right-pane-header-thread {
+  background: transparent !important;
+  overflow: visible;
+}
+
+.right-pane-header.right-pane-header-thread {
+  box-shadow: none;
+  padding-right: 8px;
+}
+
+.thread-header-lhs {
+  visibility: hidden;
+}
+
+/* Group chats: the sender's mini-avatar before "Name:" in the list preview is
+   removed completely (visibility:hidden kept its space and indented the line) */
+.thread-participant-name .participant-img {
+  display: none !important;
+}
+
+.thread-participant-name {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+.thread-header .thread-title-top {
+  opacity: 1;
+  color: var(--gg-label-1);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px;
+}
+
+/* Avatar + "Name ›" card. Offset with a margin, never a transform. */
+.thread-header-left {
+  margin-top: var(--gg-avatar-offset) !important;
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* The card button (.thread-header-card) wraps avatar + pill: the button stays
+   clear and the glass goes on the pill (its last child). Targeted by its own
+   class — a broader selector also hit the info pane's buttons and turned
+   their mask-drawn icons into blank white circles. */
+.thread-header-left .thread-header-card {
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.thread-header-left .thread-header-card > :last-child {
+  border-radius: 999px !important;
+  background-color: rgba(255, 255, 255, 0.42) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(200%) brightness(1.06);
+  backdrop-filter: blur(22px) saturate(200%) brightness(1.06);
+  border: 0.5px solid rgba(255, 255, 255, 0.75) !important;
+  box-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.06),
+    0 4px 14px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Optical centring: the "›" pushes the text's visual centre to the right,
+   so the pill moves 2px left under the avatar. */
+.thread-header-left .thread-header-card > :last-child {
+  translate: -2px 0;
+}
+
+/* Name pill typography, as in Messages: small (11px) semibold black name,
+   compact pill hugging the text, and a small, light chevron. */
+.thread-header-left .thread-header-card > :last-child {
+  min-height: 0 !important;
+  height: auto !important;
+  padding: 3px 7px 3px 9px !important;
+  gap: 1px !important;
+  line-height: 14px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+  color: var(--gg-label-1) !important;
+}
+
+.thread-header-left .thread-header-card > :last-child *:not(svg):not(svg *) {
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  letter-spacing: inherit !important;
+  line-height: inherit !important;
+  color: inherit !important;
+  padding: 0 !important;
+}
+
+.thread-header-left .thread-header-card > :last-child svg,
+.thread-header-left .thread-header-card > :last-child [class*="PlatformIcon"] {
+  width: 9px !important;
+  height: 9px !important;
+  opacity: 0.4;
+}
+
+/* Toolbar band, as in Messages: hovering the top of the conversation reveals a
+   translucent bar with a hairline, behind the avatar and name. It is drawn by
+   the header's ::before (positioned children paint above it). It only catches
+   the pointer while shown, so messages under it stay clickable otherwise —
+   and while shown, hovering the band keeps the header hovered, so it stays. */
+.right-pane-header.right-pane-header-thread::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--gg-toolbar-h);
+  background-color: var(--gg-toolbar-bg);
+  -webkit-backdrop-filter: var(--gg-glass-blur);
+  backdrop-filter: var(--gg-glass-blur);
+  border-bottom: 0.5px solid var(--gg-separator);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.right-pane-header.right-pane-header-thread:hover::before,
+/* Compose and search live in the sidebar DOM (they are only positioned over
+   the conversation), so hovering them does not hover the header: :has() on
+   <body> keeps the band shown while they are hovered. */
+body:has(.left-pane-header .tab-bar .tab-bar-btn:nth-child(2 of .tab-bar-btn):hover) .right-pane-header.right-pane-header-thread::before,
+body:has(.left-pane-header .tab-bar .tab-bar-btn:nth-last-child(1 of .tab-bar-btn):hover) .right-pane-header.right-pane-header-thread::before {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Conversation info toggle: round glass button on the right */
+.toggle-thread-info {
+  width: var(--gg-btn);
+  height: var(--gg-btn);
+  margin: 20px 0;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--gg-glass-bg);
+  -webkit-backdrop-filter: var(--gg-glass-blur);
+  backdrop-filter: var(--gg-glass-blur);
+  box-shadow: var(--gg-glass-shadow);
+  border: 0.5px solid var(--gg-glass-border);
+  border-radius: 999px;
+}
+
+
+/* ═══════════════════════════════ 7. BUBBLES ══════════════════════════════ */
+
+.bubble-mode .message-contents {
+  padding: 6px 11px 7px;
+  border-radius: var(--gg-radius-bubble);
+  line-height: 1.3;
+}
+
+.bubble-mode .message-container:not(.is-sender) .message-contents:not(.type-emoji) {
+  background-color: var(--gg-bubble-in);
+  color: var(--gg-bubble-in-text);
+}
+
+/* Sent bubbles: gradient fixed to the window, as in Messages — each bubble
+   takes its colour from where it sits on screen, so the conversation shifts
+   from light blue at the top to deeper blue at the bottom as it scrolls. */
+.bubble-mode .is-sender .message-contents:not(.type-emoji) {
+  background: linear-gradient(to bottom, var(--gg-sent-top), var(--gg-sent-bottom)) fixed !important;
+  color: #fff;
+  font-weight: 400;
+}
+
+.bubble-mode .type-emoji:not(.is-deleted) .message-contents {
+  background: none !important;
+}
+
+/* Selected bubble: Beeper darkens the whole bubble with filter: brightness(0.7),
+   which greys the text too. As in Messages, only the fill darkens and the text
+   stays as is: the filter is removed and a translucent dark layer is added on
+   top of the fill (tails inherit it, so they match). */
+.bubble-mode .message-container.is-selected .message-contents:not(.type-emoji) {
+  filter: none !important;
+}
+
+.bubble-mode .message-container.is-selected.is-sender .message-contents:not(.type-emoji) {
+  background:
+    linear-gradient(var(--gg-selected-shade), var(--gg-selected-shade)),
+    linear-gradient(to bottom, var(--gg-sent-top), var(--gg-sent-bottom)) fixed !important;
+}
+
+.bubble-mode .message-container.is-selected:not(.is-sender) .message-contents:not(.type-emoji) {
+  background-color: color-mix(in srgb, var(--gg-bubble-in), #000 12%) !important;
+}
+
+/* Message list: no native top fade; room for the composer and for tails */
+.messages-list-scrolling-container.fadeout-top,
+.fadeout-top {
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+.messages-list-scrolling-container.redacted-region {
+  padding-bottom: 60px;
+  padding-right: 14px !important;       /* keeps tails clear of the scrollbar */
+  /* matches the right side: tail tip to pane edge ≈ 18px on both sides
+     (14px here + Beeper's own ~4px on the right; the left had ~1px) */
+  padding-left: 17px !important;
+}
+
+/* ── Tails ──
+   One piece (::before) cut with a composite mask: no background-coloured patch,
+   so nothing shows when Beeper darkens a selected bubble. The background is
+   inherited from the bubble (fixed gradient included), so the tail follows
+   every state. It is 16px tall
+   so it never peeks out of the curve of one-line bubbles. */
+.bubble-mode .message-container .message-contents:not(.type-emoji) {
+  position: relative;
+  isolation: isolate;
+}
+
+.bubble-mode .message-container .message-contents:not(.type-emoji)::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  z-index: -1;
+  width: 20px;
+  height: 16px;
+  pointer-events: none;
+  background: inherit;                  /* whole background, so tails also get the fixed gradient */
+  -webkit-mask-composite: source-over, source-in;
+  mask-composite: add, intersect;
+}
+
+.bubble-mode .message-container .message-contents:not(.type-emoji)::after {
+  content: none;                        /* also hides any native ::after on bubbles */
+}
+
+/* sent (right) */
+.bubble-mode .message-container.is-sender .message-contents:not(.type-emoji)::before {
+  right: -7px;
+  border-bottom-left-radius: 16px 12px;
+  -webkit-mask-image:
+    linear-gradient(to right, #000 13px, transparent 13px),
+    radial-gradient(circle 10px at 23px 6px, transparent 9.5px, #000 10px),
+    linear-gradient(to bottom, transparent 6px, #000 6px);
+  mask-image:
+    linear-gradient(to right, #000 13px, transparent 13px),
+    radial-gradient(circle 10px at 23px 6px, transparent 9.5px, #000 10px),
+    linear-gradient(to bottom, transparent 6px, #000 6px);
+}
+
+/* received (left, mirrored) */
+.bubble-mode .message-container:not(.is-sender) .message-contents:not(.type-emoji)::before {
+  left: -7px;
+  border-bottom-right-radius: 16px 12px;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 7px, #000 7px),
+    radial-gradient(circle 10px at -3px 6px, transparent 9.5px, #000 10px),
+    linear-gradient(to bottom, transparent 6px, #000 6px);
+  mask-image:
+    linear-gradient(to right, transparent 7px, #000 7px),
+    radial-gradient(circle 10px at -3px 6px, transparent 9.5px, #000 10px),
+    linear-gradient(to bottom, transparent 6px, #000 6px);
+}
+
+/* Tail only on the last bubble of a run: hidden when the next message is on the
+   same side. Covers both DOM shapes: (a) sibling messages with up to two
+   elements in between ("1 reply", quotes…), (b) each message in its own wrapper. */
+.message-container.is-sender:has(
+    + .message-container.is-sender,
+    + :not(.message-container) + .message-container.is-sender,
+    + :not(.message-container) + :not(.message-container) + .message-container.is-sender
+  ) .message-contents::before,
+.message-container:not(.is-sender):has(
+    + .message-container:not(.is-sender),
+    + :not(.message-container) + .message-container:not(.is-sender),
+    + :not(.message-container) + :not(.message-container) + .message-container:not(.is-sender)
+  ) .message-contents::before,
+div:has(> .message-container.is-sender):has(+ div > .message-container.is-sender)
+  > .message-container .message-contents::before,
+div:has(> .message-container:not(.is-sender)):has(+ div > .message-container:not(.is-sender))
+  > .message-container .message-contents::before {
+  display: none;
+}
+
+/* Read receipts / delivery status under bubbles ("Visto por…", "Entregue"):
+   as in Messages — Footnote-size (11px), secondary label, ending a little
+   inside the bubble's right edge, where the tail begins. */
+[class*="MessageFooter-module__messageInfoItem"],
+.message-seen-by,
+.message-seen-by * {
+  font-size: 11px !important;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--gg-label-2) !important;
+}
+
+[class*="MessageFooter-module__messageInfoItem"] {
+  margin-right: 4px;
+}
+
+/* Sender names in groups: aligned left with the bubble text */
+div[class*="MessageSender-module__senderName"],
+div[class*="LinkedMessage-module__linkedMessageSenderName"] {
+  font-size: 0.65rem;
+  font-weight: 500;
+  margin: -1px 0 1px 0;
+  letter-spacing: 0;
+  color: var(--gg-label-2) !important;
+}
+
+/* Quoted reply: hairline outline, no fill */
+.linked-message-content {
+  padding: 4px 10px 6px;
+  border-radius: var(--gg-radius-bubble);
+  border: 1px solid var(--gg-separator);
+  margin: 10px 0 4px;
+  background: none;
+}
+
+.linked-message-inline-text {
+  line-height: 0.95rem;
+  color: var(--gg-label-2);
+}
+
+/* Tapbacks: small bubbles with a background-coloured ring */
+.message-reactions.bubble > .message-reaction-container {
+  background-color: var(--gg-bubble-in);
+  border: 2px solid rgb(var(--gg-bg));
+  border-radius: 999px;
+  transform: scale(0);
+  animation: gg-pop 0.22s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.unread-divider {
+  display: none;
+}
+
+
+/* ═══════════════════════════════ 8. COMPOSER ═════════════════════════════ */
+
+/* Floats over the bottom of the message list, with no gradient behind it */
+.ComposeMessage-module__wrapper,
+[class*="ComposeMessage-module__wrapper"] {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding-top: 24px;
+  z-index: 5;
+  background: transparent !important;
+}
+
+/* Text field as in iMessage: flat light-grey fill with a hairline, no shadow.
+   Fixed radius = half a one-line height: a capsule with one line, a rounded
+   rectangle (not an oval) with several. */
+[class*="ComposeMessage-module__input"] {
+  min-height: var(--gg-compose-h);
+  box-sizing: border-box;
+  border-radius: calc(var(--gg-compose-h) / 2) !important;
+  background-color: var(--gg-field-bg) !important;
+  /* iMessage-like frosting: a light, fairly opaque veil with a soft blur, so a
+     bubble behind reads as a pale wash with its text faintly visible (the
+     previous strong blur + saturation turned the whole field blue) */
+  -webkit-backdrop-filter: var(--gg-field-blur) !important;
+  backdrop-filter: var(--gg-field-blur) !important;
+  border: 0.5px solid var(--gg-field-border) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+}
+
+/* "+" and send: light round buttons, same height as the field, pinned to the
+   bottom when the text wraps. !important is needed throughout because Beeper's
+   module CSS loads later and otherwise wins (the buttons lost their own box). */
+[class*="ComposerHiddenActions-module__toggle"],
+[class*="BrandSendButton-module__container"] {
+  width: var(--gg-compose-h) !important;
+  height: var(--gg-compose-h) !important;
+  min-width: var(--gg-compose-h);
+  min-height: var(--gg-compose-h);
+  flex: 0 0 auto !important;
+  align-self: flex-end !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 999px !important;
+  background-color: var(--gg-cbtn-bg) !important;
+  -webkit-backdrop-filter: var(--gg-glass-blur);
+  backdrop-filter: var(--gg-glass-blur);
+  border: 0.5px solid var(--gg-cbtn-border) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+  color: var(--gg-cbtn-icon) !important;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+[class*="ComposerHiddenActions-module__toggle"]:hover {
+  background-color: var(--gg-cbtn-bg-hover) !important;
+}
+
+[class*="ComposerHiddenActions-module__toggle"]:active,
+[class*="BrandSendButton-module__container"]:active {
+  transform: scale(0.94);
+}
+
+/* The native "+" draws a small inner circle: clear only background COLOURS
+   inside it — never images or masks, which draw the icons */
+[class*="ComposerHiddenActions-module__toggle"] *:not([class*="PlatformIcon"]) {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+
+[class*="ComposerHiddenActions-module__toggle"] svg {
+  width: 18px;
+  height: 18px;
+  color: var(--gg-cbtn-icon) !important;
+  fill: currentColor;
+}
+
+/* Send: the native arrow is white and vanishes on a light button, so it is
+   hidden and redrawn (SF-style arrow.up) in the button's text colour —
+   dark when idle, white on blue when there is something to send. */
+[class*="BrandSendButton-module__container"] > * {
+  visibility: hidden;
+}
+
+[class*="BrandSendButton-module__container"]::after {
+  content: "" !important;
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 17px;
+  height: 17px;
+  pointer-events: none;
+  background-color: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 20V4.5M5 11.5 12 4.5l7 7'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 20V4.5M5 11.5 12 4.5l7 7'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+[class*="BrandSendButton-module__container"]:not(:disabled):not([aria-disabled="true"]) {
+  background-color: var(--gg-blue) !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  color: #fff !important;
+}
+
+[class*="ScrollToBottom-module__scrollButtonVisible"] {
+  bottom: 30px;
+}
+
+
+/* ═══════════════════════ 9. INFO PANE, TOASTS, MOTION ════════════════════ */
+
+.thread-info {
+  padding-top: 60px;
+  background-color: var(--gg-sidebar);
+  box-shadow: none;
+  border-left: 0.5px solid var(--gg-separator);
+}
+
+.thread-info .thread-single {
+  padding-top: 70px !important;
+}
+
+/* Toasts ("Nenhum filtro aplicado"…): macOS has no in-app toasts; the
+   closest system idiom is a compact HUD-style capsule with secondary text.
+   Near-opaque fill (blur doesn't reach text in the list behind), 13px
+   regular text, menu-like shadow, and a small round grey close button
+   (like xmark.circle.fill) instead of a bare ×. */
+[class*="Toasts-module__container"] {
+  min-height: 32px !important;
+  padding: 6px 8px 6px 14px !important;
+  gap: 8px !important;
+  border-radius: 999px !important;
+  background-color: var(--gg-menu-bg) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  backdrop-filter: blur(30px) saturate(180%);
+  border: 0.5px solid var(--gg-menu-border) !important;
+  box-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.05),
+    0 8px 24px rgba(0, 0, 0, 0.14) !important;
+  color: var(--gg-label-1) !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  line-height: 18px !important;
+}
+
+[class*="Toasts-module__container"] * {
+  font-size: inherit !important;
+}
+
+/* close button (icon only): small round grey button, like xmark.circle.fill */
+[class*="Toasts-module__container"] button:is(:empty, :has(> svg:only-child), :has(> [class*="PlatformIcon"]:only-child)) {
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  padding: 0 !important;
+  border-radius: 999px !important;
+  background-color: rgba(120, 120, 128, 0.2) !important;
+  border: none !important;
+  color: var(--gg-label-2) !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+[class*="Toasts-module__container"] button:is(:empty, :has(> svg:only-child), :has(> [class*="PlatformIcon"]:only-child)) :is(svg, [class*="PlatformIcon"]) {
+  width: 8px !important;
+  height: 8px !important;
+}
+
+[class*="Toasts-module__container"] button:is(:empty, :has(> svg:only-child), :has(> [class*="PlatformIcon"]:only-child)):hover {
+  background-color: rgba(120, 120, 128, 0.32) !important;
+}
+
+/* action buttons with text ("Reiniciar", "Atualizar"…): stay prominent, as a
+   small blue capsule (macOS accent push button), so useful toasts keep their
+   call to action */
+[class*="Toasts-module__container"] button:not(:empty):not(:has(> svg:only-child)):not(:has(> [class*="PlatformIcon"]:only-child)) {
+  height: 22px !important;
+  padding: 0 10px !important;
+  border-radius: 999px !important;
+  background-color: var(--gg-blue) !important;
+  color: #fff !important;
+  font-weight: 500 !important;
+  border: none !important;
+}
+
+.message-container:last-of-type {
+  animation: gg-rise 0.18s ease-out backwards;  /* not "both": a lingering transform
+                                                   breaks the fixed gradient on the tail */
+}
+
+@keyframes gg-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes gg-pop {
+  to { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .message-container:last-of-type,
+  .message-reactions.bubble > .message-reaction-container {
+    animation: none;
+    transform: none;
+  }
+
+  [class*="ComposerHiddenActions-module__toggle"]:active,
+  [class*="BrandSendButton-module__container"]:active {
+    transform: none;
+  }
+
+  .right-pane-header.right-pane-header-thread::before {
+    transition: none;
+  }
+}
+
+
+/* ═══════════════════════════════ 10. DARK MODE ═══════════════════════════ */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background-app: #1e1e1e;
+    --color-background-sidebar-opaque: #262628;
+  }
+
+  body {
+    --gg-blue: #0a84ff;
+    --gg-bubble-in: #3a3a3c;
+    --gg-bubble-in-text: #fff;
+    --gg-bg: 30, 30, 30;                /* #1e1e1e */
+    --gg-sidebar: #262628;
+    --gg-label-1: #e8e8e8;
+    --gg-label-2: #8e8e93;
+    --gg-separator: rgba(255, 255, 255, 0.1);
+
+    --gg-list-title: #fff;
+    --gg-list-sub: #9e9e9f;
+
+    --gg-toolbar-bg: rgba(30, 30, 30, 0.5);
+    --gg-glass-bg: rgba(44, 44, 46, 0.66);
+    --gg-glass-border: rgba(255, 255, 255, 0.1);
+    --gg-glass-shadow:
+      0 0 0 0.5px rgba(0, 0, 0, 0.5),
+      0 6px 20px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+    --gg-tb-bg: rgba(255, 255, 255, 0.08);
+    --gg-tb-bg-hover: rgba(255, 255, 255, 0.14);
+    --gg-tb-bg-active: rgba(255, 255, 255, 0.2);
+    --gg-tb-border: rgba(255, 255, 255, 0.1);
+    --gg-tb-highlight: rgba(255, 255, 255, 0.08);
+    --gg-tb-icon: rgba(255, 255, 255, 0.8);
+
+    --gg-field-bg: rgba(44, 44, 46, 0.72);
+    --gg-field-border: rgba(255, 255, 255, 0.1);
+    --gg-field-blur: blur(8px) saturate(140%) brightness(0.96);
+    --gg-cbtn-bg: rgba(255, 255, 255, 0.12);
+    --gg-cbtn-bg-hover: rgba(255, 255, 255, 0.18);
+    --gg-cbtn-border: rgba(255, 255, 255, 0.12);
+    --gg-cbtn-icon: rgba(255, 255, 255, 0.92);
+  }
+
+  [class*="MessageContent-module__contents"] {
+    background-color: var(--gg-bubble-in);
+  }
+
+  .thread-header-left .thread-header-card > :last-child {
+    background-color: rgba(50, 50, 52, 0.45) !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    box-shadow:
+      0 0 0 0.5px rgba(0, 0, 0, 0.5),
+      0 4px 14px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  }
+}
+
+
+/* ═══════════════════════════ 11. INFO PANE (open) ════════════════════════ */
+
+/* Square inner corners: the pane sits flush against the conversation */
+.thread-info,
+.thread-info > *,
+.thread-info .thread-single {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+/* The composer is sized to the whole right pane, which includes the info pane
+   when it is open; shorten it by the info pane's width so the field stops at
+   the conversation's edge. */
+body {
+  --gg-info-w: 300px;
+}
+
+.right-wrapper .right:has(.thread-info) .ComposeMessage-module__wrapper,
+.right-wrapper .right:has(.thread-info) [class*="ComposeMessage-module__wrapper"] {
+  width: calc(100% - var(--gg-info-w)) !important;
+}
+
+
+/* ═══════════════════════════ 12. NEW MESSAGE VIEW ═══════════════════════════ */
+
+/* In the new message view (StartNewChatView), the "Search contacts" row sat
+   under the floating compose and search buttons. It moves down so the search
+   field starts 8px below them (the field sits 10px inside .inputs). */
+[class*="StartNewChatView-module__sncContainer"] .command-bar > .inputs {
+  margin-top: calc((var(--header-height) - var(--gg-btn)) / 2 + var(--gg-btn) + 8px - 10px) !important;
+}
+
+
+/* ═══════════════════════════════ 13. POPUP MENUS ══════════════════════════════ */
+
+/* Beeper's popup menus (e.g. the account switcher) are HTML, mounted in a
+   .portal while open. Matched to Beeper's own native menus (e.g. a message's
+   right-click menu): 13px text, 24px rows, 5px panel padding, rounded
+   highlight, content starting close to the left edge, slim inset separators.
+   Row highlight (hover/keyboard) is left to Beeper, so its colours and text
+   colour stay correct and separators are never highlighted. */
+body {
+  --gg-menu-bg: rgba(246, 246, 248, 0.86);  /* lower = more see-through */
+  --gg-menu-blur: blur(60px) saturate(200%);
+  --gg-menu-border: rgba(0, 0, 0, 0.1);
+  --gg-menu-text: #1f1f1f;
+  --gg-menu-rim: rgba(255, 255, 255, 0.6);
+  --gg-menu-shadow: 0 8px 24px rgba(0, 0, 0, 0.14), 0 0 0 0.5px rgba(0, 0, 0, 0.05);
+  --gg-menu-sep: rgba(0, 0, 0, 0.1);
+}
+
+/* the wrapper between .portal and the list draws no panel of its own */
+.portal > div:has(> .menu-list) {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  /* a blur on this wrapper would isolate the list's own blur (it would only
+     "see" the empty wrapper), so it is removed here */
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  filter: none !important;
+}
+
+.portal .menu-list {
+  padding: 5px !important;
+  border-radius: 12px !important;
+  background-color: var(--gg-menu-bg) !important;
+  /* very wide blur, as in native menus: colours behind become broad soft
+     washes; the fill is just opaque enough to hide text that the blur
+     doesn't reach (text over the chat list stays sharp in Beeper) */
+  -webkit-backdrop-filter: var(--gg-menu-blur) !important;
+  backdrop-filter: var(--gg-menu-blur) !important;
+  border: 0.5px solid var(--gg-menu-border) !important;
+  box-shadow:
+    inset 0 0 0 0.5px var(--gg-menu-rim),
+    var(--gg-menu-shadow) !important;
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-size: 13px !important;
+  color: var(--gg-menu-text);
+}
+
+/* rows (separators excluded — see below) */
+.portal .menu-list .menu-item {
+  display: flex;
+  align-items: center !important;
+  min-height: 24px !important;
+  padding: 0 10px 0 4px !important;
+  border-radius: 6px !important;
+  font-size: 13px !important;
+  line-height: 16px !important;
+  letter-spacing: 0 !important;
+}
+
+.portal .menu-list .menu-item * {
+  font-size: inherit !important;
+}
+
+/* content starts near the left edge, as in native menus */
+.portal .menu-list .menu-item > div:first-child {
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.portal .menu-list .check-column {
+  flex: none !important;
+  width: 14px !important;
+  min-width: 14px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.portal .menu-list .check-column svg {
+  width: 11px !important;
+  height: 11px !important;
+}
+
+.portal .menu-list .menu-item [class*="PlatformIcon-module__sfSymbolIcon"] {
+  width: 14px !important;
+  height: 14px !important;
+}
+
+/* separators: whether they are <hr>s, role="separator" elements or empty
+   .menu-item rows, they are thin inset lines that never take the pointer */
+.portal .menu-list hr,
+.portal .menu-list [role="separator"],
+.portal .menu-list [class*="eparator"],
+.portal .menu-list [class*="ivider"],
+.portal .menu-list .menu-item:has(> hr, > [role="separator"], > [class*="eparator"]),
+.portal .menu-list .menu-item:empty {
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 5px 10px !important;
+  padding: 0 !important;
+  border: none !important;
+  border-top: 0.5px solid var(--gg-menu-sep) !important;
+  border-radius: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  pointer-events: none !important;
+}
+
+/* an <hr> inside a separator row: the row draws the line, the <hr> nothing */
+.portal .menu-list .menu-item:has(> hr, > [role="separator"], > [class*="eparator"]) > * {
+  display: none !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    /* native dark menus are a lighter, cooler grey than the window, with a
+       light inner rim; blur can't hide text behind (see sidebar notes), so
+       the fill stays nearly opaque */
+    --gg-menu-bg: rgba(60, 60, 66, 0.86);
+    --gg-menu-blur: blur(60px) saturate(200%) brightness(1.15);
+    --gg-menu-border: rgba(0, 0, 0, 0.6);
+    --gg-menu-rim: rgba(255, 255, 255, 0.14);
+    --gg-menu-shadow: 0 12px 36px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.3);
+    --gg-menu-text: #ececec;
+    --gg-menu-sep: rgba(255, 255, 255, 0.14);
+  }
+}
