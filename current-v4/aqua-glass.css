@@ -1,0 +1,1696 @@
+/*
+Beeper Aqua Glass, v1.0
+A dark, translucent "glass" theme for Beeper Desktop, inspired by Apple's Liquid Glass design.
+https://github.com/RaZdai/beeper-aqua-glass
+
+Unofficial community theme. Not affiliated with or endorsed by Beeper or Apple.
+Beeper is a trademark of its owner; Apple and SF Pro are trademarks of Apple Inc.
+This file contains no Apple assets: icons are original drawings, and the font names are only
+references to fonts the system may already have.
+
+Install: put this file at
+  Windows  %APPDATA%\BeeperTexts\custom.css
+  macOS    ~/Library/Application Support/BeeperTexts/custom.css
+  Linux    ~/.config/BeeperTexts/custom.css
+then Beeper > Settings > Appearance > Reload CSS (or Ctrl/Cmd+Shift+R).
+
+Structure: tokens, Beeper variable overrides, base, sidebar, account rail, conversation list,
+chat surface, bubbles, reactions and pills, composer, floating controls, settings window, and a
+generated block of icon glyphs at the end (built by tools/gen-icons.mjs; edit the table there).
+The settings window is a separate document (body.sub-window), so window-level rules name both bodies.
+Change a colour, radius or shadow in the tokens and it changes everywhere.
+
+Beeper runs with "reduce-transparency" on Windows, so real backdrop blur has little behind it.
+The glass is built from a translucent fill, a light rim and a top highlight, so it reads as glass
+without depending on what is behind the window.
+*/
+
+/* ================= Tokens ================= */
+:root {
+  /* Text fonts first; "Apple Color Emoji" is used when installed (always on macOS; on Windows and
+     Linux via the optional emoji kit in emoji/, whose block moves it to the front for emoji only) */
+  --font-family: "SF Pro Display", "SF Pro Text", "Segoe UI Variable Display", "Segoe UI", system-ui, "Apple Color Emoji", TwemojiFlags, "Segoe UI Emoji", "Segoe UI Symbol", Twemoji, sans-serif, "Noto Color Emoji" !important;
+
+  /* Radii: one scale for the whole theme */
+  --radius-sm: 10px !important;
+  --radius-md: 16px !important;
+  --radius-lg: 22px !important;
+  --radius-bubble: 19px !important;
+  --radius-pill: 999px !important;
+
+  /* Accent: one blue everywhere (send button, own bubbles, links, selection) */
+  --accent: #0a84ff !important;
+  --accent-rgb: 10, 132, 255 !important;
+  --accent-top: #3b9dff !important;
+  --accent-bottom: #0a6fe0 !important;
+
+  /* Glass */
+  --glass-bg: rgba(255, 255, 255, 0.06) !important;
+  --glass-bg-strong: rgba(255, 255, 255, 0.11) !important;
+  --glass-bubble: rgba(255, 255, 255, 0.17) !important;
+  --glass-bubble-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.02) 70%) !important;
+  --glass-bubble-rim: inset 0 0 0 1px rgba(255, 255, 255, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
+  --glass-pane: rgba(255, 255, 255, 0.025) !important;
+  --glass-border: rgba(255, 255, 255, 0.14) !important;
+  --glass-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0) 60%) !important;
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.20), inset 0 -1px 0 rgba(255, 255, 255, 0.04) !important;
+  --glass-rim: inset 0 0 0 1px var(--glass-border), var(--glass-highlight) !important;
+  --glass-shadow: 0 8px 28px rgba(0, 0, 0, 0.35) !important;
+  --glass-blur: blur(28px) saturate(180%) !important;
+  --glass-blur-sm: blur(14px) saturate(170%) !important;
+  --tile-shadow: 0 4px 12px rgba(0, 0, 0, 0.30) !important;
+
+  /* Symbols on glass: one colour and one size scale for every glyph and network logo.
+     Frosted white rather than pure white, like Apple's vibrant labels on glass. */
+  --sym: rgba(255, 255, 255, 0.90) !important;
+  --sym-filter: brightness(0) invert(1) opacity(0.90) !important;
+  --sym-size: 20px !important;
+  --select-fill: rgba(255, 255, 255, 0.12) !important;
+  --select-rim: inset 0 0 0 0.5px rgba(255, 255, 255, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.10) !important;
+  --hover-fill: rgba(255, 255, 255, 0.07) !important;
+  --badge-ring: #0d0d10 !important;
+
+  /* Page backdrop and scrollbars */
+  /* Spacing: one scale for paddings and gaps */
+  --space-1: 4px !important;
+  --space-2: 8px !important;
+  --space-3: 12px !important;
+  --space-4: 16px !important;
+  --space-5: 24px !important;
+
+  --page-glow-1: rgba(10, 132, 255, 0.20) !important;
+  --page-glow-2: rgba(94, 92, 230, 0.16) !important;
+  --page-base: #050506 !important;
+  --scroll-thumb: rgba(255, 255, 255, 0.16) !important;
+  --scroll-thumb-hover: rgba(255, 255, 255, 0.28) !important;
+  --separator: rgba(255, 255, 255, 0.07) !important;
+}
+
+/* Light mode: white-on-white glass is invisible, so use a brighter fill, a dark hairline,
+   a white top highlight and real shadows. Only tokens change; no rule below is duplicated. */
+@media (prefers-color-scheme: light) {
+  :root {
+    --glass-bg: rgba(255, 255, 255, 0.55) !important;
+    --glass-bg-strong: rgba(255, 255, 255, 0.80) !important;
+    --glass-bubble: rgba(255, 255, 255, 0.92) !important;
+    --glass-bubble-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.70), rgba(255, 255, 255, 0) 70%) !important;
+    --glass-bubble-rim: inset 0 0 0 1px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+    --glass-pane: rgba(255, 255, 255, 0.35) !important;
+    --glass-border: rgba(0, 0, 0, 0.12) !important;
+    --glass-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.60), rgba(255, 255, 255, 0) 60%) !important;
+    --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 0 rgba(0, 0, 0, 0.05) !important;
+    --glass-shadow: 0 8px 24px rgba(0, 0, 0, 0.14) !important;
+    --tile-shadow: 0 4px 12px rgba(0, 0, 0, 0.14) !important;
+    --sym: rgba(0, 0, 0, 0.78) !important;
+    --sym-filter: brightness(0) opacity(0.78) !important;
+    --select-fill: rgba(0, 0, 0, 0.07) !important;
+    --select-rim: inset 0 0 0 0.5px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
+    --hover-fill: rgba(0, 0, 0, 0.04) !important;
+    --badge-ring: #eef1f6 !important;
+    --page-glow-1: rgba(10, 132, 255, 0.14) !important;
+    --page-glow-2: rgba(94, 92, 230, 0.10) !important;
+    --page-base: #eef1f6 !important;
+    --scroll-thumb: rgba(0, 0, 0, 0.22) !important;
+    --scroll-thumb-hover: rgba(0, 0, 0, 0.38) !important;
+    --separator: rgba(0, 0, 0, 0.08) !important;
+  }
+}
+
+/* ================= Beeper's own variables ================= */
+/* Beeper sets these on body, so they are overridden on the body of both windows. This keeps its
+   own components (links, buttons, toggles, menus) on the same blue as the theme. */
+body.main-window,
+body.sub-window {
+  --color-primary: var(--accent) !important;
+  --bubble-out-bg: var(--accent) !important;
+  --color-background-button-primary: var(--accent) !important;
+  --color-background-selected-primary: var(--accent) !important;
+  --color-text-info: #5cadff !important;
+  --color-background-scrollbar: var(--scroll-thumb) !important;
+  --color-background-scrollbar-hover: var(--scroll-thumb-hover) !important;
+}
+
+/* ================= Base ================= */
+body,
+body.main-window,
+body.sub-window {
+  font-family: var(--font-family) !important;
+  -webkit-font-smoothing: antialiased !important;
+}
+
+textarea, input, button {
+  font-family: var(--font-family) !important;
+}
+
+/* Backdrop so the glass has something to sit on. */
+body.main-window,
+body.sub-window {
+  background:
+    radial-gradient(900px 600px at 8% 0%, var(--page-glow-1), transparent 60%),
+    radial-gradient(800px 700px at 100% 100%, var(--page-glow-2), transparent 60%),
+    var(--page-base) !important;
+}
+
+/* .home is opaque grey and .panes was solid black; together they hid the backdrop entirely. */
+.home,
+.panes {
+  background: transparent !important;
+}
+
+/* Chat pane: a faint glass card on the backdrop. With no chat open it was a flat black slab.
+   In settings .right wraps the whole window, so there the card goes on the right pane instead. */
+.right:not(.right-prefs),
+.prefs-right-pane {
+  background: var(--glass-sheen), var(--glass-pane) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--glass-rim) !important;
+}
+
+::-webkit-scrollbar {
+  width: 10px !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb) !important;
+  border: 3px solid transparent !important;
+  background-clip: padding-box !important;
+  border-radius: var(--radius-pill) !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scroll-thumb-hover) !important;
+  background-clip: padding-box !important;
+}
+
+::selection {
+  background: rgba(var(--accent-rgb), 0.45) !important;
+}
+
+/* ================= Sidebar header: Inbox pill and header icons ================= */
+[class*="CurrentAccount-module__sidebarHeader"] {
+  background: var(--glass-sheen), var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  border-radius: var(--radius-pill) !important;
+  box-shadow: var(--glass-rim) !important;
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  height: 36px !important;
+  padding: 0 14px !important;
+}
+
+/* Header row: was 6px from the window edge; align it with the rows below */
+.tab-bar {
+  margin-left: var(--space-2) !important;
+  margin-right: var(--space-2) !important;
+}
+
+/* Header actions (filter, search, compose): one shared glass capsule, the way Apple groups
+   related toolbar items. The three wrappers are siblings, so the first rounds the left end,
+   the last rounds the right end, and only the outer edges carry a border: no seams. The
+   buttons inside are plain glyphs with a round hover fill. */
+.tab-bar > .tab-bar-btn {
+  display: flex !important;
+  align-items: center !important;
+  height: 36px !important;
+  margin: 0 !important;
+  padding: 2px 0 !important;
+  box-sizing: border-box !important;
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  border-top: 1px solid var(--glass-border) !important;
+  border-bottom: 1px solid var(--glass-border) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.10) !important;
+}
+
+.tab-bar > .tab-bar-btn:nth-child(1 of .tab-bar-btn) {
+  margin-left: auto !important;
+  padding-left: 3px !important;
+  border-left: 1px solid var(--glass-border) !important;
+  border-radius: 18px 0 0 18px !important;
+}
+
+.tab-bar > .tab-bar-btn:last-child {
+  padding-right: 3px !important;
+  border-right: 1px solid var(--glass-border) !important;
+  border-radius: 0 18px 18px 0 !important;
+}
+
+.tab-bar > .tab-bar-btn button {
+  box-sizing: border-box !important;
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--sym) !important;
+  transition: background 0.15s ease !important;
+}
+
+.tab-bar > .tab-bar-btn button:hover {
+  background: var(--hover-fill) !important;
+}
+
+/* Beeper gives these glyphs non-square boxes (24x16.8, 22.8x26.4, 26.4x20.4); square them so
+   nothing is stretched, at the same size as every other navigation glyph */
+.tab-bar > .tab-bar-btn button svg {
+  width: var(--sym-size) !important;
+  height: var(--sym-size) !important;
+}
+
+/* ================= Account rail ================= */
+/* One glass panel. The items on it are plain glyphs and plain network logos: no tiles, orbs or
+   gradients (glass on glass is exactly what Apple says to avoid). Selected and hovered items get
+   a thin round fill, like a selected sidebar item. */
+
+/* Network logos: the brand square and Instagram's gradient are removed entirely */
+.brand-combined-icon:not(.is-badge) {
+  border-radius: 0 !important;
+  overflow: visible !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.brand-combined-icon:not(.is-badge) .brand-background {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.brand-combined-icon > svg,
+.brand-combined-icon > img {
+  filter: var(--sym-filter) !important;
+}
+
+/* Optical sizing. Measured in a 28px box, Beeper's logos filled 60% to 82% of it (Viber touched
+   the edge). Each one is scaled so round logos read about 17px, square ones about 15.5px and
+   the wide Discord logo 18px wide: one visual size, matching the 20px UI glyphs next to them. */
+.brand-combined-icon > svg:has(path[d^="M10.435.207C5."]) { transform: scale(0.89) !important; }  /* WhatsApp */
+.brand-combined-icon > svg:has(path[d^="M10 .367c-2.45"]) { transform: scale(0.86) !important; }  /* Instagram */
+.brand-combined-icon > svg:has(path[d^="M18.04 1.756A1"]) { transform: scale(0.95) !important; }  /* Discord */
+.brand-combined-icon > svg:has(path[d^="M9.271 1.724h1"]) { transform: scale(0.74) !important; }  /* Viber */
+.brand-combined-icon > svg:has(path[d^="M19.26 19.277h"]) { transform: scale(0.84) !important; }  /* LinkedIn */
+.brand-combined-icon > svg:has(path[d^="M.74 4.844C.74"]) { transform: scale(1.02) !important; }  /* Beeper */
+
+/* WhatsApp is drawn as a white bubble, a green bubble on top (which makes the white one read as a
+   ring) and a white phone. Turned all-white it became a solid blob, so the solid bubble is hidden
+   and the green layer is drawn as a white outline of the same thickness instead. */
+.brand-combined-icon > svg:has(path[d^="M10.435.207C5."]) > path[d^="M10.435.207C5."] {
+  display: none !important;
+}
+
+.brand-combined-icon > svg:has(path[d^="M10.435.207C5."]) > path[fill="#1EC843"] {
+  fill: none !important;
+  stroke: #fff !important;
+  stroke-width: 1.3 !important;
+}
+
+/* Rail buttons: every item, glyph or logo, sits centred in the same 36px round target */
+.account-switcher .sidebar-button,
+.account-switcher .sidebar-button > button,
+.account-switcher .left-pane-footer-buttons button {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: background 0.15s ease !important;
+}
+
+.account-switcher .sidebar-button > button,
+.account-switcher .left-pane-footer-buttons button {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.account-switcher .sidebar-button:hover {
+  background: var(--hover-fill) !important;
+}
+
+.account-switcher .sidebar-button.selected {
+  background: var(--select-fill) !important;
+  box-shadow: var(--select-rim) !important;
+}
+
+.account-switcher [class*="PlatformIcon-module__materialIcon"] {
+  opacity: 1 !important;
+  color: var(--sym) !important;
+  width: var(--sym-size) !important;
+  height: var(--sym-size) !important;
+}
+
+.account-switcher [class*="PlatformIcon-module__materialIcon"] svg {
+  width: var(--sym-size) !important;
+  height: var(--sym-size) !important;
+}
+
+/* "Create label" had a dashed ring larger than every other item; now a plain glyph like the rest */
+[class*="CreateLabelNudgeIcon-module__ring"] {
+  border: 0 !important;
+  border-radius: 50% !important;
+}
+
+/* The rail panel itself: the one piece of glass here. Flat translucent fill, real backdrop blur
+   over the chat list, a light edge and a soft shadow. No gradient. */
+.account-switcher--floating {
+  background: rgba(20, 20, 24, 0.58) !important;
+  backdrop-filter: blur(30px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0 !important;
+  box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.08), var(--glass-shadow) !important;
+}
+
+@media (prefers-color-scheme: light) {
+  .account-switcher--floating {
+    background: rgba(246, 247, 250, 0.70) !important;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.08), var(--glass-shadow) !important;
+  }
+}
+
+/* Unread count on an account: accent, with a ring so it lifts off the glass */
+[class*="AccountBadge-module__dot"] {
+  box-shadow: 0 0 0 2px var(--badge-ring) !important;
+}
+
+/* Badges on avatars sit on photos (the content layer), so they keep a small solid backing for
+   legibility: a dark disc, the same white logo, a ring separating it from the photo */
+.brand-combined-icon.is-badge {
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  background: var(--badge-ring) !important;
+  box-shadow: 0 0 0 2px var(--badge-ring) !important;
+}
+
+.brand-combined-icon.is-badge .brand-background {
+  background: transparent !important;
+}
+
+.brand-combined-icon.is-badge > svg {
+  transform: scale(0.82) !important;
+}
+
+/* Generic material glyphs elsewhere (chevrons and similar): just quieter */
+[class*="PlatformIcon-module__materialIcon"] {
+  opacity: 0.75 !important;
+}
+
+/* ================= Conversation list ================= */
+[class*="ThreadListItem-module__title"],
+[class*="PinnedThreadListItem-module__title"] {
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+}
+
+[class*="PinnedThreadListItem"] img {
+  box-shadow: 0 0 0 2px var(--glass-border), var(--tile-shadow) !important;
+}
+
+[class*="PinnedThreadListItem"] {
+  border-radius: var(--radius-md) !important;
+}
+
+/* Rows: the virtual list fixes each row's height, so only horizontal spacing changes here.
+   Wider inner padding and a larger avatar gap give the text room to breathe. */
+[class*="ThreadListItem-module__internal"] {
+  padding-left: var(--space-3) !important;
+  padding-right: var(--space-3) !important;
+}
+
+[class*="ThreadListItem-module__avatar"] {
+  margin-right: var(--space-3) !important;
+}
+
+[class*="ThreadListItem-module__preview"] {
+  opacity: 0.78 !important;
+}
+
+[class*="ThreadListItem-module__timestamp"] {
+  opacity: 0.6 !important;
+}
+
+[class*="ThreadListItem-module__wrapper"] {
+  border-radius: var(--radius-md) !important;
+  transition: background 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+/* Hairline separators between rows: the rounded glass rows already separate them */
+[class*="ThreadListItem-module__wrapper"]::after {
+  background: transparent !important;
+}
+
+[class*="ThreadListItem-module__wrapper"]:hover {
+  background: var(--glass-bg) !important;
+  box-shadow: var(--glass-rim) !important;
+}
+
+/* Selected chat: stronger glass. Beeper's own ::before overlay is removed so it does not stack. */
+[class*="ThreadListItem-module__wrapper"][class*="ThreadListItem-module__isSelected"] {
+  background: var(--glass-sheen), var(--glass-bg-strong) !important;
+  box-shadow: var(--glass-rim), var(--tile-shadow) !important;
+}
+
+[class*="ThreadListItem-module__wrapper"][class*="ThreadListItem-module__isSelected"]::before {
+  background: transparent !important;
+}
+
+/* ================= Chat header ================= */
+/* Title: one glass pill on thread-header-info; every layer around and inside it stays flat. */
+.thread-header-card,
+.thread-header-name-row,
+.thread-header-name {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.thread-header-info {
+  background: var(--glass-sheen), var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur-sm) !important;
+  -webkit-backdrop-filter: var(--glass-blur-sm) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--radius-pill) !important;
+  box-shadow: var(--glass-highlight), var(--tile-shadow) !important;
+  padding: 5px 12px 5px 14px !important;
+}
+
+.thread-header-name {
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.thread-header-name-chevron {
+  margin-left: 2px !important;
+}
+
+/* Header avatar sat on a black disc */
+.thread-header-avatar {
+  background: transparent !important;
+  box-shadow: 0 0 0 1px var(--glass-border), var(--tile-shadow) !important;
+}
+
+/* ================= Bubbles ================= */
+/* Received: frosted glass. Sent: the accent blue as a glossy gradient. Same radius for both. */
+[class*="MessageContent-module__contents"] {
+  border-radius: var(--radius-bubble) !important;
+  padding: 9px 14px !important;
+  line-height: 19px !important;
+}
+
+[class*="MessageContent-module__contents"]:not([class*="MessageContent-module__isSender"]) {
+  background: var(--glass-bubble-sheen), var(--glass-bubble) !important;
+  box-shadow: var(--glass-bubble-rim), 0 2px 8px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* Messages ran edge to edge of the chat card (8px). Give the conversation real margins,
+   a little more air between messages, and room above the first one under the title pill. */
+.message-container {
+  padding-left: var(--space-5) !important;
+  padding-right: var(--space-5) !important;
+  padding-bottom: 6px !important;
+}
+
+.messages-list-scrolling-container {
+  padding-top: 64px !important;
+}
+
+[class*="MessageContent-module__contents"][class*="MessageContent-module__isSender"] {
+  background: linear-gradient(180deg, var(--accent-top), var(--accent-bottom)) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 2px 8px rgba(var(--accent-rgb), 0.25) !important;
+}
+
+/* Emoji-only messages are shown large with no bubble, as in Messages. Empty placeholders get nothing. */
+.type-emoji [class*="MessageContent-module__contents"],
+[class*="MessageContent-module__contents"]:empty {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Voice messages: same treatment as bubbles */
+.audio-player {
+  border-radius: var(--radius-pill) !important;
+  padding: 9px 14px !important;
+  background: var(--glass-bubble-sheen), var(--glass-bubble) !important;
+  box-shadow: var(--glass-bubble-rim), 0 2px 8px rgba(0, 0, 0, 0.18) !important;
+}
+
+.message-contents .audio-player,
+[class*="MessageContent-module__isSender"] .audio-player {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.is-sender .audio-player {
+  background: linear-gradient(180deg, var(--accent-top), var(--accent-bottom)) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 2px 8px rgba(var(--accent-rgb), 0.25) !important;
+}
+
+/* "Try Transcribe" and download: muted instead of saturated link blue */
+[class*="Transcribe-module__button"],
+.message-download-btn {
+  color: rgba(var(--accent-rgb), 0.85) !important;
+  opacity: 0.8 !important;
+}
+
+[class*="Transcribe-module__button"]:hover,
+.message-download-btn:hover {
+  opacity: 1 !important;
+}
+
+/* Timestamps and message footer: quieter */
+[class*="MessageFooter-module__messageInfoItem"] {
+  opacity: 0.7 !important;
+}
+
+/* Mini player close button was a 10px target next to 20px controls: same 20px target, 14px glyph */
+[class*="GlobalAudioControls-module__playerWrapper"] button:has(path[d^="m5.333 15.834"]) {
+  width: 20px !important;
+  height: 20px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+[class*="GlobalAudioControls-module__playerWrapper"] button:has(path[d^="m5.333 15.834"]) svg {
+  width: 14px !important;
+  height: 14px !important;
+}
+
+/* Playback speed chip ("1.25x") on a playing voice note: was a square-cornered grey box */
+[class*="PlaybackControl-module__button"] {
+  border-radius: var(--radius-pill) !important;
+  padding: 1px 7px !important;
+  background: rgba(255, 255, 255, 0.14) !important;
+  box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.18) !important;
+}
+
+/* ================= Reactions and date pills ================= */
+/* Reactions were opaque grey discs with a black border and a solid blue fill behind them */
+.message-reaction-container {
+  background: var(--glass-sheen), var(--glass-bg-strong) !important;
+  backdrop-filter: var(--glass-blur-sm) !important;
+  -webkit-backdrop-filter: var(--glass-blur-sm) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glass-highlight), var(--tile-shadow) !important;
+}
+
+.message-reaction-container::before {
+  background: transparent !important;
+}
+
+/* Geometry: a single reaction is a true 26px circle (it was a 28.7x25.6 oval) and grows into a
+   capsule when it carries a count. The emoji sat on a 15.9px line box inside a 17px glyph, so it
+   rode off-centre; it is now centred on its own box. */
+.message-reaction-container {
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 3px !important;
+  height: 26px !important;
+  min-width: 26px !important;
+  padding: 0 3.5px !important;
+  border-radius: 13px !important;
+}
+
+.message-reaction-container .message-reaction {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 100% !important;
+  line-height: 1 !important;
+}
+
+/* One column under every bubble: the reaction, "Try Transcribe" and the seen line all start at the
+   same inset from the bubble edge (Beeper indented the transcribe line 10px further). */
+[class*="Transcribe-module__button"] {
+  margin-left: 0 !important;
+}
+
+[class*="MessageReactions-module__isOwnReaction"] {
+  background: var(--glass-sheen), rgba(var(--accent-rgb), 0.30) !important;
+  border-color: rgba(var(--accent-rgb), 0.55) !important;
+}
+
+/* Day separators ("Today"): the pill inside .date was black with a grey border */
+.date > div {
+  background: var(--glass-sheen), var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur-sm) !important;
+  -webkit-backdrop-filter: var(--glass-blur-sm) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glass-highlight), var(--tile-shadow) !important;
+  padding: 4px 12px !important;
+}
+
+/* ================= Composer ================= */
+/* The wrapper strip behind the composer was solid black */
+[class*="ComposeMessage-module__wrapper"] {
+  background: transparent !important;
+  padding: var(--space-2) var(--space-5) var(--space-4) !important;
+}
+
+[class*="ComposeMessage-module__row"] {
+  gap: 10px !important;
+  align-items: center !important;
+}
+
+[class*="ComposeMessage-module__messageInputContainer"] {
+  background: var(--glass-sheen), var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--glass-highlight), var(--glass-shadow) !important;
+  min-height: 42px !important;
+  padding-left: 4px !important;
+  padding-right: 4px !important;
+}
+
+/* Centre the emoji and record buttons in the pill. Beeper gives their strip an 8px top margin, which
+   pushed them low. They stay pinned to the bottom edge (so they ride along with a multi-line
+   message, as on iOS), with a 4px margin that centres the 32px strip inside the pill's 1px border. */
+[class*="ComposeMessage-module__messageInputContainer"] {
+  align-items: center !important;
+}
+
+[class*="ComposeMessage-module__textAreaButtons"] {
+  align-self: flex-end !important;
+  align-items: center !important;
+  height: 32px !important;
+  margin: 0 0 4px !important;
+  padding: 0 6px 0 0 !important;
+  gap: 2px !important;
+}
+
+[class*="ComposeMessage-module__textAreaButtons"] > *,
+[class*="ComposeMessage-module__emojiPopup"] {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Emoji (34px) and record (32px) buttons were different sizes: both are 32px targets */
+[class*="ComposeMessage-module__emojiPopup"] {
+  box-sizing: border-box !important;
+  width: 32px !important;
+  height: 32px !important;
+  padding: 5px !important;
+}
+
+/* The input inside the glass had its own grey box with a smaller radius (box inside a box) */
+[class*="ComposeMessage-module__input"],
+[class*="ComposeMessage-module__textArea"] {
+  background: transparent !important;
+  font-family: var(--font-family) !important;
+}
+
+/* "+" button: was a solid grey disc */
+[class*="ComposerHiddenActions-module__toggle"],
+[class*="BrandSendButton-module__container"] {
+  width: 42px !important;
+  height: 42px !important;
+  min-width: 42px !important;
+}
+
+[class*="ComposerHiddenActions-module__toggle"] {
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  border: 1px solid var(--glass-border) !important;
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  box-shadow: var(--glass-highlight), var(--glass-shadow) !important;
+  color: var(--sym) !important;
+}
+
+[class*="ComposerHiddenActions-module__toggle"]:hover {
+  background: var(--glass-bg-strong) !important;
+}
+
+/* Composer glyphs: one size, square boxes */
+[class*="ComposerHiddenActions-module__toggle"] svg,
+[class*="Emoji-module__emojiPicker"] svg,
+[class*="ComposeMessage-module__textAreaButtons"] svg {
+  width: 22px !important;
+  height: 22px !important;
+}
+
+/* Send button: accent glass circle, same gradient as sent bubbles */
+[class*="BrandSendButton-module__container"] {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  background: linear-gradient(180deg, var(--accent-top), var(--accent-bottom)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  border-radius: var(--radius-pill) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.30), 0 6px 16px rgba(var(--accent-rgb), 0.35) !important;
+  transition: transform 0.15s ease !important;
+}
+
+[class*="BrandSendButton-module__container"]:hover {
+  transform: scale(1.06) !important;
+}
+
+/* ================= Floating controls ================= */
+/* Scroll-to-bottom: the container is a full-width zero-height strip, so it stays bare.
+   The visible element is the circle, which was solid black. */
+[class*="ScrollToBottom-module__container"] {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+[class*="ScrollToBottom-module__circle"] {
+  background: var(--glass-sheen), var(--glass-bg-strong) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glass-highlight), var(--glass-shadow) !important;
+}
+
+/* Tooltips: were black with a white glow.
+   The message flyover and popover wrappers are left alone: they are 0-2px tall when idle,
+   so a border on them draws a stray line under every message. */
+[class*="BrandTooltip-module__tooltip"] {
+  background: var(--glass-sheen), rgba(22, 22, 26, 0.86) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glass-highlight), var(--glass-shadow) !important;
+}
+
+@media (prefers-color-scheme: light) {
+  [class*="BrandTooltip-module__tooltip"] {
+    background: var(--glass-sheen), rgba(250, 250, 252, 0.88) !important;
+  }
+}
+
+/* Audio player: floating glass pill, only while something is playing.
+   When idle the wrapper is empty and 2px tall, and styling it drew a stray line in the sidebar. */
+[class*="GlobalAudioControls-module__playerWrapper"]:not(:empty) {
+  background: var(--glass-sheen), var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--glass-highlight), var(--glass-shadow) !important;
+  margin: 6px 8px !important;
+}
+
+/* ================= Message footer spacing ================= */
+/* Reactions overlap the bubble's lower edge by design; keep that, but give the line under them
+   ("Try Transcribe", seen state) its own room instead of touching the reaction. */
+[class*="MessageFooter-module__reactionsRow"] {
+  margin: -5px 0 4px !important;
+}
+
+.message-interactions {
+  margin-top: 2px !important;
+}
+
+/* ================= Settings window ================= */
+/* Left navigation: more inset from the window edge, rounder rows, no hairlines between them */
+.prefs-left-pane-heading {
+  margin: var(--space-2) 0 var(--space-2) var(--space-4) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.prefs-search-gutter {
+  padding: 0 var(--space-3) var(--space-3) var(--space-3) !important;
+}
+
+.prefs-search-input {
+  padding: 8px 12px !important;
+  background: var(--glass-sheen), var(--glass-bg) !important;
+  box-shadow: var(--glass-rim) !important;
+}
+
+.prefs-left-pane {
+  padding: 0 var(--space-3) var(--space-3) var(--space-3) !important;
+}
+
+.prefs-left-pane .pref-option {
+  padding: 9px 10px !important;
+  margin-bottom: 2px !important;
+  border-radius: var(--radius-sm) !important;
+  transition: background 0.15s ease !important;
+}
+
+.prefs-left-pane .pref-option::after {
+  display: none !important;
+}
+
+.prefs-left-pane .pref-option:hover {
+  background: var(--glass-bg) !important;
+}
+
+.prefs-left-pane .pref-option.selected {
+  background: var(--glass-sheen), var(--glass-bg-strong) !important;
+  box-shadow: var(--glass-rim) !important;
+}
+
+.pref-option-profile {
+  padding: 10px !important;
+  margin-bottom: var(--space-2) !important;
+}
+
+/* Category icons: were bright colour squares. Now plain glyphs on the sidebar glass, like
+   sidebar symbols in Apple's apps; the selected row's capsule is the only highlight. */
+.pref-icon {
+  width: 22px !important;
+  height: 22px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-right: var(--space-3) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--sym) !important;
+}
+
+.pref-title {
+  font-weight: 500 !important;
+}
+
+.pref-option-subtitle {
+  font-size: 11.5px !important;
+  opacity: 0.65 !important;
+}
+
+/* Right pane: glass card (shared with the chat pane rule above) with room around the content */
+.prefs-right-pane {
+  margin: var(--space-2) var(--space-2) var(--space-2) 0 !important;
+}
+
+.prefs-right-pane-scroll {
+  padding: var(--space-5) var(--space-5) var(--space-5) !important;
+}
+
+/* Groups: grouped-list glass cards with hairline row separators, like iOS Settings */
+.prefs-group,
+[class*="AddNewAccounts-module__addMoreAccounts"]:not([class*="AddNewAccounts-module__addMoreAccounts"] *) {
+  background: var(--glass-sheen), var(--glass-bg) !important;
+  border: 0 !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--glass-rim) !important;
+  margin: var(--space-3) 0 var(--space-4) !important;
+  overflow: hidden !important;
+}
+
+.prefs-group .label-wrapper {
+  border-bottom: 0 !important;
+}
+
+.prefs-group > * + * {
+  border-top: 1px solid var(--separator) !important;
+}
+
+[class*="AccountListItem-module__networkIcon"] {
+  width: 28px !important;
+  height: 28px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+[class*="AccountListItem-module__accountListItem"] {
+  padding: 10px 16px 10px 14px !important;
+  gap: var(--space-3) !important;
+}
+
+[class*="AccountListItem-module__accountListItem"]:hover {
+  background: var(--glass-bg) !important;
+}
+
+[class*="AddNewAccounts-module__addMoreAccounts"]:not([class*="AddNewAccounts-module__addMoreAccounts"] *) {
+  padding: var(--space-5) var(--space-4) !important;
+}
+
+/* Network collage in "Add more accounts": monochrome so it matches the glass icons */
+[class*="AddNewAccounts-module__addMoreAccountsCollage"] {
+  filter: grayscale(1) brightness(1.35) !important;
+  opacity: 0.75 !important;
+  margin: var(--space-3) 0 !important;
+}
+
+/* Buttons in settings: glass pills */
+[class*="BrandButton-module__button"] {
+  padding: 9px 18px !important;
+  background: var(--glass-sheen), var(--glass-bg-strong) !important;
+  box-shadow: var(--glass-rim) !important;
+}
+
+/* Toggles: Beeper drew a translucent knob on an empty track, so "on" read as a blue dot.
+   Now iOS-style: white knob always, glass track off, accent track on. */
+[class*="Toggle-module__track"] {
+  background: rgba(255, 255, 255, 0.16) !important;
+  box-shadow: inset 0 0 0 1px var(--glass-border) !important;
+  transition: background 0.2s ease !important;
+}
+
+[class*="Toggle-module__input"]:checked + [class*="Toggle-module__track"] {
+  background: linear-gradient(180deg, var(--accent-top), var(--accent-bottom)) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+}
+
+[class*="Toggle-module__knob"] {
+  background: #ffffff !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35), 0 0 0 0.5px rgba(0, 0, 0, 0.10) !important;
+}
+
+[class*="Toggle-module__border"] {
+  display: none !important;
+}
+
+/* Dropdowns: were flat dark boxes. Glass pills to match the rest. */
+.prefs-right-pane select {
+  background-color: var(--glass-bg-strong) !important;
+  background-image: var(--glass-sheen) !important;
+  box-shadow: var(--glass-rim) !important;
+  border: 0 !important;
+  border-radius: var(--radius-pill) !important;
+  padding: 0 12px !important;
+}
+
+/* Native radios and checkboxes: theme accent instead of the system colour */
+input[type="radio"],
+input[type="checkbox"] {
+  accent-color: var(--accent) !important;
+}
+
+/* BEGIN apple-glyphs (generated by gen-icons.mjs; edit the table there, not here) */
+/* ================= Apple-style glyphs ================= */
+:root {
+  --glyph-tray: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5.4%205h13.2l2.9%208.3V18a2%202%200%200%201-2%202h-15a2%202%200%200%201-2-2v-4.7z%22%2F%3E%3Cpath%20d%3D%22M2.6%2013.3h4.9l1.4%202.6h6.2l1.4-2.6h4.9%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-archivebox: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%223%22%20y%3D%224%22%20width%3D%2218%22%20height%3D%224.6%22%20rx%3D%221.3%22%2F%3E%3Cpath%20d%3D%22M4.6%208.6V18a2%202%200%200%200%202%202h10.8a2%202%200%200%200%202-2V8.6%22%2F%3E%3Cpath%20d%3D%22M10%2012.6h4%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-ellipsis: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%225.5%22%20cy%3D%2212%22%20r%3D%221.6%22%20fill%3D%22%23000%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%221.6%22%20fill%3D%22%23000%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2218.5%22%20cy%3D%2212%22%20r%3D%221.6%22%20fill%3D%22%23000%22%20stroke%3D%22none%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-photo: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%223%22%20y%3D%224.5%22%20width%3D%2218%22%20height%3D%2215%22%20rx%3D%222.6%22%2F%3E%3Ccircle%20cx%3D%228.6%22%20cy%3D%229.6%22%20r%3D%221.6%22%2F%3E%3Cpath%20d%3D%22m3.4%2017.2%205-4.6%203.6%203.2%203.4-3%205.2%204.7%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-plusSquare: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%223.5%22%20y%3D%223.5%22%20width%3D%2217%22%20height%3D%2217%22%20rx%3D%224%22%2F%3E%3Cpath%20d%3D%22M12%208v8M8%2012h8%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-plusBubble: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M12%203.5c4.9%200%208.5%203.4%208.5%207.6s-3.6%207.6-8.5%207.6c-1%200-2-.1-2.9-.4L5%2020.3l.9-3.6C4.4%2015.3%203.5%2013.3%203.5%2011.1c0-4.2%203.6-7.6%208.5-7.6z%22%2F%3E%3Cpath%20d%3D%22M12%208v6.4M8.8%2011.2h6.4%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-upDown: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%222.2%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m8%209.5%204-4%204%204M8%2014.5l4%204%204-4%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-filter: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M4%207h16M7%2012h10M10%2017h4%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-search: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2210.5%22%20cy%3D%2210.5%22%20r%3D%226.5%22%2F%3E%3Cpath%20d%3D%22m15.4%2015.4%205.1%205.1%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-compose: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M19.5%2013v5a2.5%202.5%200%200%201-2.5%202.5H6A2.5%202.5%200%200%201%203.5%2018V7A2.5%202.5%200%200%201%206%204.5h5%22%2F%3E%3Cpath%20d%3D%22M17.8%203.4a1.9%201.9%200%200%201%202.8%202.8L12.5%2014.3l-3.6.8.8-3.6z%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-chevronRight: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m9.5%205.5%206.5%206.5-6.5%206.5%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-chevronDown: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%222.2%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m6%209.5%206%206%206-6%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-reply: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M9.5%205.5%203.5%2011l6%205.5%22%2F%3E%3Cpath%20d%3D%22M3.8%2011h9.7c4%200%207%202.6%207%207.5%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-smile: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%228.5%22%2F%3E%3Cpath%20d%3D%22M8.6%2014.4c.8%201.3%202%202%203.4%202s2.6-.7%203.4-2%22%2F%3E%3Ccircle%20cx%3D%229.2%22%20cy%3D%229.8%22%20r%3D%221.1%22%20fill%3D%22%23000%22%20stroke%3D%22none%22%2F%3E%3Ccircle%20cx%3D%2214.8%22%20cy%3D%229.8%22%20r%3D%221.1%22%20fill%3D%22%23000%22%20stroke%3D%22none%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-play: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M7.5%205.2v13.6a1%201%200%200%200%201.5.9l11-6.8a1%201%200%200%200%200-1.8L9%204.3a1%201%200%200%200-1.5.9z%22%20fill%3D%22%23000%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-pause: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%226.6%22%20y%3D%225%22%20width%3D%223.8%22%20height%3D%2214%22%20rx%3D%221.3%22%20fill%3D%22%23000%22%20stroke%3D%22none%22%2F%3E%3Crect%20x%3D%2213.6%22%20y%3D%225%22%20width%3D%223.8%22%20height%3D%2214%22%20rx%3D%221.3%22%20fill%3D%22%23000%22%20stroke%3D%22none%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-download: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%228.5%22%2F%3E%3Cpath%20d%3D%22M12%207.5v8.5M8.4%2012.6%2012%2016.2l3.6-3.6%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-plus: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M12%205v14M5%2012h14%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-paperclip: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m20%2011.3-7.6%207.6a5%205%200%200%201-7.1-7.1l7.9-7.9a3.4%203.4%200%200%201%204.8%204.8l-7.8%207.8a1.7%201.7%200%200%201-2.4-2.4l7.2-7.2%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-mic: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%229%22%20y%3D%223%22%20width%3D%226%22%20height%3D%2211.5%22%20rx%3D%223%22%2F%3E%3Cpath%20d%3D%22M5.5%2011.5a6.5%206.5%200%200%200%2013%200M12%2018v3%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-clock: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%228.5%22%2F%3E%3Cpath%20d%3D%22M12%207v5l3.2%202%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-chart: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%222.2%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%2020v-6M12%2020V5M18%2020v-9%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-arrowUp: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M12%2019.2V6.2M6.6%2011.6%2012%206.2l5.4%205.4%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-emojiKey: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%229.6%22%2F%3E%3Cellipse%20cx%3D%229.3%22%20cy%3D%2210%22%20rx%3D%221.05%22%20ry%3D%221.3%22%20fill%3D%22%23000%22%20stroke%3D%22none%22%2F%3E%3Cellipse%20cx%3D%2214.7%22%20cy%3D%2210%22%20rx%3D%221.05%22%20ry%3D%221.3%22%20fill%3D%22%23000%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M6.1%2013.1Q12%2014.3%2017.9%2013.1C17.6%2016.4%2015.1%2018.4%2012%2018.4S6.4%2016.4%206.1%2013.1Z%22%20fill%3D%22%23000%22%20stroke-width%3D%220.9%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-xmark: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m6.5%206.5%2011%2011M17.5%206.5l-11%2011%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-phone: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M7.6%203.8%209.5%208a1.3%201.3%200%200%201-.3%201.5L7.8%2010.8a11%2011%200%200%200%205.4%205.4l1.3-1.4a1.3%201.3%200%200%201%201.5-.3l4.2%201.9a1.2%201.2%200%200%201%20.7%201.4l-.5%202a2%202%200%200%201-2%201.5C10.7%2021%203%2013.3%202.7%205.6a2%202%200%200%201%201.5-2l2-.5a1.2%201.2%200%200%201%201.4.7z%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-waveform: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M4%2010.5v3M8%207v10M12%204v16M16%208v8M20%2010.5v3%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-at: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%223.6%22%2F%3E%3Cpath%20d%3D%22M15.6%2012v1.6a2.7%202.7%200%200%200%205.4%200V12a9%209%200%201%200-3.6%207.2%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-gear: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%223%22%2F%3E%3Cpath%20d%3D%22M12%202.8l1.6%202.3%202.7-.8.4%202.8%202.6%201.1-1%202.6%201.9%202-2.3%201.6.4%202.8-2.8.2-1%202.6-2.5-1.3-2.5%201.3-1-2.6-2.8-.2.4-2.8-2.3-1.6%201.9-2-1-2.6%202.6-1.1.4-2.8%202.7.8z%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-paintbrush: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M20.5%203.5c-1.6-.4-7.6%205.7-10%208.9l1.1%201.1c3.2-2.4%209.3-8.4%208.9-10z%22%2F%3E%3Cpath%20d%3D%22M9.6%2013.3c-2.1-.4-3.9%201-4.1%203.1-.1%201.3-.7%202.3-2%203.1%203.4.9%206.9.4%207.4-3.1.1-1.4-.4-2.6-1.3-3.1z%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-bell: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%2016.8V11a6%206%200%200%201%2012%200v5.8l1.6%201.7H4.4z%22%2F%3E%3Cpath%20d%3D%22M10%2021h4%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-keyboard: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%222.5%22%20y%3D%226%22%20width%3D%2219%22%20height%3D%2212%22%20rx%3D%222.6%22%2F%3E%3Cpath%20d%3D%22M6.5%2010h.01M10%2010h.01M14%2010h.01M17.5%2010h.01M8%2014h8%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-iphone: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%226.5%22%20y%3D%222.8%22%20width%3D%2211%22%20height%3D%2218.4%22%20rx%3D%222.8%22%2F%3E%3Cpath%20d%3D%22M10.6%205.6h2.8%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-sparkles: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%203.5l1.6%204.4%204.4%201.6-4.4%201.6-1.6%204.4-1.6-4.4L4%209.5l4.4-1.6z%22%2F%3E%3Cpath%20d%3D%22M17.5%2013.5l.8%202.2%202.2.8-2.2.8-.8%202.2-.8-2.2-2.2-.8%202.2-.8z%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-starCircle: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%228.5%22%2F%3E%3Cpath%20d%3D%22M12%207.6l1.3%202.8%203%20.3-2.3%202%20.7%203-2.7-1.6-2.7%201.6.7-3-2.3-2%203-.3z%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-puzzle: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%208.5h3.2a1.9%201.9%200%201%201%203.6%200H15a1%201%200%200%201%201%201v3.2a1.9%201.9%200%201%201%200%203.6V19a1%201%200%200%201-1%201H5a1%201%200%200%201-1-1V9.5a1%201%200%200%201%201-1z%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-drive: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5.8%205h12.4l2.8%208v4.5a2%202%200%200%201-2%202H5a2%202%200%200%201-2-2V13z%22%2F%3E%3Cpath%20d%3D%22M3%2013h18M16.5%2016.2h.01%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-question: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%228.5%22%2F%3E%3Cpath%20d%3D%22M9.6%209.6a2.4%202.4%200%201%201%203.4%202.2c-.6.3-1%20.8-1%201.5v.5%22%2F%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2216.6%22%20r%3D%22.9%22%20fill%3D%22%23000%22%20stroke%3D%22none%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-info: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%228.5%22%2F%3E%3Cpath%20d%3D%22M12%2011v5.5%22%2F%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%227.9%22%20r%3D%221%22%20fill%3D%22%23000%22%20stroke%3D%22none%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-gif: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%222.8%22%20y%3D%225.8%22%20width%3D%2218.4%22%20height%3D%2212.4%22%20rx%3D%223.2%22%2F%3E%3Cpath%20d%3D%22M10.4%2010.1a2%202%200%201%200%20.3%203.4v-1.4H9.6M13%209.9v4.2M15.6%2014.1V9.9h2.6M15.6%2012h2.1%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-backwardEnd: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%225.2%22%20y%3D%225.6%22%20width%3D%222.4%22%20height%3D%2212.8%22%20rx%3D%221.1%22%20fill%3D%22%23000%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M18.6%206.4v11.2a1%201%200%200%201-1.6.8L9.6%2012.8a1%201%200%200%201%200-1.6L17%205.6a1%201%200%200%201%201.6.8z%22%20fill%3D%22%23000%22%20stroke%3D%22none%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-forwardEnd: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%2216.4%22%20y%3D%225.6%22%20width%3D%222.4%22%20height%3D%2212.8%22%20rx%3D%221.1%22%20fill%3D%22%23000%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M5.4%206.4v11.2a1%201%200%200%200%201.6.8l7.4-5.6a1%201%200%200%200%200-1.6L7%205.6a1%201%200%200%200-1.6.8z%22%20fill%3D%22%23000%22%20stroke%3D%22none%22%2F%3E%3C%2Fsvg%3E");
+  --glyph-tag: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3.5%2012.2V4.8a1.3%201.3%200%200%201%201.3-1.3h7.4l8.3%208.3a1.5%201.5%200%200%201%200%202.1l-6.3%206.3a1.5%201.5%200%200%201-2.1%200z%22%2F%3E%3Ccircle%20cx%3D%228%22%20cy%3D%228%22%20r%3D%221.4%22%20fill%3D%22%23000%22%20stroke%3D%22none%22%2F%3E%3C%2Fsvg%3E");
+}
+/* Beeper draws Google Material glyphs. Each one below is swapped for an Apple-style line glyph:
+   the original paths are hidden and the svg box is painted in the current text colour through a
+   mask of the new drawing (scaled to fit, never stretched), so colour, hover and click targets stay Beeper's own. */
+
+svg:has(path[d^="M400-240v-80h160v80H40"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M400-240v-80h160v80H40"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-filter) center / contain no-repeat !important;
+  mask: var(--glyph-filter) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M400-240v-80h160v80H40"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M384.03-336Q284"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M384.03-336Q284"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-search) center / contain no-repeat !important;
+  mask: var(--glyph-search) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M384.03-336Q284"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M216-144q-29.7 0-5"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M216-144q-29.7 0-5"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-compose) center / contain no-repeat !important;
+  mask: var(--glyph-compose) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M216-144q-29.7 0-5"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="m480-246 85.91-85.91"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="m480-246 85.91-85.91"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-upDown) center / contain no-repeat !important;
+  mask: var(--glyph-upDown) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="m480-246 85.91-85.91"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M216-144q-29 0-50."]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M216-144q-29 0-50."]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-tray) center / contain no-repeat !important;
+  mask: var(--glyph-tray) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M216-144q-29 0-50."])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M216-96q-29.7 0-50"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M216-96q-29.7 0-50"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-archivebox) center / contain no-repeat !important;
+  mask: var(--glyph-archivebox) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M216-96q-29.7 0-50"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M263.79-408Q234-40"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M263.79-408Q234-40"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-ellipsis) center / contain no-repeat !important;
+  mask: var(--glyph-ellipsis) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M263.79-408Q234-40"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M360-400h400L622-5"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M360-400h400L622-5"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-photo) center / contain no-repeat !important;
+  mask: var(--glyph-photo) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M360-400h400L622-5"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M520-400h80v-120h1"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M520-400h80v-120h1"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-plusSquare) center / contain no-repeat !important;
+  mask: var(--glyph-plusSquare) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M520-400h80v-120h1"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="m40-40 78-268q-19-41"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="m40-40 78-268q-19-41"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-tag) center / contain no-repeat !important;
+  mask: var(--glyph-tag) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="m40-40 78-268q-19-41"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M798-120q-125 0-24"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M798-120q-125 0-24"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-phone) center / contain no-repeat !important;
+  mask: var(--glyph-phone) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M798-120q-125 0-24"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M200-120q-33 0-56."]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M200-120q-33 0-56."]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-photo) center / contain no-repeat !important;
+  mask: var(--glyph-photo) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M200-120q-33 0-56."])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M504-480 320-664l56-56"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M504-480 320-664l56-56"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-chevronRight) center / contain no-repeat !important;
+  mask: var(--glyph-chevronRight) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M504-480 320-664l56-56"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M760-200v-160q0-50"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M760-200v-160q0-50"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-reply) center / contain no-repeat !important;
+  mask: var(--glyph-reply) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M760-200v-160q0-50"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M620-520q25 0 42.5"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M620-520q25 0 42.5"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-emojiKey) center / contain no-repeat !important;
+  mask: var(--glyph-emojiKey) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M620-520q25 0 42.5"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M6.667 15.834V4.167L15"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M6.667 15.834V4.167L15"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-play) center / contain no-repeat !important;
+  mask: var(--glyph-play) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M6.667 15.834V4.167L15"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M11.667 15.834V4.167H1"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M11.667 15.834V4.167H1"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-pause) center / contain no-repeat !important;
+  mask: var(--glyph-pause) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M11.667 15.834V4.167H1"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M10 13.333 5.833 9.166"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M10 13.333 5.833 9.166"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-download) center / contain no-repeat !important;
+  mask: var(--glyph-download) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M10 13.333 5.833 9.166"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M6 18L18 6M6 6l12"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M6 18L18 6M6 6l12"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-xmark) center / contain no-repeat !important;
+  mask: var(--glyph-xmark) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M6 18L18 6M6 6l12"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M4.75 15V5h1.667v10zm10."]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M4.75 15V5h1.667v10zm10."]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-backwardEnd) center / contain no-repeat !important;
+  mask: var(--glyph-backwardEnd) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M4.75 15V5h1.667v10zm10."])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M14.25 15V5h1.667v10zm-9"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M14.25 15V5h1.667v10zm-9"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-forwardEnd) center / contain no-repeat !important;
+  mask: var(--glyph-forwardEnd) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M14.25 15V5h1.667v10zm-9"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="m5.333 15.834-1.166-1.16"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="m5.333 15.834-1.166-1.16"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-xmark) center / contain no-repeat !important;
+  mask: var(--glyph-xmark) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="m5.333 15.834-1.166-1.16"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M6.855 14.08a.35.35 0 0 "]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M6.855 14.08a.35.35 0 0 "]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-sparkles) center / contain no-repeat !important;
+  mask: var(--glyph-sparkles) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M6.855 14.08a.35.35 0 0 "])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M9.167 10.833h-5V9.166"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M9.167 10.833h-5V9.166"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-plus) center / contain no-repeat !important;
+  mask: var(--glyph-plus) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M9.167 10.833h-5V9.166"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M4.167 17.5q-.688 0-1.17"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M4.167 17.5q-.688 0-1.17"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-gif) center / contain no-repeat !important;
+  mask: var(--glyph-gif) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M4.167 17.5q-.688 0-1.17"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M9.583 18.333q-1.9"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M9.583 18.333q-1.9"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-paperclip) center / contain no-repeat !important;
+  mask: var(--glyph-paperclip) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M9.583 18.333q-1.9"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M10 11.667a2.4 2.4"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M10 11.667a2.4 2.4"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-mic) center / contain no-repeat !important;
+  mask: var(--glyph-mic) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M10 11.667a2.4 2.4"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M4.697 15.303A7.5 "]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M4.697 15.303A7.5 "]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-clock) center / contain no-repeat !important;
+  mask: var(--glyph-clock) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M4.697 15.303A7.5 "])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M4.214 8.874q.65 0"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M4.214 8.874q.65 0"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-chart) center / contain no-repeat !important;
+  mask: var(--glyph-chart) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M4.214 8.874q.65 0"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M14.167 14.5v-9H12.5"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M14.167 14.5v-9H12.5"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-waveform) center / contain no-repeat !important;
+  mask: var(--glyph-waveform) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M14.167 14.5v-9H12.5"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M1.55556 14C1.1277"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M1.55556 14C1.1277"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-archivebox) center / contain no-repeat !important;
+  mask: var(--glyph-archivebox) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M1.55556 14C1.1277"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="M12.917 9.167q.52 0 .8"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="M12.917 9.167q.52 0 .8"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-emojiKey) center / contain no-repeat !important;
+  mask: var(--glyph-emojiKey) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="M12.917 9.167q.52 0 .8"])[style*="transform"] {
+  transform: none !important;
+}
+
+svg:has(path[d^="m6.52 10.833 4.668 4.6"]) > * {
+  visibility: hidden !important;
+}
+
+svg:has(path[d^="m6.52 10.833 4.668 4.6"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-arrowUp) center / contain no-repeat !important;
+  mask: var(--glyph-arrowUp) center / contain no-repeat !important;
+}
+
+svg:has(path[d^="m6.52 10.833 4.668 4.6"])[style*="transform"] {
+  transform: none !important;
+}
+
+.pref-icon svg:has(path[d^="M12 2C6.48 2 2 6.48 2"]) > * {
+  visibility: hidden !important;
+}
+
+.pref-icon svg:has(path[d^="M12 2C6.48 2 2 6.48 2"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-at) center / contain no-repeat !important;
+  mask: var(--glyph-at) center / contain no-repeat !important;
+}
+
+.pref-icon svg:has(path[d^="M12 2C6.48 2 2 6.48 2"])[style*="transform"] {
+  transform: none !important;
+}
+
+.pref-icon svg:has(path[d^="M5.90837 12.6666L5.585"]) > * {
+  visibility: hidden !important;
+}
+
+.pref-icon svg:has(path[d^="M5.90837 12.6666L5.585"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-gear) center / contain no-repeat !important;
+  mask: var(--glyph-gear) center / contain no-repeat !important;
+}
+
+.pref-icon svg:has(path[d^="M5.90837 12.6666L5.585"])[style*="transform"] {
+  transform: none !important;
+}
+
+.pref-icon svg:has(path[d^="M3.12126 10.9239C2.731"]) > * {
+  visibility: hidden !important;
+}
+
+.pref-icon svg:has(path[d^="M3.12126 10.9239C2.731"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-paintbrush) center / contain no-repeat !important;
+  mask: var(--glyph-paintbrush) center / contain no-repeat !important;
+}
+
+.pref-icon svg:has(path[d^="M3.12126 10.9239C2.731"])[style*="transform"] {
+  transform: none !important;
+}
+
+.pref-icon svg:has(path[d^="M0.859375 8.43848C0.59"]) > * {
+  visibility: hidden !important;
+}
+
+.pref-icon svg:has(path[d^="M0.859375 8.43848C0.59"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-bell) center / contain no-repeat !important;
+  mask: var(--glyph-bell) center / contain no-repeat !important;
+}
+
+.pref-icon svg:has(path[d^="M0.859375 8.43848C0.59"])[style*="transform"] {
+  transform: none !important;
+}
+
+.pref-icon svg:has(path[d^="M1.65527 8.03125C1.114"]) > * {
+  visibility: hidden !important;
+}
+
+.pref-icon svg:has(path[d^="M1.65527 8.03125C1.114"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-keyboard) center / contain no-repeat !important;
+  mask: var(--glyph-keyboard) center / contain no-repeat !important;
+}
+
+.pref-icon svg:has(path[d^="M1.65527 8.03125C1.114"])[style*="transform"] {
+  transform: none !important;
+}
+
+.pref-icon svg:has(path[d^="M3.5 11.5C3.225 11.5 2"]) > * {
+  visibility: hidden !important;
+}
+
+.pref-icon svg:has(path[d^="M3.5 11.5C3.225 11.5 2"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-iphone) center / contain no-repeat !important;
+  mask: var(--glyph-iphone) center / contain no-repeat !important;
+}
+
+.pref-icon svg:has(path[d^="M3.5 11.5C3.225 11.5 2"])[style*="transform"] {
+  transform: none !important;
+}
+
+.pref-icon svg:has(path[d^="M4.95605 9.91113C4.838"]) > * {
+  visibility: hidden !important;
+}
+
+.pref-icon svg:has(path[d^="M4.95605 9.91113C4.838"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-sparkles) center / contain no-repeat !important;
+  mask: var(--glyph-sparkles) center / contain no-repeat !important;
+}
+
+.pref-icon svg:has(path[d^="M4.95605 9.91113C4.838"])[style*="transform"] {
+  transform: none !important;
+}
+
+.pref-icon svg:has(path[d^="M4.51369 7.85022L3.335"]) > * {
+  visibility: hidden !important;
+}
+
+.pref-icon svg:has(path[d^="M4.51369 7.85022L3.335"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-starCircle) center / contain no-repeat !important;
+  mask: var(--glyph-starCircle) center / contain no-repeat !important;
+}
+
+.pref-icon svg:has(path[d^="M4.51369 7.85022L3.335"])[style*="transform"] {
+  transform: none !important;
+}
+
+.pref-icon svg:has(path[d^="M11 4a2 2 0 114 0v1a1"]) > * {
+  visibility: hidden !important;
+}
+
+.pref-icon svg:has(path[d^="M11 4a2 2 0 114 0v1a1"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-puzzle) center / contain no-repeat !important;
+  mask: var(--glyph-puzzle) center / contain no-repeat !important;
+}
+
+.pref-icon svg:has(path[d^="M11 4a2 2 0 114 0v1a1"])[style*="transform"] {
+  transform: none !important;
+}
+
+.pref-icon svg:has(path[d^="M4.318 2.687C5.234 2.2"]) > * {
+  visibility: hidden !important;
+}
+
+.pref-icon svg:has(path[d^="M4.318 2.687C5.234 2.2"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-drive) center / contain no-repeat !important;
+  mask: var(--glyph-drive) center / contain no-repeat !important;
+}
+
+.pref-icon svg:has(path[d^="M4.318 2.687C5.234 2.2"])[style*="transform"] {
+  transform: none !important;
+}
+
+.pref-icon svg:has(path[d^="M2.56348 6.55078C2.348"]) > * {
+  visibility: hidden !important;
+}
+
+.pref-icon svg:has(path[d^="M2.56348 6.55078C2.348"]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-question) center / contain no-repeat !important;
+  mask: var(--glyph-question) center / contain no-repeat !important;
+}
+
+.pref-icon svg:has(path[d^="M2.56348 6.55078C2.348"])[style*="transform"] {
+  transform: none !important;
+}
+
+.pref-icon svg:has(path[d^="M0 9.26074C0 9.1403 0."]) > * {
+  visibility: hidden !important;
+}
+
+.pref-icon svg:has(path[d^="M0 9.26074C0 9.1403 0."]) {
+  background-color: currentColor !important;
+  -webkit-mask: var(--glyph-info) center / contain no-repeat !important;
+  mask: var(--glyph-info) center / contain no-repeat !important;
+}
+
+.pref-icon svg:has(path[d^="M0 9.26074C0 9.1403 0."])[style*="transform"] {
+  transform: none !important;
+}
+
+/* Settings category glyphs come in odd sizes (6x10, 8x8, 13x9); give every one the same 18px box */
+.pref-icon svg {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+/* Beeper scales each glyph with an inline transform (scale(1.2); rotate(90deg) on send) and sizes
+   their wrappers non-square (e.g. 20x14). Replaced glyphs carry their own optical sizing, so the
+   generated rules above cancel only those inline transforms (stylesheet ones, like the "+" turning
+   into an "x", still run), and the wrappers size to their square glyph. Display is left to Beeper,
+   so icons it hides stay hidden. */
+[class*="PlatformIcon-module__materialIcon"]:has(> svg) {
+  width: auto !important;
+  height: auto !important;
+}
+/* END apple-glyphs */
