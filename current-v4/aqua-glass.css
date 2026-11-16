@@ -1,5 +1,5 @@
 /*
-Beeper Aqua Glass, v1.0
+Beeper Aqua Glass, v1.1
 A dark, translucent "glass" theme for Beeper Desktop, inspired by Apple's Liquid Glass design.
 https://github.com/RaZdai/beeper-aqua-glass
 
@@ -798,6 +798,26 @@ body.sub-window {
 @media (prefers-color-scheme: light) {
   [class*="BrandTooltip-module__tooltip"] {
     background: var(--glass-sheen), rgba(250, 250, 252, 0.88) !important;
+  }
+}
+
+/* In-page popovers (emoji and reaction picker, hover menus). Beeper draws these in separate
+   native windows by default; the optional patch in tools/ makes it draw them here instead, so
+   tiling window managers don't tile them. Same glass as tooltips, a little more opaque because
+   they sit over messages. */
+.portal > div > .message-buttons:not(:empty) {
+  background: var(--glass-sheen), rgba(24, 24, 28, 0.94) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--glass-highlight), var(--glass-shadow) !important;
+  overflow: hidden !important;
+}
+
+@media (prefers-color-scheme: light) {
+  .portal > div > .message-buttons:not(:empty) {
+    background: var(--glass-sheen), rgba(250, 250, 252, 0.94) !important;
   }
 }
 
