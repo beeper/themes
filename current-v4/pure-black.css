@@ -1,0 +1,18 @@
+/*
+ * Pure Black
+ * True black backgrounds for Beeper Desktop in dark mode, like OLED dark
+ * themes in other chat apps. Light mode is unchanged. If you pick a Theme
+ * color in Settings > Appearance, that theme's background takes over.
+ */
+
+@media (prefers-color-scheme: dark) {
+  html:root:not([data-theme='light']) {
+    --color-background-grouped-weak: #000;
+  }
+
+  body:not(.theme-rich):not(.theme-monochrome),
+  body.reduce-transparency:not(.theme-rich):not(.theme-monochrome),
+  body.no-transparency:not(.theme-rich):not(.theme-monochrome) {
+    --left-pane-bg: #000;
+  }
+}
